@@ -11,8 +11,8 @@ create sequence AUTHOR_ID_SEQ START WITH 1 INCREMENT BY 1 NOCYCLE;
 create table ARTICLE (
     ID int not null,
     TITLE varchar(100) not null,
-    SUMMARY varchar(255) not null,
-    TEXT varchar(50) not null,
+    SUMMARY varchar(255),
+    TEXT varchar not null,
     AUTHOR_ID int not null,
     DATE_CREATED datetime not null,
     DATE_UPDATED datetime not null,
@@ -21,3 +21,6 @@ create table ARTICLE (
 );
 
 create sequence ARTICLE_ID_SEQ START WITH 1 INCREMENT BY 1 NOCYCLE;
+
+create index IDX_ARTICLE_TITLE on ARTICLE (TITLE);
+create index IDX_ARTICLE_DATE_CREATED on ARTICLE (DATE_CREATED);
