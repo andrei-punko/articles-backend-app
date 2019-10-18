@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDto> getAll() {
-        Iterable<Article> articleIterable = articleRepository.findAll();
+        Iterable<Article> articleIterable = articleRepository.findAllByOrderByTitle();
         List<Article> entities = StreamSupport
             .stream(articleIterable.spliterator(), false)
             .collect(Collectors.toList());
