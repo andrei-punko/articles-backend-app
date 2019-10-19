@@ -32,7 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
         Date dateCreated = new Date();
         articleDto.setDateCreated(dateCreated);
         articleDto.setDateUpdated(dateCreated);
-        return articleMapper.toArticleDtos(
+        return articleMapper.toArticleDto(
             articleRepository.save(
                 articleMapper.toArticle(articleDto)
             ));
@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
                 article.setSummary(updatedArticleDto.getSummary());
                 article.setText(updatedArticleDto.getText());
                 article.setDateUpdated(new Date());
-                return articleMapper.toArticleDtos(
+                return articleMapper.toArticleDto(
                     articleRepository.save(article)
                 );
             })

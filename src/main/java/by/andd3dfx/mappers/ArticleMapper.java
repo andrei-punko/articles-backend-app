@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ArticleMapper {
 
-    ArticleDto toArticleDtos(Article article);
+    ArticleDto toArticleDto(Article article);
 
     List<ArticleDto> toArticleDtos(List<Article> articles);
 

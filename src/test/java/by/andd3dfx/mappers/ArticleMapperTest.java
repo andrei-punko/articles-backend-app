@@ -21,7 +21,7 @@ class ArticleMapperTest {
     void toArticleDto() {
         Article article = buildArticle();
 
-        ArticleDto articleDto = mapper.toArticleDtos(article);
+        ArticleDto articleDto = mapper.toArticleDto(article);
         checkCompareAssertions(articleDto, article);
     }
 
