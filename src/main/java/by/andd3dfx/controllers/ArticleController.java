@@ -3,8 +3,10 @@ package by.andd3dfx.controllers;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.services.ArticleService;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,18 +30,19 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleDto createArticle(@RequestBody ArticleDto newArticleDto) {
+    public ArticleDto createArticle(@Validated(ArticleDto.New.class) @RequestBody ArticleDto newArticleDto) {
         return articleService.create(newArticleDto);
     }
 
     @PutMapping("/{id}")
-    public ArticleDto updateArticle(@PathVariable Long id, @RequestBody ArticleDto updatedArticleDto) {
+    public ArticleDto updateArticle(@NotNull @PathVariable Long id,
+        @Validated(ArticleDto.Update.class) @RequestBody ArticleDto updatedArticleDto) {
         return articleService.update(id, updatedArticleDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteArticle(@PathVariable Long id) {
+    public void deleteArticle(@NotNull @PathVariable Long id) {
         articleService.delete(id);
     }
 

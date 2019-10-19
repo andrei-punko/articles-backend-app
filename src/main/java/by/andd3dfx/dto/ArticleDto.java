@@ -1,15 +1,43 @@
 package by.andd3dfx.dto;
 
 import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 public class ArticleDto {
 
+    public interface New {
+
+    }
+
+    public interface Update {
+
+    }
+
+    @Null(groups = {New.class})
+    @NotNull(groups = {Update.class})
     private Long id;
+
+    @NotNull(groups = {New.class, Update.class})
+    @Size(min = 1, max = 100, groups = {New.class, Update.class})
     private String title;
+
+    @Size(max = 255, groups = {New.class, Update.class})
     private String summary;
+
+    @NotNull(groups = {New.class, Update.class})
+    @Size(min = 1, groups = {New.class, Update.class})
     private String text;
+
+    @NotNull(groups = {New.class})
+    @Null(groups = {Update.class})
     private AuthorDto author;
+
+    @Null(groups = {New.class, Update.class})
     private Date dateCreated;
+
+    @Null(groups = {New.class, Update.class})
     private Date dateUpdated;
 
     public Long getId() {

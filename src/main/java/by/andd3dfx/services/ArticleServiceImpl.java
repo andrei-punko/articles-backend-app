@@ -39,16 +39,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto update(Long id, ArticleDto updatedArticleDtoDto) {
-        Article articleEntity = articleMapper.toArticle(updatedArticleDtoDto);
+    public ArticleDto update(Long id, ArticleDto updatedArticleDto) {
         return articleRepository.findById(id)
             .map(article -> {
-                article.setTitle(articleEntity.getTitle());
-                article.setSummary(articleEntity.getSummary());
-                article.setText(articleEntity.getText());
+                article.setTitle(updatedArticleDto.getTitle());
+                article.setSummary(updatedArticleDto.getSummary());
+                article.setText(updatedArticleDto.getText());
                 article.setDateUpdated(new Date());
                 return articleMapper.toArticleDtos(
-                    articleRepository.save(articleEntity)
+                    articleRepository.save(article)
                 );
             })
             .orElseThrow(() -> new ArticleNotFoundException(id));
