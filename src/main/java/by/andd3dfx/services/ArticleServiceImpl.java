@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,7 +54,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void delete(Long id) {
-        articleRepository.deleteById(id);
+        try {
+            articleRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ArticleNotFoundException(id);
+        }
     }
 
     @Override
