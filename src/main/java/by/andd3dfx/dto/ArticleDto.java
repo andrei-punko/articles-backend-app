@@ -1,11 +1,14 @@
 package by.andd3dfx.dto;
 
+import by.andd3dfx.dto.ArticleDto.Update;
 import by.andd3dfx.services.validators.ExistingAuthor;
+import by.andd3dfx.services.validators.OnlyOneFieldModified;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+@OnlyOneFieldModified(fields = {"title", "summary", "text"}, groups = {Update.class})
 public class ArticleDto {
 
     public interface New {
@@ -20,14 +23,14 @@ public class ArticleDto {
     @NotNull(groups = {Update.class})
     private Long id;
 
-    @NotNull(groups = {New.class, Update.class})
+    @NotNull(groups = {New.class})
     @Size(min = 1, max = 100, groups = {New.class, Update.class})
     private String title;
 
     @Size(max = 255, groups = {New.class, Update.class})
     private String summary;
 
-    @NotNull(groups = {New.class, Update.class})
+    @NotNull(groups = {New.class})
     @Size(min = 1, groups = {New.class, Update.class})
     private String text;
 

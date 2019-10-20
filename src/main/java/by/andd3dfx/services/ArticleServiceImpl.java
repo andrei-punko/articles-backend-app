@@ -42,9 +42,15 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto update(Long id, ArticleDto updatedArticleDto) {
         return articleRepository.findById(id)
             .map(article -> {
-                article.setTitle(updatedArticleDto.getTitle());
-                article.setSummary(updatedArticleDto.getSummary());
-                article.setText(updatedArticleDto.getText());
+                if (updatedArticleDto.getTitle() != null) {
+                    article.setTitle(updatedArticleDto.getTitle());
+                }
+                if (updatedArticleDto.getSummary() != null) {
+                    article.setSummary(updatedArticleDto.getSummary());
+                }
+                if (updatedArticleDto.getText() != null) {
+                    article.setText(updatedArticleDto.getText());
+                }
                 article.setDateUpdated(new Date());
                 return articleMapper.toArticleDto(
                     articleRepository.save(article)

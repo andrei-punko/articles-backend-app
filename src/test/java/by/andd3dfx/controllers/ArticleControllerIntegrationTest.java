@@ -55,6 +55,9 @@ class ArticleControllerIntegrationTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
+    private ArticleRepository articleRepository;
+
+    @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
         httpMessageConverter = Arrays.asList(converters).stream()
             .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
@@ -306,12 +309,12 @@ class ArticleControllerIntegrationTest {
     }
 
     @Test
-    public void updateArticle() throws Exception {
+    public void updateArticleTitle() throws Exception {
+        Article article = articleRepository.findById(2L).get();
+
         ArticleDto articleDto = new ArticleDto();
         articleDto.setId(2L);
         articleDto.setTitle("Some tittle value");
-        articleDto.setSummary("Some summary value");
-        articleDto.setText("Some text");
 
         mockMvc.perform(put("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
@@ -320,7 +323,51 @@ class ArticleControllerIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", notNullValue()))
             .andExpect(jsonPath("$.title", is(articleDto.getTitle())))
+            .andExpect(jsonPath("$.summary", is(article.getSummary())))
+            .andExpect(jsonPath("$.text", is(article.getText())))
+            .andExpect(jsonPath("$.author.id", notNullValue()))
+            .andExpect(jsonPath("$.dateCreated", notNullValue()))
+            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+    }
+
+    @Test
+    public void updateArticleSummary() throws Exception {
+        Article article = articleRepository.findById(2L).get();
+
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setId(2L);
+        articleDto.setSummary("Some summary value");
+
+        mockMvc.perform(put("/articles/" + articleDto.getId())
+            .contentType(CONTENT_TYPE)
+            .content(json(articleDto))
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.title", is(article.getTitle())))
             .andExpect(jsonPath("$.summary", is(articleDto.getSummary())))
+            .andExpect(jsonPath("$.text", is(article.getText())))
+            .andExpect(jsonPath("$.author.id", notNullValue()))
+            .andExpect(jsonPath("$.dateCreated", notNullValue()))
+            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+    }
+
+    @Test
+    public void updateArticleText() throws Exception {
+        Article article = articleRepository.findById(2L).get();
+
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setId(2L);
+        articleDto.setText("Some text value");
+
+        mockMvc.perform(put("/articles/" + articleDto.getId())
+            .contentType(CONTENT_TYPE)
+            .content(json(articleDto))
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.title", is(article.getTitle())))
+            .andExpect(jsonPath("$.summary", is(article.getSummary())))
             .andExpect(jsonPath("$.text", is(articleDto.getText())))
             .andExpect(jsonPath("$.author.id", notNullValue()))
             .andExpect(jsonPath("$.dateCreated", notNullValue()))
@@ -328,12 +375,24 @@ class ArticleControllerIntegrationTest {
     }
 
     @Test
+    public void updateArticleMultipleFields() throws Exception {
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setId(2L);
+        articleDto.setSummary("Some summary value");
+        articleDto.setText("Some text value");
+
+        mockMvc.perform(put("/articles/" + articleDto.getId())
+            .contentType(CONTENT_TYPE)
+            .content(json(articleDto))
+        )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void updateAbsentArticle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setId(123L);
         articleDto.setTitle("q");
-        articleDto.setSummary("w");
-        articleDto.setText("e");
 
         mockMvc.perform(put("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
