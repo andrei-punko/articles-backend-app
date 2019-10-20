@@ -1,5 +1,6 @@
 package by.andd3dfx.dto;
 
+import by.andd3dfx.services.validators.ExistingAuthor;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -30,7 +31,7 @@ public class ArticleDto {
     @Size(min = 1, groups = {New.class, Update.class})
     private String text;
 
-    @NotNull(groups = {New.class})
+    @ExistingAuthor(groups = {New.class})
     @Null(groups = {Update.class})
     private AuthorDto author;
 

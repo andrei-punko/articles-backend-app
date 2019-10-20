@@ -226,6 +226,23 @@ class ArticleControllerIntegrationTest {
     }
 
     @Test
+    public void createArticleWithWrongAuthor() throws Exception {
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setTitle("Some title");
+        articleDto.setSummary("Some summary value");
+        articleDto.setText("Some text");
+        AuthorDto authorDto = new AuthorDto();
+        authorDto.setId(100L);
+        articleDto.setAuthor(authorDto);
+
+        mockMvc.perform(post("/articles")
+            .contentType(CONTENT_TYPE)
+            .content(json(articleDto))
+        )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void createArticleWithDateCreatedPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
