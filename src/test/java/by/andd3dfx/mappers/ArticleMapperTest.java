@@ -1,6 +1,7 @@
 package by.andd3dfx.mappers;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.ArticleDto;
@@ -26,7 +27,12 @@ class ArticleMapperTest {
     }
 
     @Test
-    void testToArticleDto() {
+    void toArticleDtoForNull() {
+        assertThat(mapper.toArticleDto(null), nullValue());
+    }
+
+    @Test
+    void toArticleDtos() {
         Article article = buildArticle();
         List<Article> articles = Arrays.asList(article);
 
@@ -36,11 +42,21 @@ class ArticleMapperTest {
     }
 
     @Test
+    void toArticleDtosForNull() {
+        assertThat(mapper.toArticleDtos(null), nullValue());
+    }
+
+    @Test
     void toArticle() {
         ArticleDto articleDto = buildArticleDto();
 
         Article article = mapper.toArticle(articleDto);
         checkCompareAssertions(articleDto, article);
+    }
+
+    @Test
+    void toArticleForNull() {
+        assertThat(mapper.toArticle(null), nullValue());
     }
 
     private Article buildArticle() {
