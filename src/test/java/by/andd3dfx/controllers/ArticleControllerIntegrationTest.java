@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -315,7 +316,7 @@ class ArticleControllerIntegrationTest {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
 
-        mockMvc.perform(put("/articles/2")
+        mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -336,7 +337,7 @@ class ArticleControllerIntegrationTest {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setSummary("Some summary value");
 
-        mockMvc.perform(put("/articles/2")
+        mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -357,7 +358,7 @@ class ArticleControllerIntegrationTest {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setText("Some text value");
 
-        mockMvc.perform(put("/articles/2")
+        mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -378,7 +379,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text value");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -390,7 +391,7 @@ class ArticleControllerIntegrationTest {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("q");
 
-        mockMvc.perform(put("/articles/123")
+        mockMvc.perform(patch("/articles/123")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -404,7 +405,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -419,7 +420,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -434,7 +435,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -449,7 +450,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary(createStringWithLength(260));
         articleDto.setText("Some text");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -464,7 +465,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -480,7 +481,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setText("Some text");
         articleDto.setAuthor(new AuthorDto());
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -496,7 +497,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setText("Some text");
         articleDto.setDateCreated(new Date());
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -512,7 +513,7 @@ class ArticleControllerIntegrationTest {
         articleDto.setText("Some text");
         articleDto.setDateUpdated(new Date());
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(patch("/articles/" + articleDto.getId())
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
