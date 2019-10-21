@@ -7,8 +7,6 @@ import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -70,10 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDto> getAll() {
-        Iterable<Article> articleIterable = articleRepository.findAllByOrderByTitle();
-        List<Article> entities = StreamSupport
-            .stream(articleIterable.spliterator(), false)
-            .collect(Collectors.toList());
-        return articleMapper.toArticleDtos(entities);
+        List<Article> articles = articleRepository.findAllByOrderByTitle();
+        return articleMapper.toArticleDtos(articles);
     }
 }
