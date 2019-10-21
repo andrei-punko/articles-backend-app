@@ -150,7 +150,7 @@ class ArticleControllerIntegrationTest {
     @Test
     public void createArticleWithTooLongTitle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901");
+        articleDto.setTitle(createStringWithLength(101));
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
         AuthorDto authorDto = new AuthorDto();
@@ -168,7 +168,7 @@ class ArticleControllerIntegrationTest {
     public void createArticleWithTooLongSummary() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
-        articleDto.setSummary("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+        articleDto.setSummary(createStringWithLength(260));
         articleDto.setText("Some text");
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(1L);
@@ -313,15 +313,14 @@ class ArticleControllerIntegrationTest {
         Article article = articleRepository.findById(2L).get();
 
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setId(2L);
         articleDto.setTitle("Some tittle value");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(put("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.id", is(2)))
             .andExpect(jsonPath("$.title", is(articleDto.getTitle())))
             .andExpect(jsonPath("$.summary", is(article.getSummary())))
             .andExpect(jsonPath("$.text", is(article.getText())))
@@ -335,15 +334,14 @@ class ArticleControllerIntegrationTest {
         Article article = articleRepository.findById(2L).get();
 
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setId(2L);
         articleDto.setSummary("Some summary value");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(put("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.id", is(2)))
             .andExpect(jsonPath("$.title", is(article.getTitle())))
             .andExpect(jsonPath("$.summary", is(articleDto.getSummary())))
             .andExpect(jsonPath("$.text", is(article.getText())))
@@ -357,15 +355,14 @@ class ArticleControllerIntegrationTest {
         Article article = articleRepository.findById(2L).get();
 
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setId(2L);
         articleDto.setText("Some text value");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(put("/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.id", is(2)))
             .andExpect(jsonPath("$.title", is(article.getTitle())))
             .andExpect(jsonPath("$.summary", is(article.getSummary())))
             .andExpect(jsonPath("$.text", is(articleDto.getText())))
@@ -391,10 +388,9 @@ class ArticleControllerIntegrationTest {
     @Test
     public void updateAbsentArticle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setId(123L);
         articleDto.setTitle("q");
 
-        mockMvc.perform(put("/articles/" + articleDto.getId())
+        mockMvc.perform(put("/articles/123")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -434,7 +430,7 @@ class ArticleControllerIntegrationTest {
     public void updateArticleWithTooLongTitle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setId(2L);
-        articleDto.setTitle("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901");
+        articleDto.setTitle(createStringWithLength(101));
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
@@ -450,7 +446,7 @@ class ArticleControllerIntegrationTest {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setId(2L);
         articleDto.setTitle("Some title");
-        articleDto.setSummary("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+        articleDto.setSummary(createStringWithLength(260));
         articleDto.setText("Some text");
 
         mockMvc.perform(put("/articles/" + articleDto.getId())
@@ -527,5 +523,13 @@ class ArticleControllerIntegrationTest {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         httpMessageConverter.write(o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
         return mockHttpOutputMessage.getBodyAsString();
+    }
+
+    private String createStringWithLength(int length) {
+        StringBuilder builder = new StringBuilder();
+        for (int index = 0; index < length; index++) {
+            builder.append("a");
+        }
+        return builder.toString();
     }
 }

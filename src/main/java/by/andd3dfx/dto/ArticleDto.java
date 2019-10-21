@@ -19,8 +19,7 @@ public class ArticleDto {
 
     }
 
-    @Null(groups = {New.class})
-    @NotNull(groups = {Update.class})
+    @Null(groups = {New.class, Update.class})
     private Long id;
 
     @NotNull(groups = {New.class})

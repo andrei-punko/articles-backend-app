@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = OnlyOneFieldModifiedValidator.class)
 public @interface OnlyOneFieldModified {
 
-    String message() default "{More than one field modified at once}";
+    String message() default "{Only one field should be modified at once}";
 
     Class<?>[] groups() default {};
 
