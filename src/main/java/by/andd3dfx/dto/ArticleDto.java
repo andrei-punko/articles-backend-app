@@ -3,11 +3,14 @@ package by.andd3dfx.dto;
 import by.andd3dfx.dto.ArticleDto.Update;
 import by.andd3dfx.services.validators.ExistingAuthor;
 import by.andd3dfx.services.validators.OnlyOneFieldModified;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+@JsonInclude(Include.NON_NULL)
 @OnlyOneFieldModified(fields = {"title", "summary", "text"}, groups = {Update.class})
 public class ArticleDto {
 
