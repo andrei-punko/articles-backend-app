@@ -74,6 +74,15 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 ##### Start application by running executable jar:
 `java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar`
 
+##### Build Docker image with application inside:
+`docker build ./ -t articles-backend-app`
+
+##### Start two Docker containers - with Postgres DB and with application:
+`docker-compose up`
+
+##### Swagger documentation situated here:
+`http://localhost:8099/swagger-ui.html`
+
 ##### New article addition
 `curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles`
 

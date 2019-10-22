@@ -1,0 +1,38 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:9.6.15-alpine
+    network_mode: bridge
+    container_name: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=articlesdb
+      - POSTGRES_USER=articles-user
+      - POSTGRES_PASSWORD=articles-password
+    restart: unless-stopped
+
+  articles-backend-app:
+    image: articles-backend-app:latest
+    network_mode: bridge
+    container_name: articles-backend-app
+    expose:
+      - 8099
+    ports:
+      - 8099:8099
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/articlesdb
+      - DB_USER=articles-user
+      - DB_PASSWORD=articles-password
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
