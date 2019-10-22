@@ -54,7 +54,8 @@ The Article JSON Payload returned by endpoint(s) must contain all properties of 
 - Article cannot be created or update with empty Title or Text or Author Id
 - Article cannot be created with specified author id that does not exist in the **authors** table
 
-Any business logic constraint violation or any runtime error should return a HTTP 500 error with short description.
+Any business logic constraint violation or any runtime error should return a HTTP 500 error with short description.  
+(Guys confirmed that 400 errors could be used instead when needed as more appropriate)
 
 The implementation must contain adequate unit tests to cover business requirements and edge cases such as missing arguments etc.
 
