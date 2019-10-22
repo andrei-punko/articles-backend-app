@@ -14,6 +14,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
+        // TODO: Swagger docs have extra fields for some operations (update for example). Need to adjust it may be
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
             .apis(RequestHandlerSelectors.basePackage("by.andd3dfx.controllers"))

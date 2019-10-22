@@ -34,10 +34,12 @@ public class ArticleServiceImpl implements ArticleService {
             articleRepository.save(
                 articleMapper.toArticle(articleDto)
             ));
+        // TODO: returned author with id only after creation. Need to consider, do we need to return author with all fields populated
     }
 
     @Override
     public ArticleDto update(Long id, ArticleDto updatedArticleDto) {
+        // TODO: rewrite method to avoid null checks (using mapper may be)
         return articleRepository.findById(id)
             .map(article -> {
                 if (updatedArticleDto.getTitle() != null) {
