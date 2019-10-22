@@ -61,3 +61,27 @@ The implementation must contain adequate unit tests to cover business requiremen
 Application must build and produce an executable jar containing all dependencies.
 
 The **authors** table should not be updatable via endpoints. Feel free to populate it with an arbitrary data via SQL.
+
+# Build instructions
+
+`mvn clean install`
+
+# Usage description
+
+##### Start application using Maven:
+`mvn spring-boot:run`
+
+##### Start application by running executable jar:
+`java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar`
+
+##### New article addition
+`curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles`
+
+##### Update existing article
+`curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2`
+
+##### Get list of all articles
+`curl -i -X GET http://localhost:8099/articles`
+
+##### Deletion of article
+`curl -i -X DELETE http://localhost:8099/articles/1`
