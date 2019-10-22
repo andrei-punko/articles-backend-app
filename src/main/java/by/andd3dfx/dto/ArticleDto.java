@@ -19,28 +19,29 @@ public class ArticleDto {
 
     }
 
-    @Null(groups = {New.class, Update.class})
+    @Null(groups = {New.class, Update.class}, message = "Article id shouldn't be present")
     private Long id;
 
-    @NotNull(groups = {New.class})
-    @Size(min = 1, max = 100, groups = {New.class, Update.class})
+    @NotNull(groups = {New.class}, message = "Title should be populated")
+    @Size(min = 1, max = 100, groups = {New.class, Update.class}, message = "Title length must be between 1 and 100")
     private String title;
 
-    @Size(max = 255, groups = {New.class, Update.class})
+    @Size(max = 255, groups = {New.class, Update.class}, message = "Summary length shouldn't be greater than 255")
     private String summary;
 
-    @NotNull(groups = {New.class})
-    @Size(min = 1, groups = {New.class, Update.class})
+    @NotNull(groups = {New.class}, message = "Text should be populated")
+    @Size(min = 1, groups = {New.class, Update.class}, message = "Text length should be 1 at least")
     private String text;
 
+    @NotNull(groups = {New.class}, message = "Author should be populated")
     @ExistingAuthor(groups = {New.class})
-    @Null(groups = {Update.class})
+    @Null(groups = {Update.class}, message = "Author shouldn't be present")
     private AuthorDto author;
 
-    @Null(groups = {New.class, Update.class})
+    @Null(groups = {New.class, Update.class}, message = "DateCreated shouldn't be populated")
     private Date dateCreated;
 
-    @Null(groups = {New.class, Update.class})
+    @Null(groups = {New.class, Update.class}, message = "DateUpdated shouldn't be populated")
     private Date dateUpdated;
 
     public Long getId() {
