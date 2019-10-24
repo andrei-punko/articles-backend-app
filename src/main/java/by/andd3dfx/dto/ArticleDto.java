@@ -9,7 +9,11 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @JsonInclude(Include.NON_NULL)
 @OnlyOneFieldModified(fields = {"title", "summary", "text"}, groups = {Update.class})
 public class ArticleDto {
@@ -46,60 +50,4 @@ public class ArticleDto {
 
     @Null(groups = {New.class, Update.class}, message = "DateUpdated shouldn't be populated")
     private Date dateUpdated;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public AuthorDto getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
 }

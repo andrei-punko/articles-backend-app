@@ -19,6 +19,7 @@
 	<properties>
 		<mapstruct.version>1.3.1.Final</mapstruct.version>
 		<swagger.version>2.9.2</swagger.version>
+		<lombok.version>1.18.10</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -40,8 +41,15 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-	  <!-- Swagger -->
+
+		<!-- Swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -94,6 +102,11 @@
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
 							<version>${mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

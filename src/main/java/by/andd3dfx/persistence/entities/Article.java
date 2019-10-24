@@ -10,7 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "ARTICLE")
 public class Article {
@@ -39,60 +43,4 @@ public class Article {
 
     @Column(name = "DATE_UPDATED")
     private Date dateUpdated;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
 }
