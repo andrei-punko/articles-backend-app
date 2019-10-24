@@ -59,6 +59,30 @@ class ArticleMapperTest {
         assertThat(mapper.toArticle(null), nullValue());
     }
 
+    @Test
+    void toArticleWithTarget() {
+        ArticleDto source = new ArticleDto();
+        final String NEW_TITLE = "New title";
+        source.setTitle(NEW_TITLE);
+        Article target = buildArticle();
+        final String OLD_TEXT = target.getText();
+
+        mapper.toArticle(source, target);
+
+        assertThat(target.getTitle(), is(NEW_TITLE));
+        assertThat(target.getText(), is(OLD_TEXT));
+    }
+
+    @Test
+    void toArticleWithTargetForNull() {
+        Article target = buildArticle();
+        final String OLD_TEXT = target.getText();
+
+        mapper.toArticle(null, target);
+
+        assertThat(target.getText(), is(OLD_TEXT));
+    }
+
     private Article buildArticle() {
         Article article = new Article();
         article.setId(123L);

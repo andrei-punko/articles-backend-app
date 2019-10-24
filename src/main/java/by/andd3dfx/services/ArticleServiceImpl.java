@@ -30,33 +30,22 @@ public class ArticleServiceImpl implements ArticleService {
         Date dateCreated = new Date();
         articleDto.setDateCreated(dateCreated);
         articleDto.setDateUpdated(dateCreated);
-        return articleMapper.toArticleDto(
-            articleRepository.save(
-                articleMapper.toArticle(articleDto)
-            ));
+
+        Article entity = articleMapper.toArticle(articleDto);
+        Article savedEntity = articleRepository.save(entity);
+        return articleMapper.toArticleDto(savedEntity);
         // TODO: returned author with id only after creation. Need to consider, do we need to return author with all fields populated
     }
 
     @Override
     public void update(Long id, ArticleDto updatedArticleDto) {
-        // TODO: rewrite method to avoid null checks (using mapper may be)
         articleRepository.findById(id)
             .map(article -> {
-                if (updatedArticleDto.getTitle() != null) {
-                    article.setTitle(updatedArticleDto.getTitle());
-                }
-                if (updatedArticleDto.getSummary() != null) {
-                    article.setSummary(updatedArticleDto.getSummary());
-                }
-                if (updatedArticleDto.getText() != null) {
-                    article.setText(updatedArticleDto.getText());
-                }
+                articleMapper.toArticle(updatedArticleDto, article);
                 article.setDateUpdated(new Date());
-                return articleMapper.toArticleDto(
-                    articleRepository.save(article)
-                );
-            })
-            .orElseThrow(() -> new ArticleNotFoundException(id));
+                Article savedArticle = articleRepository.save(article);
+                return articleMapper.toArticleDto(savedArticle);
+            }).orElseThrow(() -> new ArticleNotFoundException(id));
     }
 
     @Override

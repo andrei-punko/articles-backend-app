@@ -55,25 +55,23 @@ class ArticleServiceImplTest {
 
     @Test
     void update() {
-        /*
-        TODO: finish test
         final Long ARTICLE_ID = 123L;
         Article article = new Article();
         Article savedArticle = new Article();
         Optional<Article> optionalArticle = Optional.of(article);
         ArticleDto updatedArticleDto = new ArticleDto();
+        updatedArticleDto.setTitle("New title");
 
         Mockito.when(articleRepositoryMock.findById(ARTICLE_ID)).thenReturn(optionalArticle);
         Mockito.when(articleRepositoryMock.save(article)).thenReturn(savedArticle);
-        Mockito.when(articleMapperMock.toArticleDto(article)).thenReturn(updatedArticleDto);
+        Mockito.when(articleMapperMock.toArticleDto(savedArticle)).thenReturn(updatedArticleDto);
 
-        ArticleDto result = articleService.update(ARTICLE_ID, updatedArticleDto);
+        articleService.update(ARTICLE_ID, updatedArticleDto);
 
         Mockito.verify(articleRepositoryMock).findById(ARTICLE_ID);
+        Mockito.verify(articleMapperMock).toArticle(updatedArticleDto, article);
         Mockito.verify(articleRepositoryMock).save(article);
-        Mockito.verify(articleMapperMock).toArticleDto(article);
-        assertThat(result, is(updatedArticleDto));
-         */
+        Mockito.verify(articleMapperMock).toArticleDto(savedArticle);
     }
 
     @Test
