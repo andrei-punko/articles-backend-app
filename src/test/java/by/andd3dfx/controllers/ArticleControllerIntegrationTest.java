@@ -338,14 +338,7 @@ class ArticleControllerIntegrationTest {
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(2)))
-            .andExpect(jsonPath("$.title", is(articleDto.getTitle())))
-            .andExpect(jsonPath("$.summary", is(article.getSummary())))
-            .andExpect(jsonPath("$.text", is(article.getText())))
-            .andExpect(jsonPath("$.author.id", notNullValue()))
-            .andExpect(jsonPath("$.dateCreated", notNullValue()))
-            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -359,14 +352,7 @@ class ArticleControllerIntegrationTest {
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(2)))
-            .andExpect(jsonPath("$.title", is(article.getTitle())))
-            .andExpect(jsonPath("$.summary", is(articleDto.getSummary())))
-            .andExpect(jsonPath("$.text", is(article.getText())))
-            .andExpect(jsonPath("$.author.id", notNullValue()))
-            .andExpect(jsonPath("$.dateCreated", notNullValue()))
-            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -380,14 +366,7 @@ class ArticleControllerIntegrationTest {
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(2)))
-            .andExpect(jsonPath("$.title", is(article.getTitle())))
-            .andExpect(jsonPath("$.summary", is(article.getSummary())))
-            .andExpect(jsonPath("$.text", is(articleDto.getText())))
-            .andExpect(jsonPath("$.author.id", notNullValue()))
-            .andExpect(jsonPath("$.dateCreated", notNullValue()))
-            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+            .andExpect(status().isOk());
     }
 
     @Test

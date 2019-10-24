@@ -35,9 +35,9 @@ public class ArticleController {
     }
 
     @PatchMapping("/{id}")
-    public ArticleDto updateArticle(@NotNull @PathVariable Long id,
+    public void updateArticle(@NotNull @PathVariable Long id,
         @Validated(ArticleDto.Update.class) @RequestBody ArticleDto updatedArticleDto) {
-        return articleService.update(id, updatedArticleDto);
+        articleService.update(id, updatedArticleDto);
     }
 
     @DeleteMapping("/{id}")

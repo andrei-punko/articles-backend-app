@@ -38,9 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto update(Long id, ArticleDto updatedArticleDto) {
+    public void update(Long id, ArticleDto updatedArticleDto) {
         // TODO: rewrite method to avoid null checks (using mapper may be)
-        return articleRepository.findById(id)
+        articleRepository.findById(id)
             .map(article -> {
                 if (updatedArticleDto.getTitle() != null) {
                     article.setTitle(updatedArticleDto.getTitle());

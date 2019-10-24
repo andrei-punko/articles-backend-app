@@ -39,13 +39,10 @@ class ArticleControllerTest {
     void updateArticle() {
         Long id = 123L;
         ArticleDto updatedArticleDto = new ArticleDto();
-        ArticleDto resultArticleDto = new ArticleDto();
-        Mockito.when(articleServiceMock.update(id, updatedArticleDto)).thenReturn(resultArticleDto);
 
-        ArticleDto result = articleController.updateArticle(id, updatedArticleDto);
+       articleController.updateArticle(id, updatedArticleDto);
 
         Mockito.verify(articleServiceMock).update(id, updatedArticleDto);
-        assertThat("Wrong result", result, is(resultArticleDto));
     }
 
     @Test
