@@ -3,15 +3,21 @@ package by.andd3dfx.services;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.lenient;
 
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,8 +35,20 @@ class ArticleServiceImplTest {
     @Mock
     private ArticleMapper articleMapperMock;
 
+    @Mock
+    private Clock clockMock;
+    private Clock fixedClock;
+
     @InjectMocks
     private ArticleServiceImpl articleService;
+
+    @BeforeEach
+    public void before() {
+        fixedClock = Clock.fixed(Instant.parse("2014-12-22T10:15:30.00Z"), ZoneId.systemDefault());
+        // Allow unnecessary stubbing:
+        lenient().doReturn(fixedClock.instant()).when(clockMock).instant();
+        lenient().doReturn(fixedClock.getZone()).when(clockMock).getZone();
+    }
 
     @Test
     void create() {
@@ -49,8 +67,8 @@ class ArticleServiceImplTest {
         Mockito.verify(articleRepositoryMock).save(article);
         Mockito.verify(articleMapperMock).toArticleDto(updatedArticle);
         assertThat(result, is(updatedArticleDto));
-        assertThat(result.getDateCreated(), is(result.getDateUpdated()));
-        // TODO: check dates using some mocked DateUtil
+        assertThat(articleDto.getDateCreated(), is(LocalDateTime.now(fixedClock)));
+        assertThat(articleDto.getDateUpdated(), is(LocalDateTime.now(fixedClock)));
     }
 
     @Test
@@ -72,6 +90,7 @@ class ArticleServiceImplTest {
         Mockito.verify(articleMapperMock).toArticle(updatedArticleDto, article);
         Mockito.verify(articleRepositoryMock).save(article);
         Mockito.verify(articleMapperMock).toArticleDto(savedArticle);
+        assertThat(article.getDateUpdated(), is(LocalDateTime.now(fixedClock)));
     }
 
     @Test

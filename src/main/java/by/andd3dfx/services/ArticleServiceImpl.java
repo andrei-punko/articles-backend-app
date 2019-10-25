@@ -5,8 +5,8 @@ import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
+import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,17 +19,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
+    private final Clock clock;
 
     @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleMapper articleMapper) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleMapper articleMapper, Clock clock) {
         this.articleRepository = articleRepository;
         this.articleMapper = articleMapper;
+        this.clock = clock;
     }
 
     @Override
     public ArticleDto create(ArticleDto articleDto) {
-        final LocalDateTime now = LocalDateTime.now();
-        LocalDateTime dateCreated = LocalDateTime.now();
+        LocalDateTime dateCreated = LocalDateTime.now(clock);
         articleDto.setDateCreated(dateCreated);
         articleDto.setDateUpdated(dateCreated);
 
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.findById(id)
             .map(article -> {
                 articleMapper.toArticle(updatedArticleDto, article);
-                article.setDateUpdated(LocalDateTime.now());
+                article.setDateUpdated(LocalDateTime.now(clock));
                 Article savedArticle = articleRepository.save(article);
                 return articleMapper.toArticleDto(savedArticle);
             }).orElseThrow(() -> new ArticleNotFoundException(id));
