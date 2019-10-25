@@ -5,6 +5,7 @@ import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto create(ArticleDto articleDto) {
-        Date dateCreated = new Date();
+        final LocalDateTime now = LocalDateTime.now();
+        LocalDateTime dateCreated = LocalDateTime.now();
         articleDto.setDateCreated(dateCreated);
         articleDto.setDateUpdated(dateCreated);
 
@@ -42,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.findById(id)
             .map(article -> {
                 articleMapper.toArticle(updatedArticleDto, article);
-                article.setDateUpdated(new Date());
+                article.setDateUpdated(LocalDateTime.now());
                 Article savedArticle = articleRepository.save(article);
                 return articleMapper.toArticleDto(savedArticle);
             }).orElseThrow(() -> new ArticleNotFoundException(id));

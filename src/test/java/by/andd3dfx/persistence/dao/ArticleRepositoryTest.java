@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import by.andd3dfx.ArticlesBackendAppApplication;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.persistence.entities.Author;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,8 +45,8 @@ class ArticleRepositoryTest {
         Author author = new Author();
         author.setId(1L);
         article.setAuthor(author);
-        article.setDateCreated(new Date());
-        article.setDateUpdated(new Date());
+        article.setDateCreated(LocalDateTime.now());
+        article.setDateUpdated(LocalDateTime.now());
         return article;
     }
 }

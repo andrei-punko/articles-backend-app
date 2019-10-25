@@ -1,5 +1,6 @@
 package by.andd3dfx.persistence.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,8 +40,8 @@ public class Article {
     private Author author;
 
     @Column(name = "DATE_CREATED")
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(name = "DATE_UPDATED")
-    private Date dateUpdated;
+    private LocalDateTime dateUpdated;
 }

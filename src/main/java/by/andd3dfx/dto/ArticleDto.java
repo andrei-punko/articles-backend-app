@@ -5,6 +5,7 @@ import by.andd3dfx.services.validators.ExistingAuthor;
 import by.andd3dfx.services.validators.OnlyOneFieldModified;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -46,8 +47,8 @@ public class ArticleDto {
     private AuthorDto author;
 
     @Null(groups = {New.class, Update.class}, message = "DateCreated shouldn't be populated")
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
     @Null(groups = {New.class, Update.class}, message = "DateUpdated shouldn't be populated")
-    private Date dateUpdated;
+    private LocalDateTime dateUpdated;
 }

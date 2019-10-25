@@ -8,6 +8,7 @@ import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.persistence.entities.Author;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -94,8 +95,8 @@ class ArticleMapperTest {
         author.setFirstName("John");
         author.setLastName("Deer");
         article.setAuthor(author);
-        article.setDateCreated(new Date(1980, 9, 21));
-        article.setDateUpdated(new Date(2011, 3, 5));
+        article.setDateCreated(LocalDateTime.of(1980, 9, 21, 0, 0));
+        article.setDateUpdated(LocalDateTime.of(2011, 3, 5, 0, 0));
         return article;
     }
 
@@ -110,8 +111,8 @@ class ArticleMapperTest {
         authorDto.setFirstName("John");
         authorDto.setLastName("Deer");
         articleDto.setAuthor(authorDto);
-        articleDto.setDateCreated(new Date(1980, 9, 21));
-        articleDto.setDateUpdated(new Date(2011, 3, 5));
+        articleDto.setDateCreated(LocalDateTime.of(1980, 9, 21, 0, 0));
+        articleDto.setDateUpdated(LocalDateTime.of(2011, 3, 5, 0, 0));
         return articleDto;
     }
 

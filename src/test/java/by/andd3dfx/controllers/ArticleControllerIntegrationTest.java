@@ -21,6 +21,7 @@ import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
@@ -267,7 +268,7 @@ class ArticleControllerIntegrationTest {
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
-        articleDto.setDateCreated(new Date());
+        articleDto.setDateCreated(LocalDateTime.now());
 
         String message = mockMvc.perform(post("/articles")
             .contentType(CONTENT_TYPE)
@@ -287,7 +288,7 @@ class ArticleControllerIntegrationTest {
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
-        articleDto.setDateUpdated(new Date());
+        articleDto.setDateUpdated(LocalDateTime.now());
 
         String message = mockMvc.perform(post("/articles")
             .contentType(CONTENT_TYPE)
@@ -474,7 +475,7 @@ class ArticleControllerIntegrationTest {
     public void updateArticleWithDateCreatedPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
-        articleDto.setDateCreated(new Date());
+        articleDto.setDateCreated(LocalDateTime.now());
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
@@ -489,7 +490,7 @@ class ArticleControllerIntegrationTest {
     public void updateArticleWithDateUpdatedPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
-        articleDto.setDateUpdated(new Date());
+        articleDto.setDateUpdated(LocalDateTime.now());
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
