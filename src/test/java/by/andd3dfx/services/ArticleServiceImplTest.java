@@ -72,6 +72,37 @@ class ArticleServiceImplTest {
     }
 
     @Test
+    public void get() {
+        final Long ARTICLE_ID = 123L;
+        Article article = new Article();
+        Optional<Article> optionalArticle = Optional.of(article);
+        ArticleDto articleDto = new ArticleDto();
+        Mockito.when(articleRepositoryMock.findById(ARTICLE_ID)).thenReturn(optionalArticle);
+        Mockito.when(articleMapperMock.toArticleDto(article)).thenReturn(articleDto);
+
+        ArticleDto result = articleService.get(ARTICLE_ID);
+
+        Mockito.verify(articleRepositoryMock).findById(ARTICLE_ID);
+        Mockito.verify(articleMapperMock).toArticleDto(article);
+        assertThat(result, is(articleDto));
+    }
+
+    @Test
+    public void getAbsentArticle() {
+        final Long ARTICLE_ID = 123L;
+        Optional<Article> optionalArticle = Optional.empty();
+        Mockito.when(articleRepositoryMock.findById(ARTICLE_ID)).thenReturn(optionalArticle);
+
+        try {
+            articleService.get(ARTICLE_ID);
+
+            fail("Exception should be thrown");
+        } catch (ArticleNotFoundException ex) {
+            Mockito.verify(articleRepositoryMock).findById(ARTICLE_ID);
+        }
+    }
+
+    @Test
     void update() {
         final Long ARTICLE_ID = 123L;
         Article article = new Article();

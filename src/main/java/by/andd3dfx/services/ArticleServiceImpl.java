@@ -41,6 +41,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleDto get(Long id) {
+        return articleRepository.findById(id)
+            .map(articleMapper::toArticleDto)
+            .orElseThrow(() -> new ArticleNotFoundException(id));
+    }
+
+    @Override
     public void update(Long id, ArticleDto updatedArticleDto) {
         articleRepository.findById(id)
             .map(article -> {

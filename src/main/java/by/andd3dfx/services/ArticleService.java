@@ -7,6 +7,8 @@ public interface ArticleService {
 
     ArticleDto create(ArticleDto articleDto);
 
+    ArticleDto get(Long id);
+
     void update(Long id, ArticleDto articleDto);
 
     void delete(Long id);
