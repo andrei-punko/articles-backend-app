@@ -1,36 +1,26 @@
 package by.andd3dfx.services.validators;
 
-import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class OnlyOneFieldModifiedValidator implements ConstraintValidator<OnlyOneFieldModified, ArticleDto> {
-
-    private List<String> fieldNames = new ArrayList<>();
+public class OnlyOneFieldModifiedValidator implements ConstraintValidator<OnlyOneFieldModified, ArticleUpdateDto> {
 
     @Override
-    public void initialize(OnlyOneFieldModified constraintAnnotation) {
-        this.fieldNames = Arrays.asList(constraintAnnotation.fields());
-    }
-
-    @Override
-    public boolean isValid(ArticleDto article, ConstraintValidatorContext context) {
+    public boolean isValid(ArticleUpdateDto articleUpdateDto, ConstraintValidatorContext context) {
         int count = 0;
-        for (String fieldName : fieldNames) {
+        ArticleUpdateDto.class.getDeclaredFields();
+        for (Field field : ArticleUpdateDto.class.getDeclaredFields()) {
             try {
-                final Field field = ArticleDto.class.getDeclaredField(fieldName);
                 final boolean isAccessible = field.isAccessible();
                 field.setAccessible(true);
-                final Object o = field.get(article);
+                final Object o = field.get(articleUpdateDto);
                 if (o != null) {
                     count++;
                 }
                 field.setAccessible(isAccessible);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

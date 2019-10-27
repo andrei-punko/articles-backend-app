@@ -1,6 +1,7 @@
 package by.andd3dfx.services;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
@@ -48,10 +49,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void update(Long id, ArticleDto updatedArticleDto) {
+    public void update(Long id, ArticleUpdateDto articleUpdateDto) {
         articleRepository.findById(id)
             .map(article -> {
-                articleMapper.toArticle(updatedArticleDto, article);
+                articleMapper.toArticle(articleUpdateDto, article);
                 article.setDateUpdated(LocalDateTime.now(clock));
                 Article savedArticle = articleRepository.save(article);
                 return articleMapper.toArticleDto(savedArticle);

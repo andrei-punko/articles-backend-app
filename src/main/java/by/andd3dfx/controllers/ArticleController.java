@@ -1,6 +1,7 @@
 package by.andd3dfx.controllers;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.services.ArticleService;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -36,8 +37,8 @@ public class ArticleController {
 
     @PatchMapping("/{id}")
     public void updateArticle(@NotNull @PathVariable Long id,
-        @Validated(ArticleDto.Update.class) @RequestBody ArticleDto updatedArticleDto) {
-        articleService.update(id, updatedArticleDto);
+        @Validated @RequestBody ArticleUpdateDto articleUpdateDto) {
+        articleService.update(id, articleUpdateDto);
     }
 
     @DeleteMapping("/{id}")

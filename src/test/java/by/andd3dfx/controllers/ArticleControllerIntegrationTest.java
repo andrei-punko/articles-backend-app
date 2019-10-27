@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import by.andd3dfx.ArticlesBackendAppApplication;
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
@@ -330,56 +331,49 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateArticleTitle() throws Exception {
-        Article article = articleRepository.findById(2L).get();
-
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("Some tittle value");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setTitle("Some tittle value");
 
         mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
     }
 
     @Test
     public void updateArticleSummary() throws Exception {
-        Article article = articleRepository.findById(2L).get();
-
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setSummary("Some summary value");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setSummary("Some summary value");
 
         mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
     }
 
     @Test
     public void updateArticleText() throws Exception {
-        Article article = articleRepository.findById(2L).get();
-
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setText("Some text value");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setText("Some text value");
 
         mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
     }
 
     @Test
     public void updateArticleMultipleFields() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setId(2L);
-        articleDto.setSummary("Some summary value");
-        articleDto.setText("Some text value");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setSummary("Some summary value");
+        articleUpdateDto.setText("Some text value");
 
-        String message = mockMvc.perform(patch("/articles/" + articleDto.getId())
+        String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
             .andReturn().getResolvedException().getMessage();
@@ -388,12 +382,12 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateAbsentArticle() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("q");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setTitle("q");
 
         String message = mockMvc.perform(patch("/articles/123")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isNotFound())
             .andReturn().getResolvedException().getMessage();
@@ -402,12 +396,12 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateArticleWithEmptyTitle() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setTitle("");
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
             .andReturn().getResolvedException().getMessage();
@@ -416,12 +410,12 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateArticleWithTooLongTitle() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle(createStringWithLength(101));
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setTitle(createStringWithLength(101));
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
             .andReturn().getResolvedException().getMessage();
@@ -430,12 +424,12 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateArticleWithTooLongSummary() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setSummary(createStringWithLength(260));
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setSummary(createStringWithLength(260));
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
             .andReturn().getResolvedException().getMessage();
@@ -444,61 +438,16 @@ class ArticleControllerIntegrationTest {
 
     @Test
     public void updateArticleWithEmptyText() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setText("");
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        articleUpdateDto.setText("");
 
         String message = mockMvc.perform(patch("/articles/2")
             .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
+            .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
             .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Text length should be 1 at least"));
-    }
-
-    @Test
-    public void updateArticleWithAuthorPopulated() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("Some tittle value");
-        articleDto.setAuthor(new AuthorDto());
-
-        String message = mockMvc.perform(patch("/articles/2")
-            .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("Author shouldn't be present"));
-    }
-
-    @Test
-    public void updateArticleWithDateCreatedPopulated() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("Some tittle value");
-        articleDto.setDateCreated(LocalDateTime.now());
-
-        String message = mockMvc.perform(patch("/articles/2")
-            .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("DateCreated shouldn't be populated"));
-    }
-
-    @Test
-    public void updateArticleWithDateUpdatedPopulated() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("Some tittle value");
-        articleDto.setDateUpdated(LocalDateTime.now());
-
-        String message = mockMvc.perform(patch("/articles/2")
-            .contentType(CONTENT_TYPE)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("DateUpdated shouldn't be populated"));
     }
 
     private String json(Object o) throws IOException {

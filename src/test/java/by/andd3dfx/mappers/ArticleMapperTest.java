@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.persistence.entities.Author;
@@ -62,7 +63,7 @@ class ArticleMapperTest {
 
     @Test
     void toArticleWithTarget() {
-        ArticleDto source = new ArticleDto();
+        ArticleUpdateDto source = new ArticleUpdateDto();
         final String NEW_TITLE = "New title";
         source.setTitle(NEW_TITLE);
         Article target = buildArticle();

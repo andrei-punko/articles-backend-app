@@ -1,6 +1,7 @@
 package by.andd3dfx.mappers;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.persistence.entities.Article;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -16,5 +17,5 @@ public interface ArticleMapper {
 
     Article toArticle(ArticleDto articleDto);
 
-    void toArticle(ArticleDto articleDto, @MappingTarget Article article);
+    void toArticle(ArticleUpdateDto articleUpdateDto, @MappingTarget Article article);
 }

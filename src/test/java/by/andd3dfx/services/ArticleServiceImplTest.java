@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.lenient;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
@@ -108,6 +109,7 @@ class ArticleServiceImplTest {
         Article article = new Article();
         Article savedArticle = new Article();
         Optional<Article> optionalArticle = Optional.of(article);
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         ArticleDto updatedArticleDto = new ArticleDto();
         updatedArticleDto.setTitle("New title");
 
@@ -115,10 +117,10 @@ class ArticleServiceImplTest {
         Mockito.when(articleRepositoryMock.save(article)).thenReturn(savedArticle);
         Mockito.when(articleMapperMock.toArticleDto(savedArticle)).thenReturn(updatedArticleDto);
 
-        articleService.update(ARTICLE_ID, updatedArticleDto);
+        articleService.update(ARTICLE_ID, articleUpdateDto);
 
         Mockito.verify(articleRepositoryMock).findById(ARTICLE_ID);
-        Mockito.verify(articleMapperMock).toArticle(updatedArticleDto, article);
+        Mockito.verify(articleMapperMock).toArticle(articleUpdateDto, article);
         Mockito.verify(articleRepositoryMock).save(article);
         Mockito.verify(articleMapperMock).toArticleDto(savedArticle);
         assertThat(article.getDateUpdated(), is(LocalDateTime.now(fixedClock)));
@@ -129,10 +131,10 @@ class ArticleServiceImplTest {
         final Long ARTICLE_ID = 123L;
         Optional<Article> optionalArticle = Optional.empty();
         Mockito.when(articleRepositoryMock.findById(ARTICLE_ID)).thenReturn(optionalArticle);
-        ArticleDto updatedArticleDto = new ArticleDto();
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
 
         try {
-            articleService.update(ARTICLE_ID, updatedArticleDto);
+            articleService.update(ARTICLE_ID, articleUpdateDto);
 
             fail("Exception should be thrown");
         } catch (ArticleNotFoundException ex) {

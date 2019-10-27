@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.ArticleDto;
+import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.services.ArticleService;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ class ArticleControllerTest {
     @Test
     void updateArticle() {
         Long id = 123L;
-        ArticleDto updatedArticleDto = new ArticleDto();
+        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
 
-       articleController.updateArticle(id, updatedArticleDto);
+       articleController.updateArticle(id, articleUpdateDto);
 
-        Mockito.verify(articleServiceMock).update(id, updatedArticleDto);
+        Mockito.verify(articleServiceMock).update(id, articleUpdateDto);
     }
 
     @Test
