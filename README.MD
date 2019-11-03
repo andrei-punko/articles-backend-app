@@ -73,13 +73,25 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 
 # Usage description
 
-##### Start application using Maven:
-`mvn spring-boot:run`
+##### Start application using Maven (vs in-memory H2 DB):
+`mvn spring-boot:run -Dspring-boot.run.arguments=\
+ --spring.datasource.url=jdbc:h2:mem:testdb,\
+ --spring.datasource.username=sa,\
+ --spring.datasource.password=password,\
+ --spring.datasource.driverClassName=org.h2.Driver,\
+ --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect,\
+ --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect`
 
-##### Start application by running executable jar:
-`java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar`
+##### Start application by running executable jar (vs in-memory H2 DB):
+`java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
+ --spring.datasource.url=jdbc:h2:mem:testdb \
+ --spring.datasource.username=sa \
+ --spring.datasource.password=password \
+ --spring.datasource.driverClassName=org.h2.Driver \
+ --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect \
+ --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect`
 
-##### Start two Docker containers - with Postgres DB and with application:
+##### Start two Docker containers - one with Postgres DB and another with application:
 `docker-compose up`
 
 ##### Swagger documentation situated here:
