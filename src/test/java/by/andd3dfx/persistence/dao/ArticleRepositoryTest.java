@@ -8,7 +8,6 @@ import by.andd3dfx.ArticlesBackendAppApplication;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.persistence.entities.Author;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;

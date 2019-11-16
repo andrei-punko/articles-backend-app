@@ -41,7 +41,7 @@ class ArticleControllerTest {
         Long id = 123L;
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
 
-       articleController.updateArticle(id, articleUpdateDto);
+        articleController.updateArticle(id, articleUpdateDto);
 
         Mockito.verify(articleServiceMock).update(id, articleUpdateDto);
     }

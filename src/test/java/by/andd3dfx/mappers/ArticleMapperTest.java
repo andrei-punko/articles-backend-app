@@ -11,7 +11,6 @@ import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.persistence.entities.Author;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
