@@ -66,45 +66,45 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 # Build instructions
 
 ##### Build application:
-`mvn clean install`
+    mvn clean install
 
 ##### Build Docker image with application inside:
-`docker build ./ -t articles-backend-app`
+    docker build ./ -t articles-backend-app
 
 # Usage description
 
 ##### Start application using Maven (vs in-memory H2 DB):
-`mvn spring-boot:run -Dspring-boot.run.arguments=\
- --spring.datasource.url=jdbc:h2:mem:testdb,\
- --spring.datasource.username=sa,\
- --spring.datasource.password=password,\
- --spring.datasource.driverClassName=org.h2.Driver,\
- --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect,\
- --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect`
+    mvn spring-boot:run -Dspring-boot.run.arguments=\
+    --spring.datasource.url=jdbc:h2:mem:testdb,\
+    --spring.datasource.username=sa,\
+    --spring.datasource.password=password,\
+    --spring.datasource.driverClassName=org.h2.Driver,\
+    --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect,\
+    --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 
 ##### Start application by running executable jar (vs in-memory H2 DB):
-`java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
- --spring.datasource.url=jdbc:h2:mem:testdb \
- --spring.datasource.username=sa \
- --spring.datasource.password=password \
- --spring.datasource.driverClassName=org.h2.Driver \
- --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect \
- --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect`
+    java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
+     --spring.datasource.url=jdbc:h2:mem:testdb \
+     --spring.datasource.username=sa \
+     --spring.datasource.password=password \
+     --spring.datasource.driverClassName=org.h2.Driver \
+     --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect \
+     --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 
 ##### Start two Docker containers - one with Postgres DB and another with application:
-`docker-compose up`
+    docker-compose up
 
 ##### Swagger documentation situated here:
-`http://localhost:8099/swagger-ui.html`
+    http://localhost:8099/swagger-ui.html
 
 ##### New article addition:
-`curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles`
+    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
 
 ##### Update existing article:
-`curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2`
+    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2
 
 ##### Get list of all articles:
-`curl -i -X GET http://localhost:8099/articles`
+    curl -i -X GET http://localhost:8099/articles
 
 ##### Deletion of article:
-`curl -i -X DELETE http://localhost:8099/articles/1`
+    curl -i -X DELETE http://localhost:8099/articles/1
