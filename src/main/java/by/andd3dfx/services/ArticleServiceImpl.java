@@ -10,6 +10,9 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @CacheEvict(value = "allArticles", allEntries = true)
     public ArticleDto create(ArticleDto articleDto) {
         LocalDateTime dateCreated = LocalDateTime.now(clock);
         articleDto.setDateCreated(dateCreated);
@@ -42,6 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Cacheable(value = "articles", key = "#id")
     public ArticleDto get(Long id) {
         return articleRepository.findById(id)
             .map(articleMapper::toArticleDto)
@@ -49,6 +54,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Caching(
+        evict = {
+            @CacheEvict(value = "articles", key = "#id"),
+            @CacheEvict(value = "allArticles", allEntries = true)
+        }
+    )
     public void update(Long id, ArticleUpdateDto articleUpdateDto) {
         articleRepository.findById(id)
             .map(article -> {
@@ -60,6 +71,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Caching(
+        evict = {
+            @CacheEvict(value = "articles", key = "#id"),
+            @CacheEvict(value = "allArticles", allEntries = true)
+        }
+    )
     public void delete(Long id) {
         try {
             articleRepository.deleteById(id);
@@ -69,6 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Cacheable(value = "allArticles")
     public List<ArticleDto> getAll() {
         List<Article> articles = articleRepository.findAllByOrderByTitle();
         return articleMapper.toArticleDtos(articles);
