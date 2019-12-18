@@ -4,11 +4,9 @@ import by.andd3dfx.services.validators.OnlyOneFieldModified;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @JsonInclude(Include.NON_NULL)
 @OnlyOneFieldModified
 public class ArticleUpdateDto {
