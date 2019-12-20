@@ -1,4 +1,4 @@
-package by.andd3dfx.swagger;
+package by.andd3dfx.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
