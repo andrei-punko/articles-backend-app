@@ -89,6 +89,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Cacheable(value = "allArticles")
     public List<ArticleDto> getAll() {
         List<Article> articles = articleRepository.findAllByOrderByTitle();
-        return articleMapper.toArticleDtos(articles);
+        return articleMapper.toArticleDtoList(articles);
     }
 }

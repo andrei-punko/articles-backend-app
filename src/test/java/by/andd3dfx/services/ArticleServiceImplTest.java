@@ -171,12 +171,12 @@ class ArticleServiceImplTest {
         List<Article> articles = new ArrayList<>();
         Mockito.when(articleRepositoryMock.findAllByOrderByTitle()).thenReturn(articles);
         List<ArticleDto> articleDtos = new ArrayList<>();
-        Mockito.when(articleMapperMock.toArticleDtos(articles)).thenReturn(articleDtos);
+        Mockito.when(articleMapperMock.toArticleDtoList(articles)).thenReturn(articleDtos);
 
         List<ArticleDto> result = articleService.getAll();
 
         Mockito.verify(articleRepositoryMock).findAllByOrderByTitle();
-        Mockito.verify(articleMapperMock).toArticleDtos(articles);
+        Mockito.verify(articleMapperMock).toArticleDtoList(articles);
         assertThat(result, is(articleDtos));
     }
 }
