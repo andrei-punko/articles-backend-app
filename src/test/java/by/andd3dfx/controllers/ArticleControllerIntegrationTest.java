@@ -345,6 +345,15 @@ class ArticleControllerIntegrationTest {
     }
 
     @Test
+    public void readArticlesWithPageSizeLimit() throws Exception {
+        mockMvc.perform(get("/articles?pageSize=5")
+            .contentType(CONTENT_TYPE)
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(5)));
+    }
+
+    @Test
     public void updateArticleTitle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("Some tittle value");

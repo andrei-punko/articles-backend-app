@@ -117,12 +117,15 @@ class ArticleControllerTest {
 
     @Test
     void readArticles() {
-        List<ArticleDto> articleDtos = new ArrayList<>();
-        Mockito.when(articleServiceMock.getAll()).thenReturn(articleDtos);
+        final List<ArticleDto> articleDtoList = new ArrayList<>();
+        final Integer pageNo = 2;
+        final Integer pageSize = 20;
+        final String sortBy = "title";
+        Mockito.when(articleServiceMock.getAll(pageNo, pageSize, sortBy)).thenReturn(articleDtoList);
 
-        List<ArticleDto> result = articleController.readArticles();
+        List<ArticleDto> result = articleController.readArticles(pageNo, pageSize, sortBy);
 
-        Mockito.verify(articleServiceMock).getAll();
-        assertThat("Wrong result", result, is(articleDtos));
+        Mockito.verify(articleServiceMock).getAll(pageNo, pageSize, sortBy);
+        assertThat("Wrong result", result, is(articleDtoList));
     }
 }
