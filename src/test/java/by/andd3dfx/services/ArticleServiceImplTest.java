@@ -15,7 +15,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +26,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceImplTest {
@@ -168,15 +173,22 @@ class ArticleServiceImplTest {
 
     @Test
     void getAll() {
-        List<Article> articles = new ArrayList<>();
-        Mockito.when(articleRepositoryMock.findAllByOrderByTitle()).thenReturn(articles);
-        List<ArticleDto> articleDtos = new ArrayList<>();
-        Mockito.when(articleMapperMock.toArticleDtoList(articles)).thenReturn(articleDtos);
+        final Integer pageNo = 2;
+        final Integer pageSize = 20;
+        final String sortBy = "title";
+        final Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        List<ArticleDto> result = articleService.getAll();
+        final List<Article> articles = Arrays.asList(new Article());
+        final Page<Article> pagedResult = new PageImpl<>(articles, pageRequest, articles.size());
+        final List<ArticleDto> articleDtoList = Arrays.asList(new ArticleDto());
 
-        Mockito.verify(articleRepositoryMock).findAllByOrderByTitle();
+        Mockito.doReturn(pagedResult).when(articleRepositoryMock).findAll(pageRequest);
+        Mockito.doReturn(articleDtoList).when(articleMapperMock).toArticleDtoList(articles);
+
+        List<ArticleDto> result = articleService.getAll(pageNo, pageSize, sortBy);
+
+        Mockito.verify(articleRepositoryMock).findAll(pageRequest);
         Mockito.verify(articleMapperMock).toArticleDtoList(articles);
-        assertThat(result, is(articleDtos));
+        assertThat(result, is(articleDtoList));
     }
 }

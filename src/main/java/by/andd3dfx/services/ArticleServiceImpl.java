@@ -14,6 +14,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,9 +90,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Cacheable(value = "allArticles")
-    public List<ArticleDto> getAll() {
-        List<Article> articles = articleRepository.findAllByOrderByTitle();
-        return articleMapper.toArticleDtoList(articles);
+    @Cacheable(value = "allArticles", key = "{#pageNo, #pageSize, #sortBy}")
+    public List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<Article> pagedResult = articleRepository.findAll(pageRequest);
+        return articleMapper.toArticleDtoList(pagedResult.getContent());
     }
 }

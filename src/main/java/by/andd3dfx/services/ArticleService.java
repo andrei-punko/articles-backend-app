@@ -14,5 +14,5 @@ public interface ArticleService {
 
     void delete(Long id);
 
-    List<ArticleDto> getAll();
+    List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy);
 }
