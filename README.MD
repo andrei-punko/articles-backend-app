@@ -41,11 +41,10 @@ Non-Editable properties, updated automatically by Application:
 Application should expose REST endpoints that allow the following operations:
 
 - Create new Article
-- Get existing Article
 - Update existing Article
   - Only one property at the time should be updatable.
 - Delete existing Article
-- Retrieve all article in the system sorted by title
+- Retrieve all articles in the system sorted by title
 
 The Article JSON Payload returned by endpoint(s) must contain all properties of Article listed above.
 
@@ -63,6 +62,10 @@ The implementation must contain adequate unit tests to cover business requiremen
 Application must build and produce an executable jar containing all dependencies.
 
 The **authors** table should not be updatable via endpoints. Feel free to populate it with an arbitrary data via SQL.
+
+# Additional functional
+- Operation for getting existing Article
+- Add pagination support for 'Retrieve all articles' operation
 
 # Build instructions
 
@@ -109,6 +112,9 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 
 ##### Get list of all articles:
     curl -i -X GET http://localhost:8099/articles
+
+##### Get list of articles with pagination support:
+    curl -i -X GET 'http://localhost:8099/articles?pageSize=2&pageNo=4&sortBy=author.firstName'
 
 ##### Deletion of article:
     curl -i -X DELETE http://localhost:8099/articles/1
