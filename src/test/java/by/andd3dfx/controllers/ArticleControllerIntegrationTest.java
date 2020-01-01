@@ -317,6 +317,25 @@ class ArticleControllerIntegrationTest {
     }
 
     @Test
+    public void readArticle() throws Exception {
+        mockMvc.perform(get("/articles/1")
+            .contentType(CONTENT_TYPE)
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", is(1)));
+    }
+
+    @Test
+    public void readAbsentArticle() throws Exception {
+        String message = mockMvc.perform(get("/articles/345")
+            .contentType(CONTENT_TYPE)
+        )
+            .andExpect(status().isNotFound())
+            .andReturn().getResolvedException().getMessage();
+        assertThat(message, containsString("Could not find an article by id=345"));
+    }
+
+    @Test
     public void readArticles() throws Exception {
         mockMvc.perform(get("/articles")
             .contentType(CONTENT_TYPE)

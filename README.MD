@@ -41,6 +41,7 @@ Non-Editable properties, updated automatically by Application:
 Application should expose REST endpoints that allow the following operations:
 
 - Create new Article
+- Get existing Article
 - Update existing Article
   - Only one property at the time should be updatable.
 - Delete existing Article
@@ -99,6 +100,9 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 
 ##### New article addition:
     curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
+
+##### Get existing article:
+    curl -i -X GET http://localhost:8099/articles/1
 
 ##### Update existing article:
     curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2

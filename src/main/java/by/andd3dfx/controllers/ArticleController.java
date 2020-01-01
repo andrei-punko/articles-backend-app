@@ -35,6 +35,11 @@ public class ArticleController {
         return articleService.create(newArticleDto);
     }
 
+    @GetMapping("/{id}")
+    public ArticleDto readArticle(@NotNull @PathVariable Long id) {
+        return articleService.get(id);
+    }
+
     @PatchMapping("/{id}")
     public void updateArticle(@NotNull @PathVariable Long id,
         @Validated @RequestBody ArticleUpdateDto articleUpdateDto) {

@@ -2,10 +2,12 @@ package by.andd3dfx.controllers;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.services.ArticleService;
+import by.andd3dfx.services.exceptions.ArticleNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,33 @@ class ArticleControllerTest {
 
         Mockito.verify(articleServiceMock).create(newArticleDto);
         assertThat("Wrong result", result, is(resultArticleDto));
+    }
+
+    @Test
+    public void readArticle() {
+        final Long id = 123L;
+        final ArticleDto resultArticleDto = new ArticleDto();
+        Mockito.when(articleServiceMock.get(id)).thenReturn(resultArticleDto);
+
+        ArticleDto result = articleController.readArticle(id);
+
+        Mockito.verify(articleServiceMock).get(id);
+        assertThat("Wrong result", result, is(resultArticleDto));
+    }
+
+    @Test
+    public void readAbsentArticle() {
+        final Long id = 123L;
+        final ArticleNotFoundException articleNotFoundException = new ArticleNotFoundException(id);
+        Mockito.when(articleServiceMock.get(id)).thenThrow(articleNotFoundException);
+
+        try {
+            articleController.readArticle(id);
+            fail("Exception should be thrown");
+        } catch (ArticleNotFoundException e) {
+            Mockito.verify(articleServiceMock).get(id);
+            assertThat("Wrong exception", e, is(articleNotFoundException));
+        }
     }
 
     @Test
