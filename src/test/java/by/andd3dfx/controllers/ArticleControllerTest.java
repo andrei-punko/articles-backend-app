@@ -67,8 +67,8 @@ class ArticleControllerTest {
 
     @Test
     void updateArticle() {
-        Long id = 123L;
-        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        final Long id = 123L;
+        final ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
 
         articleController.updateArticle(id, articleUpdateDto);
 
@@ -76,12 +76,43 @@ class ArticleControllerTest {
     }
 
     @Test
+    void updateAbsentArticle() {
+        final Long id = 123L;
+        final ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
+        final ArticleNotFoundException articleNotFoundException = new ArticleNotFoundException(id);
+        Mockito.doThrow(articleNotFoundException).when(articleServiceMock).update(id, articleUpdateDto);
+
+        try {
+            articleController.updateArticle(id, articleUpdateDto);
+            fail("Exception should be thrown");
+        } catch (ArticleNotFoundException e) {
+            Mockito.verify(articleServiceMock).update(id, articleUpdateDto);
+            assertThat("Wrong exception", e, is(articleNotFoundException));
+        }
+    }
+
+    @Test
     void deleteArticle() {
-        Long id = 123L;
+        final Long id = 123L;
 
         articleController.deleteArticle(id);
 
         Mockito.verify(articleServiceMock).delete(id);
+    }
+
+    @Test
+    void deleteAbsentArticle() {
+        final Long id = 123L;
+        final ArticleNotFoundException articleNotFoundException = new ArticleNotFoundException(id);
+        Mockito.doThrow(articleNotFoundException).when(articleServiceMock).delete(id);
+
+        try {
+            articleController.deleteArticle(id);
+            fail("Exception should be thrown");
+        } catch (ArticleNotFoundException e) {
+            Mockito.verify(articleServiceMock).delete(id);
+            assertThat("Wrong exception", e, is(articleNotFoundException));
+        }
     }
 
     @Test
