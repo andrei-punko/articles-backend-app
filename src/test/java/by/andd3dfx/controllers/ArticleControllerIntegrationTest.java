@@ -341,9 +341,7 @@ class ArticleControllerIntegrationTest {
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].id", is(2)))
-            .andExpect(jsonPath("$[1].id", is(3)));
+            .andExpect(jsonPath("$", hasSize(10)));
     }
 
     @Test
