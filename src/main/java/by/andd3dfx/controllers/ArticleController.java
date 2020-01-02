@@ -32,7 +32,7 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleDto createArticle(@Validated(ArticleDto.New.class) @RequestBody ArticleDto newArticleDto) {
+    public ArticleDto createArticle(@Validated @RequestBody ArticleDto newArticleDto) {
         return articleService.create(newArticleDto);
     }
 

@@ -13,31 +13,27 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class ArticleDto {
 
-    public interface New {
-
-    }
-
-    @Null(groups = {New.class}, message = "Article id shouldn't be present")
+    @Null(message = "Article id shouldn't be present")
     private Long id;
 
-    @NotNull(groups = {New.class}, message = "Title should be populated")
-    @Size(min = 1, max = 100, groups = {New.class}, message = "Title length must be between 1 and 100")
+    @NotNull(message = "Title should be populated")
+    @Size(min = 1, max = 100, message = "Title length must be between 1 and 100")
     private String title;
 
-    @Size(max = 255, groups = {New.class}, message = "Summary length shouldn't be greater than 255")
+    @Size(max = 255, message = "Summary length shouldn't be greater than 255")
     private String summary;
 
-    @NotNull(groups = {New.class}, message = "Text should be populated")
-    @Size(min = 1, groups = {New.class}, message = "Text length should be 1 at least")
+    @NotNull(message = "Text should be populated")
+    @Size(min = 1, message = "Text length should be 1 at least")
     private String text;
 
-    @NotNull(groups = {New.class}, message = "Author should be populated")
-    @ExistingAuthor(groups = {New.class})
+    @NotNull(message = "Author should be populated")
+    @ExistingAuthor
     private AuthorDto author;
 
-    @Null(groups = {New.class}, message = "DateCreated shouldn't be populated")
+    @Null(message = "DateCreated shouldn't be populated")
     private LocalDateTime dateCreated;
 
-    @Null(groups = {New.class}, message = "DateUpdated shouldn't be populated")
+    @Null(message = "DateUpdated shouldn't be populated")
     private LocalDateTime dateUpdated;
 }
