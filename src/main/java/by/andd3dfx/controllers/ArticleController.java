@@ -3,6 +3,8 @@ package by.andd3dfx.controllers;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.services.ArticleService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +85,18 @@ public class ArticleController {
     }
 
     @GetMapping
+    // Workaround for Swagger bug, according to https://github.com/springfox/springfox/issues/2623#issuecomment-414297583
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+            value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+            value = "Number of records per page.", defaultValue = "10"),
+        @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+            value = "Sorting criteria in the format: property(,asc|desc). " +
+                "Default sort order is ascending. " +
+                "Multiple sort criteria are supported.",
+        defaultValue = "title,ASC")
+    })
     public Page<ArticleDto> readArticlesPaged(
         @PageableDefault(page = 0, size = 10)
         @SortDefault.SortDefaults({
