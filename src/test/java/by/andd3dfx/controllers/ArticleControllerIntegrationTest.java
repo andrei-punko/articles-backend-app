@@ -341,16 +341,27 @@ class ArticleControllerIntegrationTest {
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(10)));
+            .andExpect(jsonPath("$.content", hasSize(10)))
+            .andExpect(jsonPath("$.number", is(0)))
+            .andExpect(jsonPath("$.size", is(10)))
+            .andExpect(jsonPath("$.totalPages", is(1)))
+            .andExpect(jsonPath("$.totalElements", is(10)))
+        ;
     }
 
     @Test
     public void readArticlesWithPageSizeLimit() throws Exception {
-        mockMvc.perform(get("/articles?pageSize=5")
+        mockMvc.perform(get("/articles")
+            .param("size", "5")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(5)));
+            .andExpect(jsonPath("$.content", hasSize(5)))
+            .andExpect(jsonPath("$.number", is(0)))
+            .andExpect(jsonPath("$.size", is(5)))
+            .andExpect(jsonPath("$.totalPages", is(2)))
+            .andExpect(jsonPath("$.totalElements", is(9)))
+        ;
     }
 
     @Test

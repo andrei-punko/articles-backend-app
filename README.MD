@@ -114,7 +114,7 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
     curl -i -X GET http://localhost:8099/articles
 
 ##### Get list of articles with pagination support:
-    curl -i -X GET 'http://localhost:8099/articles?pageSize=2&pageNo=4&sortBy=author.firstName'
+    curl -i -X GET 'http://localhost:8099/articles?size=2&page=4&sort=author.firstName,DESC'
 
 ##### Deletion of article:
     curl -i -X DELETE http://localhost:8099/articles/1

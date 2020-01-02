@@ -6,6 +6,12 @@ import by.andd3dfx.services.ArticleService;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,33 +38,57 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleDto createArticle(@Validated @RequestBody ArticleDto newArticleDto) {
+    public ArticleDto createArticle(
+        @Validated
+        @RequestBody ArticleDto newArticleDto
+    ) {
         return articleService.create(newArticleDto);
     }
 
     @GetMapping("/{id}")
-    public ArticleDto readArticle(@NotNull @PathVariable Long id) {
+    public ArticleDto readArticle(
+        @NotNull
+        @PathVariable Long id
+    ) {
         return articleService.get(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateArticle(@NotNull @PathVariable Long id,
-        @Validated @RequestBody ArticleUpdateDto articleUpdateDto) {
+    public void updateArticle(
+        @NotNull
+        @PathVariable Long id,
+        @Validated
+        @RequestBody ArticleUpdateDto articleUpdateDto
+    ) {
         articleService.update(id, articleUpdateDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteArticle(@NotNull @PathVariable Long id) {
+    public void deleteArticle(
+        @NotNull
+        @PathVariable Long id
+    ) {
         articleService.delete(id);
     }
 
-    @GetMapping
     public List<ArticleDto> readArticles(
         @RequestParam(defaultValue = "0") Integer pageNo,
         @RequestParam(defaultValue = "10") Integer pageSize,
-        @RequestParam(defaultValue = "title") String sortBy) {
+        @RequestParam(defaultValue = "title") String sortBy
+    ) {
+        Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        final Page<ArticleDto> articleDtoPage = readArticlesPaged(pageRequest);
+        return articleDtoPage.getContent();
+    }
 
-        return articleService.getAll(pageNo, pageSize, sortBy);
+    @GetMapping
+    public Page<ArticleDto> readArticlesPaged(
+        @PageableDefault(page = 0, size = 10)
+        @SortDefault.SortDefaults({
+            @SortDefault(sort = "title", direction = Sort.Direction.ASC)
+        }) Pageable pageable
+    ) {
+        return articleService.getAll(pageable);
     }
 }

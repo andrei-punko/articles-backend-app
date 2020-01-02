@@ -16,6 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @ExtendWith(MockitoExtension.class)
 class ArticleControllerTest {
@@ -121,11 +126,32 @@ class ArticleControllerTest {
         final Integer pageNo = 2;
         final Integer pageSize = 20;
         final String sortBy = "title";
-        Mockito.when(articleServiceMock.getAll(pageNo, pageSize, sortBy)).thenReturn(articleDtoList);
+        final Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("title"));
+        final Page<ArticleDto> pagedResult = new PageImpl<>(articleDtoList, pageRequest, articleDtoList.size());
+        Mockito.when(articleServiceMock.getAll(pageRequest)).thenReturn(pagedResult);
 
         List<ArticleDto> result = articleController.readArticles(pageNo, pageSize, sortBy);
 
-        Mockito.verify(articleServiceMock).getAll(pageNo, pageSize, sortBy);
+        Mockito.verify(articleServiceMock).getAll(pageRequest);
         assertThat("Wrong result", result, is(articleDtoList));
+    }
+
+    @Test
+    void readArticlesPaged() {
+        final List<ArticleDto> articleDtoList = new ArrayList<>();
+        final Integer pageNo = 2;
+        final Integer pageSize = 20;
+        final Sort sort = Sort.by("title");
+        final Pageable pageRequest = PageRequest.of(pageNo, pageSize, sort);
+        final Page<ArticleDto> pagedResult = new PageImpl<>(articleDtoList, pageRequest, articleDtoList.size());
+        Mockito.when(articleServiceMock.getAll(pageRequest)).thenReturn(pagedResult);
+
+        Page<ArticleDto> result = articleController.readArticlesPaged(pageRequest);
+
+        Mockito.verify(articleServiceMock).getAll(pageRequest);
+        assertThat("Wrong result.content", result.getContent(), is(articleDtoList));
+        assertThat("Wrong number", result.getNumber(), is(2));
+        assertThat("Wrong size", result.getSize(), is(20));
+        assertThat("Wrong sort", result.getSort(), is(sort));
     }
 }
