@@ -96,4 +96,11 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> pagedResult = articleRepository.findAll(pageRequest);
         return articleMapper.toArticleDtoList(pagedResult.getContent());
     }
+
+    @Override
+    @Cacheable(value = "allArticles", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort}")
+    public Page<ArticleDto> getAll(Pageable pageable) {
+        final Page<Article> pagedResult = articleRepository.findAll(pageable);
+        return pagedResult.map(articleMapper::toArticleDto);
+    }
 }

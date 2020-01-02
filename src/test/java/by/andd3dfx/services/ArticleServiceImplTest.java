@@ -191,4 +191,26 @@ class ArticleServiceImplTest {
         Mockito.verify(articleMapperMock).toArticleDtoList(articles);
         assertThat(result, is(articleDtoList));
     }
+
+    @Test
+    void getAllPaged() {
+        final Integer pageNo = 2;
+        final Integer pageSize = 20;
+        final String sortBy = "title";
+        final Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        final List<Article> articles = Arrays.asList(new Article());
+        final Page<Article> pagedResult = new PageImpl<>(articles, pageRequest, articles.size());
+        final List<ArticleDto> articleDtoList = Arrays.asList(new ArticleDto());
+
+        Mockito.doReturn(pagedResult).when(articleRepositoryMock).findAll(pageRequest);
+        Mockito.doReturn(articleDtoList.get(0)).when(articleMapperMock).toArticleDto(articles.get(0));
+
+        Page<ArticleDto> result = articleService.getAll(pageRequest);
+
+        Mockito.verify(articleRepositoryMock).findAll(pageRequest);
+        Mockito.verify(articleMapperMock).toArticleDto(articles.get(0));
+        assertThat(result.getContent().size(), is(1));
+        assertThat(result.getContent().get(0), is(articleDtoList.get(0)));
+    }
 }

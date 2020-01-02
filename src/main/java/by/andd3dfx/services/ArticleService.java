@@ -3,6 +3,8 @@ package by.andd3dfx.services;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ArticleService {
 
@@ -15,4 +17,6 @@ public interface ArticleService {
     void delete(Long id);
 
     List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy);
+
+    Page<ArticleDto> getAll(Pageable pageable);
 }
