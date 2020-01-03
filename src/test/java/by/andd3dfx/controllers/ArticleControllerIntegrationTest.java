@@ -18,7 +18,6 @@ import by.andd3dfx.ArticlesBackendAppApplication;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.dto.AuthorDto;
-import by.andd3dfx.persistence.dao.ArticleRepository;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
@@ -48,9 +47,6 @@ class ArticleControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private ArticleRepository articleRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
