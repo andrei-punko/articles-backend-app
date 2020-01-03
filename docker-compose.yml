@@ -14,7 +14,6 @@ services:
       - POSTGRES_DB=articlesdb
       - POSTGRES_USER=articles-user
       - POSTGRES_PASSWORD=articles-password
-    restart: unless-stopped
 
   articles-backend-app:
     image: articles-backend-app:latest
@@ -32,7 +31,6 @@ services:
       - postgres
     links:
       - postgres
-    restart: unless-stopped
 
 volumes:
   postgres-data:
