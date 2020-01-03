@@ -43,7 +43,7 @@ class ArticleMapperTest {
     }
 
     @Test
-    void toArticleDtosForNull() {
+    void toArticleDtoListForNull() {
         assertThat(mapper.toArticleDtoList(null), nullValue());
     }
 
