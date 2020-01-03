@@ -82,8 +82,6 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
     --spring.datasource.url=jdbc:h2:mem:testdb,\
     --spring.datasource.username=sa,\
     --spring.datasource.password=password,\
-    --spring.datasource.driverClassName=org.h2.Driver,\
-    --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect,\
     --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 
 ##### Start application by running executable jar (vs in-memory H2 DB):
@@ -91,8 +89,6 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
      --spring.datasource.url=jdbc:h2:mem:testdb \
      --spring.datasource.username=sa \
      --spring.datasource.password=password \
-     --spring.datasource.driverClassName=org.h2.Driver \
-     --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect \
      --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 
 ##### Start two Docker containers - one with Postgres DB and another with application:
