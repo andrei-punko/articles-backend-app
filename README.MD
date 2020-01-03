@@ -84,12 +84,21 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
     --spring.datasource.password=password,\
     --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
 
+Or next way, using `dev` spring profile:
+
+    mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
+
 ##### Start application by running executable jar (vs in-memory H2 DB):
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.datasource.url=jdbc:h2:mem:testdb \
      --spring.datasource.username=sa \
      --spring.datasource.password=password \
      --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+
+Or next way, using `dev` spring profile:
+
+    java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
+     --spring.profiles.active=dev
 
 ##### Start two Docker containers - one with Postgres DB and another with application:
     docker-compose up
