@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
 import javax.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,15 +28,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/articles")
 public class ArticleController {
 
     private final ArticleService articleService;
-
-    @Autowired
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -95,7 +91,7 @@ public class ArticleController {
             value = "Sorting criteria in the format: property(,asc|desc). " +
                 "Default sort order is ascending. " +
                 "Multiple sort criteria are supported.",
-        defaultValue = "title,ASC")
+            defaultValue = "title,ASC")
     })
     public Page<ArticleDto> readArticlesPaged(
         @PageableDefault(page = 0, size = 10)

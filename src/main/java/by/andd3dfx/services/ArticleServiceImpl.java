@@ -9,7 +9,7 @@ import by.andd3dfx.services.exceptions.ArticleNotFoundException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -22,19 +22,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
     private final Clock clock;
-
-    @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleMapper articleMapper, Clock clock) {
-        this.articleRepository = articleRepository;
-        this.articleMapper = articleMapper;
-        this.clock = clock;
-    }
 
     @Override
     @CacheEvict(value = "allArticles", allEntries = true)
