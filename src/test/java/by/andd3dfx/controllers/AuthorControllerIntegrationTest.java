@@ -28,7 +28,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = ArticlesBackendAppApplication.class)
 @WebAppConfiguration
-@WithMockUser(roles = "ADMIN")
 class AuthorControllerIntegrationTest {
 
     private final MediaType CONTENT_TYPE = new MediaType(
@@ -59,7 +58,8 @@ class AuthorControllerIntegrationTest {
     }
 
     @Test
-    public void readAuthor() throws Exception {
+    @WithMockUser(roles = "ADMIN")
+    public void readAuthorForAdmin() throws Exception {
         mockMvc.perform(get("/authors/1")
             .contentType(CONTENT_TYPE)
         )
@@ -70,6 +70,19 @@ class AuthorControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    public void readAuthorForUser() throws Exception {
+        mockMvc.perform(get("/authors/1")
+            .contentType(CONTENT_TYPE)
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", is(1)))
+            .andExpect(jsonPath("$.firstName", is("Тихон")))
+            .andExpect(jsonPath("$.lastName", is("Задонский")));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     public void readAbsentAuthor() throws Exception {
         String message = mockMvc.perform(get("/authors/345")
             .contentType(CONTENT_TYPE)
@@ -80,12 +93,22 @@ class AuthorControllerIntegrationTest {
     }
 
     @Test
-    public void readAuthors() throws Exception {
+    @WithMockUser(roles = "ADMIN")
+    public void readAuthorsForAdmin() throws Exception {
         mockMvc.perform(get("/authors")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(11)))
-        ;
+            .andExpect(jsonPath("$", hasSize(11)));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void readAuthorsForUser() throws Exception {
+        mockMvc.perform(get("/authors")
+            .contentType(CONTENT_TYPE)
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(11)));
     }
 }

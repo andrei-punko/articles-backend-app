@@ -3,12 +3,12 @@ package by.andd3dfx.configs;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
@@ -27,5 +27,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .dataSource(dataSource)
             .usersByUsernameQuery("select USERNAME, PASSWORD, ENABLED from SECURED_USERS where USERNAME=?")
             .authoritiesByUsernameQuery("select USERNAME, ROLE from SECURED_USERS where username=?");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+            // HTTP Basic authentication
+            .httpBasic()
+            .and()
+            .authorizeRequests()
+            .antMatchers(HttpMethod.GET, "/articles/**").hasAnyRole("ADMIN", "USER")
+            .antMatchers(HttpMethod.POST, "/articles").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PATCH, "/articles/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/articles/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/authors/**").hasAnyRole("ADMIN", "USER")
+            .and()
+            .csrf().disable()
+            .formLogin().disable();
     }
 }
