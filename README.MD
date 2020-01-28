@@ -125,7 +125,7 @@ Or next way, using `dev` spring profile:
     curl -i -X DELETE http://localhost:8099/articles/1
 
 ##### Get existing author:
-    curl -i -X GET http://localhost:8099/authors/4
+    curl -i -u Vasily:vasily_pass http://localhost:8099/authors/4
 
 ##### Get list of all authors:
-    curl -i -X GET http://localhost:8099/authors
+    curl -i -u Vasily:vasily_pass http://localhost:8099/authors
