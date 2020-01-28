@@ -3,8 +3,8 @@ create type USER_ROLE as enum ('ROLE_ADMIN', 'ROLE_USER');
 
 create table SECURED_USERS (
     ID int not null,
-    USERNAME varchar(50) not null,
-    PASSWORD varchar(50) not null,
+    USERNAME varchar(100) not null,
+    PASSWORD varchar(100) not null,
     ROLE USER_ROLE,
     ENABLED bool not null,
     primary key (ID)
