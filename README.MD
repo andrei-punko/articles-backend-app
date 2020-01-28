@@ -66,6 +66,9 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 # Additional functional
 - Operation for getting existing Article
 - Add pagination support for 'Retrieve all articles' operation
+- Operations for getting authors
+- Apply role-based security restrictions using basic authorization (encrypted credentials stored in DB): two roles - 
+ADMIN and USER, and USER has only read permissions
 
 # Build instructions
 
@@ -107,22 +110,22 @@ Or next way, using `dev` spring profile:
     http://localhost:8099/swagger-ui.html
 
 ##### New article addition:
-    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
+    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
 
 ##### Get existing article:
-    curl -i http://localhost:8099/articles/1
+    curl -i -u Vasily:vasily_pass http://localhost:8099/articles/1
 
 ##### Update existing article:
-    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2
+    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2
 
 ##### Get list of all articles:
-    curl -i http://localhost:8099/articles
+    curl -i -u Vasily:vasily_pass http://localhost:8099/articles
 
 ##### Get list of articles with pagination support:
-    curl -i 'http://localhost:8099/articles?size=2&page=4&sort=author.firstName,DESC'
+    curl -i -u Vasily:vasily_pass 'http://localhost:8099/articles?size=2&page=4&sort=author.firstName,DESC'
 
 ##### Deletion of article:
-    curl -i -X DELETE http://localhost:8099/articles/1
+    curl -i -u Ivan:ivan_pass -X DELETE http://localhost:8099/articles/1
 
 ##### Get existing author:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors/4
