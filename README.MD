@@ -132,3 +132,15 @@ Or next way, using `dev` spring profile:
 
 #### Get list of all authors:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors
+
+#### To run application in Kubernetes cluster you need to pass through next steps:
+
+* Download [komposer](https://kompose.io/installation/) and add path to it into `PATH` environment variable
+* Convert `docker-compose.yml` into scripts for kompose: `kompose convert`
+After that bunch of yaml-files will be generated in the root folder
+* Run in separate console ([link](https://github.com/kubernetes/kompose/issues/1131)): `kubectl proxy --port=8080`
+* Bring up cluster: `kompose up`
+* Show info if needed: `kubectl get deployment,svc,pods,pvc`
+* Or show just pod info: `kubectl describe pod <pod_name>`
+* Bring down cluster: `kompose down`
+* And finally delete all resources from Kubernetes if needed ([link](https://stackoverflow.com/questions/47128586/how-to-delete-all-resources-from-kubernetes-one-time)): `kubectl delete all --all`

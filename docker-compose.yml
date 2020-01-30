@@ -19,6 +19,9 @@ services:
     image: articles-backend-app:latest
     network_mode: bridge
     container_name: articles-backend-app
+    labels:
+      kompose.image-pull-policy: Never
+      kompose.service.type: LoadBalancer
     expose:
       - 8099
     ports:
