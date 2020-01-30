@@ -72,15 +72,15 @@ ADMIN and USER, and USER has only read permissions
 
 # Build instructions
 
-##### Build application:
+#### Build application:
     mvn clean install
 
-##### Build Docker image with application inside:
+#### Build Docker image with application inside:
     docker build ./ -t articles-backend-app
 
 # Usage description
 
-##### Start application using Maven (vs in-memory H2 DB):
+#### Start application using Maven (vs in-memory H2 DB):
     mvn spring-boot:run -Dspring-boot.run.arguments=\
     --spring.datasource.url=jdbc:h2:mem:testdb,\
     --spring.datasource.username=sa,\
@@ -91,7 +91,7 @@ Or next way, using `dev` spring profile:
 
     mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
 
-##### Start application by running executable jar (vs in-memory H2 DB):
+#### Start application by running executable jar (vs in-memory H2 DB):
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.datasource.url=jdbc:h2:mem:testdb \
      --spring.datasource.username=sa \
@@ -103,32 +103,32 @@ Or next way, using `dev` spring profile:
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.profiles.active=dev
 
-##### Start two Docker containers - one with Postgres DB and another with application:
+#### Start two Docker containers - one with Postgres DB and another with application:
     docker-compose up
 
-##### Swagger documentation situated here:
+#### Swagger documentation situated here:
     http://localhost:8099/swagger-ui.html
 
-##### New article addition:
+#### New article addition:
     curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
 
-##### Get existing article:
+#### Get existing article:
     curl -i -u Vasily:vasily_pass http://localhost:8099/articles/1
 
-##### Update existing article:
+#### Update existing article:
     curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2
 
-##### Get list of all articles:
+#### Get list of all articles:
     curl -i -u Vasily:vasily_pass http://localhost:8099/articles
 
-##### Get list of articles with pagination support:
+#### Get list of articles with pagination support:
     curl -i -u Vasily:vasily_pass 'http://localhost:8099/articles?size=2&page=4&sort=author.firstName,DESC'
 
-##### Deletion of article:
+#### Deletion of article:
     curl -i -u Ivan:ivan_pass -X DELETE http://localhost:8099/articles/1
 
-##### Get existing author:
+#### Get existing author:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors/4
 
-##### Get list of all authors:
+#### Get list of all authors:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors
