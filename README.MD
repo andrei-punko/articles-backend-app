@@ -147,6 +147,15 @@ After that bunch of yaml-files will be generated in the root folder
 
 #### To run performance test
 
-    cd load-test
+Gradle-based:
+
+    cd gradle-load-test
     ./gradlew build
     java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
+
+Or Maven-based:
+
+    cd maven-load-test
+    mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
+
+Based on https://gatling.io/docs/3.0/extensions/maven_plugin
