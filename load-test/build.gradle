@@ -1,0 +1,68 @@
+buildscript {
+    ext {
+        gatling_version = '3.3.1'
+        scala_lib_version = '2.12.10'
+    } 
+}
+
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.scala-lang:scala-library:$scala_lib_version"
+    implementation "io.gatling:gatling-app:$gatling_version"
+    implementation "io.gatling.highcharts:gatling-charts-highcharts:$gatling_version"
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/load']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+task gatlingRun(type: JavaExec, dependsOn: build) {
+    description = 'Run Gatling tests'
+    new File("${buildDir}/reports/gatling").mkdirs()
+
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = [
+            "-Dlogback.configurationFile=${logbackGatlingConfig()}"
+    ]
+
+    main = "io.gatling.app.Gatling"
+    args = ['-s', "load.WebAppLoadSimulation",
+            '-sf', "${buildDir}/main/resources",
+            '-bf', "${buildDir}/main/resources",
+            '-rf', "${buildDir}/reports/gatling"
+    ]
+}
+
+def logbackGatlingConfig() {
+    return sourceSets.main.resources.find { it.name == 'logback-gatling.xml' };
+}
+
+jar {
+    // Set name of result jar-file
+    archiveBaseName = archiveBaseName.get().concat('-fat')
+
+    // Keep jar clean:
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/LICENSE*', 'META-INF/NOTICE*'
+
+    // Manifest of result jar-file
+    manifest {
+        attributes "Main-Class": "io.gatling.app.Gatling"
+    }
+
+    // Collect jars needed for runtime and unpack them
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

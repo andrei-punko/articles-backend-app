@@ -144,3 +144,9 @@ After that bunch of yaml-files will be generated in the root folder
 * Or show just pod info: `kubectl describe pod <pod_name>`
 * Bring down cluster: `kompose down`
 * And finally delete all resources from Kubernetes if needed ([link](https://stackoverflow.com/questions/47128586/how-to-delete-all-resources-from-kubernetes-one-time)): `kubectl delete all --all`
+
+#### To run performance test
+
+    cd load-test
+    ./gradlew build
+    java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
