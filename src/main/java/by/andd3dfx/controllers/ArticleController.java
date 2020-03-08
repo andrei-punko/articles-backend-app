@@ -72,7 +72,7 @@ public class ArticleController {
 
     public List<ArticleDto> readArticles(
         @RequestParam(defaultValue = "0") Integer pageNo,
-        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(defaultValue = "50") Integer pageSize,
         @RequestParam(defaultValue = "title") String sortBy
     ) {
         Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
@@ -86,15 +86,15 @@ public class ArticleController {
         @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
             value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
         @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-            value = "Number of records per page.", defaultValue = "10"),
+            value = "Number of records per page.", defaultValue = "50"),
         @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-            value = "Sorting criteria in the format: property(,asc|desc). " +
+            value = "Sorting criteria in the format: property,asc(|desc). " +
                 "Default sort order is ascending. " +
                 "Multiple sort criteria are supported.",
             defaultValue = "title,ASC")
     })
     public Page<ArticleDto> readArticlesPaged(
-        @PageableDefault(page = 0, size = 10)
+        @PageableDefault(page = 0, size = 50)
         @SortDefault.SortDefaults({
             @SortDefault(sort = "title", direction = Sort.Direction.ASC)
         }) Pageable pageable
