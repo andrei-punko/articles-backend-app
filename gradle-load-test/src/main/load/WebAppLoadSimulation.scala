@@ -4,10 +4,11 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
 import scala.concurrent.duration._
+import scala.util.Random
 
 class WebAppLoadSimulation extends Simulation {
 
-  val rampUpTimeSecs = 5
+  val rampUpTimeSecs = 15
   val testTimeSecs = Integer.getInteger("testTimeSecs", 50)
   val noOfUsers = Integer.getInteger("noOfUsers", 50)
 
@@ -27,23 +28,37 @@ class WebAppLoadSimulation extends Simulation {
     .userAgentHeader("Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0")
 
   object Articles {
-    val feeder = csv("articles.csv").random
-    val pageFeeder = csv("articles-pagination.csv").random
+    val authorsFeeder = csv("authors.csv").random
+    val sentHeaders = Map("Content-Type" -> "application/json", "Accept" -> "application/json")
+    var randomStringFeeder = Iterator.continually(Map(
+      "newTitle" -> (Random.alphanumeric.take(15).mkString),
+      "newText" -> (Random.alphanumeric.take(15).mkString),
+    ))
+    val create = feed(authorsFeeder).feed(randomStringFeeder).exec(
+      http("Create article")
+        .post(articlesURI)
+        .headers(sentHeaders)
+        .body(StringBody("""{ "title": "${newTitle}", "text": "${newText}", "author": { "id": "${authorId}" } }""")).asJson
+        .basicAuth("Ivan", "ivan_pass")
+        .check(status.is(201))
+    )
 
-    var read = feed(feeder).exec(
+    val articlesFeeder = csv("articles.csv").random
+    var read = feed(articlesFeeder).exec(
       http("Get article")
         .get(articlesURI + "/${articleId}")
         .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
-    var readAll = feed(feeder).exec(
+    var readAll = exec(
       http("Get all articles")
         .get(articlesURI)
         .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
+    val pageFeeder = csv("articles-pagination.csv").random
     val readWithPagination = feed(pageFeeder).exec(
       http("Get articles with pagination")
         .get(articlesURI)
@@ -56,16 +71,15 @@ class WebAppLoadSimulation extends Simulation {
   }
 
   object Authors {
-    val feeder = csv("authors.csv").random
-
-    var read = feed(feeder).exec(
+    val authorsFeeder = csv("authors.csv").random
+    var read = feed(authorsFeeder).exec(
       http("Get author")
         .get(authorsURI + "/${authorId}")
         .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
-    var readAll = feed(feeder).exec(
+    var readAll = exec(
       http("Get all authors")
         .get(authorsURI)
         .basicAuth("Vasily", "vasily_pass")
@@ -73,7 +87,7 @@ class WebAppLoadSimulation extends Simulation {
     )
   }
 
-  // TODO: add load-tests for Article creation, update, delete
+  // TODO: add load-tests for Article update, delete
 
   /*
     object AccessRequest {
@@ -126,6 +140,8 @@ class WebAppLoadSimulation extends Simulation {
           exec(Articles.readWithPagination)
             .pause(minWaitMs, maxWaitMs)
         }
+        .pause(minWaitMs, maxWaitMs)
+        .exec(Articles.create)
         .pause(minWaitMs, maxWaitMs)
         .exec(Articles.readAll)
     }
