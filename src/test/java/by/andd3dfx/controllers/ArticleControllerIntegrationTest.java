@@ -397,7 +397,7 @@ class ArticleControllerIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(10)))
             .andExpect(jsonPath("$.number", is(0)))
-            .andExpect(jsonPath("$.size", is(10)))
+            .andExpect(jsonPath("$.size", is(50)))
             .andExpect(jsonPath("$.totalPages", is(1)))
             .andExpect(jsonPath("$.totalElements", is(10)));
     }
@@ -411,7 +411,7 @@ class ArticleControllerIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(10)))
             .andExpect(jsonPath("$.number", is(0)))
-            .andExpect(jsonPath("$.size", is(10)))
+            .andExpect(jsonPath("$.size", is(50)))
             .andExpect(jsonPath("$.totalPages", is(1)))
             .andExpect(jsonPath("$.totalElements", is(10)));
     }
