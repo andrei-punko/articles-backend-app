@@ -149,13 +149,13 @@ After that bunch of yaml-files will be generated in the root folder
 
 Gradle-based:
 
-    cd gradle-load-test
+    cd load-test
     ./gradlew build
     java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
 
 Or Maven-based:
 
-    cd maven-load-test
+    cd load-test
     mvn clean install
     mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
 
