@@ -76,12 +76,12 @@ class WebAppLoadSimulation extends Simulation {
         .check(status.is(200))
     )
 
-    val pageFeeder = csv("articles-pagination.csv").random
+    val pageFeeder = csv("articles-sort.csv").random
     val readWithPagination = feed(pageFeeder).exec(
       http("Get articles with pagination")
         .get(articlesURI)
-        .queryParam("size", "${size}")
-        .queryParam("page", "${page}")
+        .queryParam("size", _ => (10*(Random.nextInt(5) + 1)))
+        .queryParam("page", _ => Random.nextInt(4))
         .queryParam("sort", "${sort}")
         .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))

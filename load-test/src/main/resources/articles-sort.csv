@@ -1,0 +1,11 @@
+sort
+"title,ASC"
+"title,DESC"
+"summary,ASC"
+"summary,DESC"
+"text,ASC"
+"text,DESC"
+"author.firstName,ASC"
+"author.firstName,DESC"
+"author.lastName,ASC"
+"author.lastName,DESC"
