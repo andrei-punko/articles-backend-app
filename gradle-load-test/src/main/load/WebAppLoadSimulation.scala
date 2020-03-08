@@ -33,6 +33,7 @@ class WebAppLoadSimulation extends Simulation {
     var randomStringFeeder = Iterator.continually(Map(
       "newTitle" -> (Random.alphanumeric.take(15).mkString),
       "newText" -> (Random.alphanumeric.take(15).mkString),
+      "newSummary" -> (Random.alphanumeric.take(5).mkString),
     ))
     val create = feed(authorsFeeder).feed(randomStringFeeder).exec(
       http("Create article")
@@ -41,6 +42,23 @@ class WebAppLoadSimulation extends Simulation {
         .body(StringBody("""{ "title": "${newTitle}", "text": "${newText}", "author": { "id": "${authorId}" } }""")).asJson
         .basicAuth("Ivan", "ivan_pass")
         .check(status.is(201))
+        .check(jsonPath("$.id").saveAs("newArticleId"))
+    )
+
+    val update = feed(randomStringFeeder).exec(
+      http("Update article")
+        .patch(articlesURI + "/${newArticleId}")
+        .headers(sentHeaders)
+        .body(StringBody("""{ "summary": "${newSummary}" }""")).asJson
+        .basicAuth("Ivan", "ivan_pass")
+        .check(status.is(200))
+    )
+
+    val delete = exec(
+      http("Delete article")
+        .delete(articlesURI + "/${newArticleId}")
+        .basicAuth("Ivan", "ivan_pass")
+        .check(status.is(204))
     )
 
     val articlesFeeder = csv("articles.csv").random
@@ -87,43 +105,6 @@ class WebAppLoadSimulation extends Simulation {
     )
   }
 
-  // TODO: add load-tests for Article update, delete
-
-  /*
-    object AccessRequest {
-      val feeder = csv("search.csv").random
-
-      val create = feed(feeder).exec(
-        http("Create AccessReq")
-          .post(requestsURI)
-          .body(StringBody(
-            s"""{
-               |            "ott": "$${ott}",
-               |            "resolution": "$${resolution}",
-               |            "timestamp": "$getCurrentTime",
-               |            "userId": "$${userId}",
-               |            "assetId": "$${assetId}"
-               |            }""".stripMargin)
-          ).check(status.is(201))
-      )
-
-      val search = exec(
-        http("GetAll AccessReqs")
-          .get(requestsURI)
-          .check(status.is(200))
-      )
-
-      val searchByTimestamp = exec(
-        http("GetByTs AccessReqs")
-          .get(requestsURI).queryParam("timestamp", _ => getCurrentTimeMinus2Sec)
-          .check(status.is(200))
-      )
-    }
-    def getCurrentTime = LocalDateTime.now().toString
-
-    def getCurrentTimeMinus2Sec = LocalDateTime.now().minusSeconds(2).toString
-  */
-
   val scn = scenario("ArticlesAppLoad-scenario")
     .during(testTimeSecs) {
       repeat(2) {
@@ -143,6 +124,14 @@ class WebAppLoadSimulation extends Simulation {
         .pause(minWaitMs, maxWaitMs)
         .exec(Articles.create)
         .pause(minWaitMs, maxWaitMs)
+        .doIf(Random.nextFloat() < 0.25) {
+          exec(Articles.update)
+            .pause(minWaitMs, maxWaitMs)
+        }
+        .doIf(Random.nextFloat() < 0.25) {
+          exec(Articles.delete)
+            .pause(minWaitMs, maxWaitMs)
+        }
         .exec(Articles.readAll)
     }
 

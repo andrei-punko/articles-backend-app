@@ -156,6 +156,7 @@ Gradle-based:
 Or Maven-based:
 
     cd maven-load-test
+    mvn clean install
     mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
 
 Based on https://gatling.io/docs/3.0/extensions/maven_plugin
