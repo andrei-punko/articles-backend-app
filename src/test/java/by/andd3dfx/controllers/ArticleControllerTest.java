@@ -29,12 +29,12 @@ class ArticleControllerTest {
     private ArticleService articleServiceMock;
 
     @InjectMocks
-    private ArticleController articleController; // constructor injection
+    private ArticleController articleController;
 
     @Test
     void createArticle() {
-        ArticleDto newArticleDto = new ArticleDto();
-        ArticleDto resultArticleDto = new ArticleDto();
+        final ArticleDto newArticleDto = new ArticleDto();
+        final ArticleDto resultArticleDto = new ArticleDto();
         Mockito.when(articleServiceMock.create(newArticleDto)).thenReturn(resultArticleDto);
 
         ArticleDto result = articleController.createArticle(newArticleDto);

@@ -20,9 +20,7 @@ import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.dto.AuthorDto;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +40,7 @@ class ArticleControllerIntegrationTest {
 
     private final MediaType CONTENT_TYPE = new MediaType(
         MediaType.APPLICATION_JSON.getType(),
-        MediaType.APPLICATION_JSON.getSubtype(),
-        Charset.forName("utf8"));
+        MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;
     private HttpMessageConverter httpMessageConverter;
 
@@ -51,12 +48,8 @@ class ArticleControllerIntegrationTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-        httpMessageConverter = Arrays.asList(converters).stream()
-            .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
-            .findAny()
-            .orElse(null);
-
+    void setConverter(MappingJackson2HttpMessageConverter converter) {
+        httpMessageConverter = converter;
         assertNotNull("the JSON message converter must not be null", httpMessageConverter);
     }
 
