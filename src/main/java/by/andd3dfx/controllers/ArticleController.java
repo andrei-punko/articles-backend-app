@@ -5,6 +5,10 @@ import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.services.ArticleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -34,42 +38,72 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    @ApiOperation(value = "Create new article", response = ArticleDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Article successfully created"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ArticleDto createArticle(
+        @ApiParam("New article's data")
         @Validated
         @RequestBody ArticleDto newArticleDto
     ) {
         return articleService.create(newArticleDto);
     }
 
+    @ApiOperation(value = "Get article by id", response = ArticleDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Article successfully retrieved"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 404, message = "Article not found"),
+    })
     @GetMapping("/{id}")
     public ArticleDto readArticle(
+        @ApiParam("Article's id")
         @NotNull
         @PathVariable Long id
     ) {
         return articleService.get(id);
     }
 
+    @ApiOperation("Update article")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Article successfully updated"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 404, message = "Article not found"),
+    })
     @PatchMapping("/{id}")
     public void updateArticle(
+        @ApiParam("Article's id")
         @NotNull
         @PathVariable Long id,
+        @ApiParam("Updated fields of article")
         @Validated
         @RequestBody ArticleUpdateDto articleUpdateDto
     ) {
         articleService.update(id, articleUpdateDto);
     }
 
+    @ApiOperation("Delete article by id")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Article successfully deleted"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 404, message = "Article not found"),
+    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArticle(
+        @ApiParam("Article's id")
         @NotNull
         @PathVariable Long id
     ) {
         articleService.delete(id);
     }
 
+    // Seems will be deleted
+    @Deprecated
     public List<ArticleDto> readArticles(
         @RequestParam(defaultValue = "0") Integer pageNo,
         @RequestParam(defaultValue = "50") Integer pageSize,
@@ -80,6 +114,11 @@ public class ArticleController {
         return articleDtoPage.getContent();
     }
 
+    @ApiOperation(value = "Read articles paged", response = Page.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Articles successfully retrieved"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource")
+    })
     @GetMapping
     // Workaround for Swagger bug, according to https://github.com/springfox/springfox/issues/2623#issuecomment-414297583
     @ApiImplicitParams({
