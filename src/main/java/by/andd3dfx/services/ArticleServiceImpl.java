@@ -10,9 +10,6 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +28,6 @@ public class ArticleServiceImpl implements ArticleService {
     private final Clock clock;
 
     @Override
-    @CacheEvict(value = "allArticles", allEntries = true)
     public ArticleDto create(ArticleDto articleDto) {
         LocalDateTime dateCreated = LocalDateTime.now(clock);
         articleDto.setDateCreated(dateCreated);
@@ -44,7 +40,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Cacheable(value = "articles", key = "#id")
     public ArticleDto get(Long id) {
         return articleRepository.findById(id)
             .map(articleMapper::toArticleDto)
@@ -52,12 +47,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Caching(
-        evict = {
-            @CacheEvict(value = "articles", key = "#id"),
-            @CacheEvict(value = "allArticles", allEntries = true)
-        }
-    )
     public void update(Long id, ArticleUpdateDto articleUpdateDto) {
         articleRepository.findById(id)
             .map(article -> {
@@ -69,12 +58,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Caching(
-        evict = {
-            @CacheEvict(value = "articles", key = "#id"),
-            @CacheEvict(value = "allArticles", allEntries = true)
-        }
-    )
     public void delete(Long id) {
         try {
             articleRepository.deleteById(id);
@@ -84,7 +67,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Cacheable(value = "allArticles", key = "{#pageNo, #pageSize, #sortBy}")
     public List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<Article> pagedResult = articleRepository.findAll(pageRequest);
@@ -92,7 +74,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Cacheable(value = "allArticles", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort}")
     public Page<ArticleDto> getAll(Pageable pageable) {
         final Page<Article> pagedResult = articleRepository.findAll(pageable);
         return pagedResult.map(articleMapper::toArticleDto);

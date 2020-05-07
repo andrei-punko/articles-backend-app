@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,6 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     @Override
-    @Cacheable(value = "authors", key = "#id")
     public AuthorDto get(Long id) {
         return authorRepository.findById(id)
             .map(authorMapper::toAuthorDto)
@@ -29,7 +27,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Cacheable(value = "allAuthors")
     public List<AuthorDto> getAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
             .map(authorMapper::toAuthorDto)
