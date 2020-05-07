@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ArticlesBackendAppApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="spring.profiles.active" value="dev" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="by.andd3dfx.ArticlesBackendAppApplication" />
+    <module name="articles-backend-app" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="by.andd3dfx.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
