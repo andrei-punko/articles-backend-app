@@ -63,14 +63,14 @@ Application must build and produce an executable jar containing all dependencies
 
 The **authors** table should not be updatable via endpoints. Feel free to populate it with an arbitrary data via SQL.
 
-# Additional functional
+## Additional functional
 - Operation for getting existing Article
 - Add pagination support for 'Retrieve all articles' operation
 - Operations for getting authors
 - Apply role-based security restrictions using basic authorization (encrypted credentials stored in DB): two roles - 
 ADMIN and USER, and USER has only read permissions
 
-# Build instructions
+## Build instructions
 
 #### Build application:
     mvn clean install
@@ -78,7 +78,7 @@ ADMIN and USER, and USER has only read permissions
 #### Build Docker image with application inside:
     docker build ./ -t articles-backend-app
 
-# Usage description
+## Usage description
 
 #### Start application using Maven (vs in-memory H2 DB):
     mvn spring-boot:run -Dspring-boot.run.arguments=\
@@ -133,14 +133,14 @@ Or next way, using `dev` spring profile:
 #### Get list of all authors:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors
 
-#### To run functional tests:
+## To run functional tests:
 
     cd func-test
     ./gradlew build
 
 Check Spock report at `func-test/build/spock-reports/index.html`
 
-#### To run performance tests:
+## To run performance tests:
 
 Gradle-based:
 
