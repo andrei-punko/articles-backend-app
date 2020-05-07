@@ -133,6 +133,13 @@ Or next way, using `dev` spring profile:
 #### Get list of all authors:
     curl -i -u Vasily:vasily_pass http://localhost:8099/authors
 
+#### To run functional tests:
+
+    cd func-test
+    ./gradlew build
+
+Check Spock report at `func-test/build/spock-reports/index.html`
+
 #### To run performance tests:
 
 Gradle-based:
