@@ -8,8 +8,8 @@ import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.mappers.AuthorMapper;
 import by.andd3dfx.persistence.dao.AuthorRepository;
 import by.andd3dfx.persistence.entities.Author;
-import by.andd3dfx.services.exceptions.AuthorNotFoundException;
-import by.andd3dfx.services.impl.AuthorServiceImpl;
+import by.andd3dfx.exceptions.AuthorNotFoundException;
+import by.andd3dfx.services.impl.AuthorService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class AuthorServiceImplTest {
+class AuthorServiceTest {
 
     @Mock
     private AuthorRepository authorRepositoryMock;
@@ -30,7 +30,7 @@ class AuthorServiceImplTest {
     private AuthorMapper authorMapperMock;
 
     @InjectMocks
-    private AuthorServiceImpl authorService;
+    private AuthorService authorService;
 
     @Test
     void get() {

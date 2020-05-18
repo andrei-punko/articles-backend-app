@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
-import by.andd3dfx.services.ArticleService;
-import by.andd3dfx.services.exceptions.ArticleNotFoundException;
+import by.andd3dfx.services.IArticleService;
+import by.andd3dfx.exceptions.ArticleNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import org.springframework.data.domain.Sort;
 class ArticleControllerTest {
 
     @Mock
-    private ArticleService articleServiceMock;
+    private IArticleService articleServiceMock;
 
     @InjectMocks
     private ArticleController articleController;

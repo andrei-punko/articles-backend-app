@@ -1,10 +1,11 @@
-package by.andd3dfx.services.validators;
+package by.andd3dfx.validators;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.dao.AuthorRepository;
+import by.andd3dfx.validators.ExistingAuthorValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

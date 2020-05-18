@@ -1,7 +1,7 @@
 package by.andd3dfx.controllers;
 
 import by.andd3dfx.dto.AuthorDto;
-import by.andd3dfx.services.AuthorService;
+import by.andd3dfx.services.IAuthorService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/authors")
 public class AuthorController {
 
-    private final AuthorService authorService;
+    private final IAuthorService authorService;
 
     @ApiOperation(value = "Get author by id", response = AuthorDto.class)
     @ApiResponses(value = {

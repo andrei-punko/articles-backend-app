@@ -3,8 +3,8 @@ package by.andd3dfx.services.impl;
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.mappers.AuthorMapper;
 import by.andd3dfx.persistence.dao.AuthorRepository;
-import by.andd3dfx.services.AuthorService;
-import by.andd3dfx.services.exceptions.AuthorNotFoundException;
+import by.andd3dfx.services.IAuthorService;
+import by.andd3dfx.exceptions.AuthorNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AuthorServiceImpl implements AuthorService {
+public class AuthorService implements IAuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;

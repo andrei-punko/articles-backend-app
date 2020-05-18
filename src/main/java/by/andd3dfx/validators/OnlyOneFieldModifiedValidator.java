@@ -1,4 +1,4 @@
-package by.andd3dfx.services.validators;
+package by.andd3dfx.validators;
 
 import by.andd3dfx.dto.ArticleUpdateDto;
 import java.lang.reflect.Field;

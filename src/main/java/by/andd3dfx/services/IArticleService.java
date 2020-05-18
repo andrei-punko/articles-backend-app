@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ArticleService {
+public interface IArticleService {
 
     ArticleDto create(ArticleDto articleDto);
 

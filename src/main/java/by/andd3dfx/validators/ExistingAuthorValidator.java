@@ -1,4 +1,4 @@
-package by.andd3dfx.services.validators;
+package by.andd3dfx.validators;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.dao.AuthorRepository;

@@ -1,6 +1,6 @@
 package by.andd3dfx.dto;
 
-import by.andd3dfx.services.validators.OnlyOneFieldModified;
+import by.andd3dfx.validators.OnlyOneFieldModified;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModelProperty;

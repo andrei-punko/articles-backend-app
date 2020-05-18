@@ -2,7 +2,7 @@ package by.andd3dfx.controllers;
 
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
-import by.andd3dfx.services.ArticleService;
+import by.andd3dfx.services.IArticleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/articles")
 public class ArticleController {
 
-    private final ArticleService articleService;
+    private final IArticleService articleService;
 
     @ApiOperation(value = "Create new article", response = ArticleDto.class)
     @ApiResponses(value = {

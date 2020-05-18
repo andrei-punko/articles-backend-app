@@ -10,11 +10,10 @@ import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
-import by.andd3dfx.services.exceptions.ArticleNotFoundException;
-import by.andd3dfx.services.impl.ArticleServiceImpl;
+import by.andd3dfx.exceptions.ArticleNotFoundException;
+import by.andd3dfx.services.impl.ArticleService;
 import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @ExtendWith(MockitoExtension.class)
-class ArticleServiceImplTest {
+class ArticleServiceTest {
 
     @Mock
     private ArticleRepository articleRepositoryMock;
@@ -47,7 +46,7 @@ class ArticleServiceImplTest {
     private Clock fixedClock;
 
     @InjectMocks
-    private ArticleServiceImpl articleService;
+    private ArticleService articleService;
 
     @BeforeEach
     public void before() {

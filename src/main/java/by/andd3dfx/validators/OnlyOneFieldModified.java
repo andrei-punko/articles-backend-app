@@ -1,4 +1,4 @@
-package by.andd3dfx.services.validators;
+package by.andd3dfx.validators;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

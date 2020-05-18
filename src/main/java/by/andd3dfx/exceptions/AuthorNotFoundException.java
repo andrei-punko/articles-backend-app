@@ -1,4 +1,4 @@
-package by.andd3dfx.services.exceptions;
+package by.andd3dfx.exceptions;
 
 public class AuthorNotFoundException extends NotFoundException {
 

@@ -5,8 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import by.andd3dfx.dto.AuthorDto;
-import by.andd3dfx.services.AuthorService;
-import by.andd3dfx.services.exceptions.AuthorNotFoundException;
+import by.andd3dfx.services.IAuthorService;
+import by.andd3dfx.exceptions.AuthorNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AuthorControllerTest {
 
     @Mock
-    private AuthorService authorServiceMock;
+    private IAuthorService authorServiceMock;
 
     @InjectMocks
     private AuthorController authorController;

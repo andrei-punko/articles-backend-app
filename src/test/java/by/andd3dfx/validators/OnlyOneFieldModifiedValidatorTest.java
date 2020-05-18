@@ -1,9 +1,10 @@
-package by.andd3dfx.services.validators;
+package by.andd3dfx.validators;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.ArticleUpdateDto;
+import by.andd3dfx.validators.OnlyOneFieldModifiedValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
