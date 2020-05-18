@@ -11,6 +11,7 @@ import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
+import by.andd3dfx.services.impl.ArticleServiceImpl;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;

@@ -1,6 +1,7 @@
-package by.andd3dfx.services;
+package by.andd3dfx.services.impl;
 
 import by.andd3dfx.dto.MethodCallRecord;
+import by.andd3dfx.services.ILoggingService;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.time.LocalDateTime;

@@ -342,12 +342,9 @@ class ArticleControllerIntegrationTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deleteAbsentArticle() throws Exception {
-        String message = mockMvc.perform(delete("/articles/9999")
-            .contentType(CONTENT_TYPE)
-        )
-            .andExpect(status().isNotFound())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("Could not find an article by id=9999"));
+        mockMvc.perform(delete("/articles/9999")
+            .contentType(CONTENT_TYPE))
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -373,12 +370,9 @@ class ArticleControllerIntegrationTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readAbsentArticle() throws Exception {
-        String message = mockMvc.perform(get("/articles/345")
-            .contentType(CONTENT_TYPE)
-        )
-            .andExpect(status().isNotFound())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("Could not find an article by id=345"));
+        mockMvc.perform(get("/articles/345")
+            .contentType(CONTENT_TYPE))
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -499,13 +493,10 @@ class ArticleControllerIntegrationTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("q");
 
-        String message = mockMvc.perform(patch("/articles/123")
+        mockMvc.perform(patch("/articles/123")
             .contentType(CONTENT_TYPE)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isNotFound())
-            .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("Could not find an article by id=123"));
+            .content(json(articleUpdateDto)))
+            .andExpect(status().isNotFound());
     }
 
     @Test

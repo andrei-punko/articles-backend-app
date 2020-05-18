@@ -1,4 +1,4 @@
-package by.andd3dfx.services;
+package by.andd3dfx.services.impl;
 
 import by.andd3dfx.annotations.CustomLog;
 import by.andd3dfx.dto.ArticleDto;
@@ -6,6 +6,7 @@ import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
+import by.andd3dfx.services.ArticleService;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
 import java.time.Clock;
 import java.time.LocalDateTime;

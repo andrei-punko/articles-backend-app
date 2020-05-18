@@ -1,8 +1,9 @@
-package by.andd3dfx.services;
+package by.andd3dfx.services.impl;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.mappers.AuthorMapper;
 import by.andd3dfx.persistence.dao.AuthorRepository;
+import by.andd3dfx.services.AuthorService;
 import by.andd3dfx.services.exceptions.AuthorNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -9,6 +9,7 @@ import by.andd3dfx.mappers.AuthorMapper;
 import by.andd3dfx.persistence.dao.AuthorRepository;
 import by.andd3dfx.persistence.entities.Author;
 import by.andd3dfx.services.exceptions.AuthorNotFoundException;
+import by.andd3dfx.services.impl.AuthorServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
