@@ -1,0 +1,43 @@
+package by.andd3dfx.controllers;
+
+import by.andd3dfx.dto.LoggingSearchCriteria;
+import by.andd3dfx.dto.MethodCallRecord;
+import by.andd3dfx.services.ILoggingService;
+import io.swagger.annotations.ApiOperation;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@CrossOrigin
+@RestController
+@RequestMapping("/api/v2")
+@AllArgsConstructor
+public class LoggingController {
+
+    protected final ILoggingService loggingService;
+
+    /**
+     * Get logged records
+     */
+    @ApiOperation("Get logged records")
+    @GetMapping("/logs")
+    public List<MethodCallRecord> getLoggedRecords(LoggingSearchCriteria criteria) {
+        return loggingService.getLoggedRecords(criteria);
+    }
+
+    /**
+     * Push new logging record
+     */
+    @ApiOperation("Push new logging record")
+    @PostMapping("/logs")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addLoggingRecord(MethodCallRecord loggedRecord) {
+        loggingService.addLoggingRecord(loggedRecord);
+    }
+}
