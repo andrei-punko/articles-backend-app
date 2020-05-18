@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
@@ -41,4 +43,13 @@ public class Article {
 
     @Column(name = "DATE_UPDATED")
     private LocalDateTime dateUpdated;
+
+    @PrePersist
+    @PreUpdate
+    public void prePersistOrUpdate() {
+        dateUpdated = LocalDateTime.now();
+        if (dateCreated == null) {
+            dateCreated = dateUpdated;
+        }
+    }
 }

@@ -9,7 +9,6 @@ import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.ArticleService;
 import by.andd3dfx.services.exceptions.ArticleNotFoundException;
 import java.time.Clock;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,10 +31,6 @@ public class ArticleServiceImpl implements ArticleService {
     @CustomLog
     @Override
     public ArticleDto create(ArticleDto articleDto) {
-        LocalDateTime dateCreated = LocalDateTime.now(clock);
-        articleDto.setDateCreated(dateCreated);
-        articleDto.setDateUpdated(dateCreated);
-
         Article entity = articleMapper.toArticle(articleDto);
         Article savedEntity = articleRepository.save(entity);
         return articleMapper.toArticleDto(savedEntity);
@@ -55,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.findById(id)
             .map(article -> {
                 articleMapper.toArticle(articleUpdateDto, article);
-                article.setDateUpdated(LocalDateTime.now(clock));
                 Article savedArticle = articleRepository.save(article);
                 return articleMapper.toArticleDto(savedArticle);
             }).orElseThrow(() -> new ArticleNotFoundException(id));

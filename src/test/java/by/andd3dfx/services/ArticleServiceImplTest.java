@@ -74,8 +74,6 @@ class ArticleServiceImplTest {
         Mockito.verify(articleRepositoryMock).save(article);
         Mockito.verify(articleMapperMock).toArticleDto(updatedArticle);
         assertThat(result, is(updatedArticleDto));
-        assertThat(articleDto.getDateCreated(), is(LocalDateTime.now(fixedClock)));
-        assertThat(articleDto.getDateUpdated(), is(LocalDateTime.now(fixedClock)));
     }
 
     @Test
@@ -129,7 +127,6 @@ class ArticleServiceImplTest {
         Mockito.verify(articleMapperMock).toArticle(articleUpdateDto, article);
         Mockito.verify(articleRepositoryMock).save(article);
         Mockito.verify(articleMapperMock).toArticleDto(savedArticle);
-        assertThat(article.getDateUpdated(), is(LocalDateTime.now(fixedClock)));
     }
 
     @Test
