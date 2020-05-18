@@ -155,3 +155,8 @@ Or Maven-based:
     mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
 
 Based on https://gatling.io/docs/3.0/extensions/maven_plugin
+
+## To check Web-Sockets functionality:
+
+Just enter in `http://localhost:8099` and click `Connect`.  
+Check heartbeat logs in browser developer console.
