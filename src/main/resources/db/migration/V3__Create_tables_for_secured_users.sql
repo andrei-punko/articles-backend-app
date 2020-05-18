@@ -1,13 +1,13 @@
 
-create type USER_ROLE as enum ('ROLE_ADMIN', 'ROLE_USER');
+create type user_role as enum ('ROLE_ADMIN', 'ROLE_USER');
 
-create table SECURED_USERS (
-    ID int not null,
-    USERNAME varchar(100) not null,
-    PASSWORD varchar(100) not null,
-    ROLE USER_ROLE,
-    ENABLED bool not null,
-    primary key (ID)
+create table secured_users (
+    id int not null,
+    username varchar(100) not null,
+    password varchar(100) not null,
+    role user_role,
+    enabled bool not null,
+    primary key (id)
 );
 
-create sequence SECURED_USER_ID_SEQ START WITH 1 INCREMENT BY 1;
+create sequence secured_user_id_seq start with 1 increment by 1;

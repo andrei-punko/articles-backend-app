@@ -1,26 +1,26 @@
 
-create table AUTHOR (
-    ID int not null,
-    FIRST_NAME varchar(50) not null,
-    LAST_NAME varchar(50) not null,
-    primary key (ID)
+create table authors (
+    id int not null,
+    first_name varchar(50) not null,
+    last_name varchar(50) not null,
+    primary key (id)
 );
 
-create sequence AUTHOR_ID_SEQ START WITH 1 INCREMENT BY 1;
+create sequence author_id_seq START WITH 1 INCREMENT BY 1;
 
-create table ARTICLE (
-    ID int not null,
-    TITLE varchar(100) not null,
-    SUMMARY varchar(255),
-    TEXT varchar not null,
-    AUTHOR_ID int not null,
-    DATE_CREATED timestamp not null,
-    DATE_UPDATED timestamp not null,
-    primary key (ID),
-    foreign key (AUTHOR_ID) references AUTHOR(ID)
+create table articles (
+    id int not null,
+    title varchar(100) not null,
+    summary varchar(255),
+    text varchar not null,
+    author_id int not null,
+    date_created timestamp not null,
+    date_updated timestamp not null,
+    primary key (id),
+    foreign key (author_id) references authors(id)
 );
 
-create sequence ARTICLE_ID_SEQ START WITH 1 INCREMENT BY 1;
+create sequence article_id_seq START WITH 1 INCREMENT BY 1;
 
-create index IDX_ARTICLE_TITLE on ARTICLE (TITLE);
-create index IDX_ARTICLE_DATE_CREATED on ARTICLE (DATE_CREATED);
+create index idx_article_title on articles(title);
+create index idx_article_date_created on articles(date_created);

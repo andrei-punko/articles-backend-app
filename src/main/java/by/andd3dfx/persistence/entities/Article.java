@@ -16,32 +16,32 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ARTICLE")
+@Table(name = "articles")
 public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ARTICLE_ID_SEQ")
-    @SequenceGenerator(name = "ARTICLE_ID_SEQ", sequenceName = "ARTICLE_ID_SEQ", allocationSize = 1)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_id_seq")
+    @SequenceGenerator(name = "article_id_seq", sequenceName = "article_id_seq", allocationSize = 1)
+    @Column
     private Long id;
 
-    @Column(name = "TITLE")
+    @Column
     private String title;
 
-    @Column(name = "SUMMARY")
+    @Column
     private String summary;
 
-    @Column(name = "TEXT")
+    @Column
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "AUTHOR_ID", nullable = false, updatable = false)
+    @JoinColumn(name = "author_id", nullable = false, updatable = false)
     private Author author;
 
-    @Column(name = "DATE_CREATED")
+    @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    @Column(name = "DATE_UPDATED")
+    @Column(name = "date_updated")
     private LocalDateTime dateUpdated;
 
     @PrePersist
