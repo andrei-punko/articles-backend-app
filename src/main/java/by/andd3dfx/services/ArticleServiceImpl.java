@@ -1,5 +1,6 @@
 package by.andd3dfx.services;
 
+import by.andd3dfx.annotations.CustomLog;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.mappers.ArticleMapper;
@@ -27,6 +28,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleMapper articleMapper;
     private final Clock clock;
 
+    @CustomLog
     @Override
     public ArticleDto create(ArticleDto articleDto) {
         LocalDateTime dateCreated = LocalDateTime.now(clock);
@@ -46,6 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
             .orElseThrow(() -> new ArticleNotFoundException(id));
     }
 
+    @CustomLog
     @Override
     public void update(Long id, ArticleUpdateDto articleUpdateDto) {
         articleRepository.findById(id)
@@ -57,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
             }).orElseThrow(() -> new ArticleNotFoundException(id));
     }
 
+    @CustomLog
     @Override
     public void delete(Long id) {
         try {
