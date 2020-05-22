@@ -14,10 +14,14 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class LoggingRepositoryCustomImpl implements LoggingRepositoryCustom {
+
+    @Value("${logs.page-size:50}")
+    private Integer pageSize;
 
     @Autowired
     private EntityManager em;
@@ -33,11 +37,21 @@ public class LoggingRepositoryCustomImpl implements LoggingRepositoryCustom {
             LocalDateTime timestamp = DateTimeHelper.convertZStringToLocalDateTime(criteria.getTimestamp());
             predicates.add(builder.greaterThan(from.get("timestamp"), timestamp));
         }
+        if (criteria.getIdCap() != null) {
+            predicates.add(builder.lessThan(from.get("id"), criteria.getIdCap()));
+        }
 
         final List<Order> orderList = Arrays.asList(builder.desc(from.get("timestamp")));
         cq.where(predicates.toArray(new Predicate[0]));
         cq.orderBy(orderList);
 
-        return em.createQuery(cq).getResultList();
+        return em.createQuery(cq).setMaxResults(extractMaxResults(criteria)).getResultList();
+    }
+
+    private int extractMaxResults(LoggingSearchCriteria criteria) {
+        if (criteria.getPageSize() != null) {
+            return criteria.getPageSize();
+        }
+        return pageSize;
     }
 }

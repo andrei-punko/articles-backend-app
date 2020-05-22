@@ -42,7 +42,8 @@ class LoggingControllerTest {
         final List<MethodCallRecord> items = Arrays.asList(new MethodCallRecord());
 
         final String timestamp = "2011-03-05";
-        final LoggingSearchCriteria criteria = new LoggingSearchCriteria(timestamp);
+        final LoggingSearchCriteria criteria = new LoggingSearchCriteria();
+        criteria.setTimestamp(timestamp);
         given(loggingService.getLoggedRecords(criteria)).willReturn(items);
 
         mockMvc.perform(get("/api/v2/logs?timestamp=" + timestamp))
