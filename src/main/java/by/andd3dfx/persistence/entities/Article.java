@@ -34,6 +34,9 @@ public class Article {
     @Column
     private String text;
 
+    @Column(name = "ts")
+    private LocalDateTime timestamp;
+
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false, updatable = false)
     private Author author;
