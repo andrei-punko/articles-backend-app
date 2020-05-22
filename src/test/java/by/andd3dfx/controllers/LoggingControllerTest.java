@@ -13,7 +13,9 @@ import by.andd3dfx.dto.LoggingSearchCriteria;
 import by.andd3dfx.dto.MethodCallRecord;
 import by.andd3dfx.services.ILoggingService;
 import by.andd3dfx.util.TestUtil;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -56,12 +59,22 @@ class LoggingControllerTest {
 
     @Test
     public void addLoggingRecord() throws Exception {
-        MethodCallRecord loggedRecords = new MethodCallRecord();
+        final MethodCallRecord loggedRecord = new MethodCallRecord();
+        loggedRecord.setName("methodName");
+        loggedRecord.setArgs(new HashMap<String, Object>() {{
+            put("arg1", "Some value");
+        }});
+        loggedRecord.setTimestamp(LocalDateTime.parse("2020-05-19T16:08:32"));
+        loggedRecord.setResult("Result string");
+        loggedRecord.setIsSucceed(true);
 
-        mockMvc.perform(post("/api/v2/logs"))
+        mockMvc.perform(post("/api/v2/logs")
+            .content(TestUtil.asJsonString(loggedRecord))
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("UTF-8"))
             .andDo(print())
             .andExpect(status().isCreated());
 
-        verify(loggingService).addLoggingRecord(loggedRecords);
+        verify(loggingService).addLoggingRecord(loggedRecord);
     }
 }
