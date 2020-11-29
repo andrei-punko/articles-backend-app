@@ -81,11 +81,11 @@ ADMIN and USER, and USER has only read permissions
 ## Usage description
 
 #### Start application using Maven (vs in-memory H2 DB):
-    mvn spring-boot:run -Dspring-boot.run.arguments=\
-    --spring.datasource.url=jdbc:h2:mem:testdb,\
-    --spring.datasource.username=sa,\
-    --spring.datasource.password=password,\
-    --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+    mvn spring-boot:run -Dspring-boot.run.arguments="\
+    --spring.datasource.url=jdbc:h2:mem:testdb \
+    --spring.datasource.username=sa \
+    --spring.datasource.password=password \
+    --spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect"
 
 Or next way, using `dev` spring profile:
 
