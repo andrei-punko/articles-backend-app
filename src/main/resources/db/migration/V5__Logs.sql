@@ -6,7 +6,7 @@ create table logs (
     result varchar(250) not null,
     result_type varchar(200),
     ts timestamp not null,
-    is_succeed bit default(0) not null,
+    is_succeed boolean default(false) not null,
     primary key (id)
 );
 
