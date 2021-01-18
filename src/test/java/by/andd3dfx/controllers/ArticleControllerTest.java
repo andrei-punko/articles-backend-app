@@ -36,7 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = ArticlesBackendAppApplication.class)
 @WebAppConfiguration
-class ArticleControllerIntegrationTest {
+class ArticleControllerTest {
 
     private final MediaType CONTENT_TYPE = new MediaType(
         MediaType.APPLICATION_JSON.getType(),

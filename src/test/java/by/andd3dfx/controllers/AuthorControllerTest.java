@@ -22,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = ArticlesBackendAppApplication.class)
 @WebAppConfiguration
-class AuthorControllerIntegrationTest {
+class AuthorControllerTest {
 
     private MockMvc mockMvc;
 
