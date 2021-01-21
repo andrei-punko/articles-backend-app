@@ -15,8 +15,8 @@ class WebAppLoadSimulation extends Simulation {
   val minWaitMs = 5 milliseconds
   val maxWaitMs = 50 milliseconds
   val baseURL = System.getProperty("baseUrl", "http://localhost:8099")
-  val articlesURI = "/articles"
-  val authorsURI = "/authors"
+  val articlesURI = "/api/v1/articles"
+  val authorsURI = "/api/v1/authors"
 
   val httpConf = http
     .baseUrl(baseURL)

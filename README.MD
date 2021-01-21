@@ -110,28 +110,28 @@ Or next way, using `dev` spring profile:
     http://localhost:8099/swagger-ui.html
 
 #### New article addition:
-    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/articles
+    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/api/v1/articles
 
 #### Get existing article:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/articles/1
+    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/articles/1
 
 #### Update existing article:
-    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/articles/2
+    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/api/v1/articles/2
 
 #### Get list of all articles:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/articles
+    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/articles
 
 #### Get list of articles with pagination support:
-    curl -i -u Vasily:vasily_pass 'http://localhost:8099/articles?size=2&page=4&sort=author.firstName,DESC'
+    curl -i -u Vasily:vasily_pass 'http://localhost:8099/api/v1/articles?size=2&page=4&sort=author.firstName,DESC'
 
 #### Deletion of article:
-    curl -i -u Ivan:ivan_pass -X DELETE http://localhost:8099/articles/1
+    curl -i -u Ivan:ivan_pass -X DELETE http://localhost:8099/api/v1/articles/1
 
 #### Get existing author:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/authors/4
+    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/authors/4
 
 #### Get list of all authors:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/authors
+    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/authors
 
 ## To run functional tests:
 

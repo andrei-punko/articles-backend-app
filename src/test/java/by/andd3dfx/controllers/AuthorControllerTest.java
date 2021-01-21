@@ -39,7 +39,7 @@ class AuthorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readAuthorForAdmin() throws Exception {
-        mockMvc.perform(get("/authors/1"))
+        mockMvc.perform(get("/api/v1/authors/1"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(1)))
             .andExpect(jsonPath("$.firstName", is("Тихон")))
@@ -49,7 +49,7 @@ class AuthorControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void readAuthorForUser() throws Exception {
-        mockMvc.perform(get("/authors/1"))
+        mockMvc.perform(get("/api/v1/authors/1"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(1)))
             .andExpect(jsonPath("$.firstName", is("Тихон")))
@@ -59,7 +59,7 @@ class AuthorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readAbsentAuthor() throws Exception {
-        String message = mockMvc.perform(get("/authors/345"))
+        String message = mockMvc.perform(get("/api/v1/authors/345"))
             .andExpect(status().isNotFound())
             .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Could not find an author by id=345"));
@@ -68,7 +68,7 @@ class AuthorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readAuthorsForAdmin() throws Exception {
-        mockMvc.perform(get("/authors"))
+        mockMvc.perform(get("/api/v1/authors"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(11)));
     }
@@ -76,7 +76,7 @@ class AuthorControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void readAuthorsForUser() throws Exception {
-        mockMvc.perform(get("/authors"))
+        mockMvc.perform(get("/api/v1/authors"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(11)));
     }

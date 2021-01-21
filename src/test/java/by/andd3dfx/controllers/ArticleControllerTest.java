@@ -71,7 +71,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        mockMvc.perform(post("/articles")
+        mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -96,7 +96,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        mockMvc.perform(post("/articles")
+        mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -115,7 +115,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/articles")
+        final String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -134,7 +134,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/articles")
+        final String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -154,7 +154,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/articles")
+        final String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -174,7 +174,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -194,7 +194,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -213,7 +213,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -233,7 +233,7 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -250,7 +250,7 @@ class ArticleControllerTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -270,7 +270,7 @@ class ArticleControllerTest {
         authorDto.setId(100L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -291,7 +291,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
         articleDto.setDateCreated(LocalDateTime.now());
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -312,7 +312,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
         articleDto.setDateUpdated(LocalDateTime.now());
 
-        String message = mockMvc.perform(post("/articles")
+        String message = mockMvc.perform(post("/api/v1/articles")
             .contentType(CONTENT_TYPE)
             .content(json(articleDto))
         )
@@ -324,7 +324,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deleteArticle() throws Exception {
-        mockMvc.perform(delete("/articles/1")
+        mockMvc.perform(delete("/api/v1/articles/1")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isNoContent());
@@ -333,7 +333,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void deleteArticleUnauthorized() throws Exception {
-        mockMvc.perform(delete("/articles/1")
+        mockMvc.perform(delete("/api/v1/articles/1")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isForbidden());
@@ -342,7 +342,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deleteAbsentArticle() throws Exception {
-        mockMvc.perform(delete("/articles/9999")
+        mockMvc.perform(delete("/api/v1/articles/9999")
             .contentType(CONTENT_TYPE))
             .andExpect(status().isNotFound());
     }
@@ -350,7 +350,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readArticleForAdmin() throws Exception {
-        mockMvc.perform(get("/articles/1")
+        mockMvc.perform(get("/api/v1/articles/1")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
@@ -360,7 +360,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void readArticleForUser() throws Exception {
-        mockMvc.perform(get("/articles/2")
+        mockMvc.perform(get("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
@@ -370,7 +370,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readAbsentArticle() throws Exception {
-        mockMvc.perform(get("/articles/345")
+        mockMvc.perform(get("/api/v1/articles/345")
             .contentType(CONTENT_TYPE))
             .andExpect(status().isNotFound());
     }
@@ -378,7 +378,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readArticlesForAdmin() throws Exception {
-        mockMvc.perform(get("/articles")
+        mockMvc.perform(get("/api/v1/articles")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
@@ -392,7 +392,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void readArticlesForUser() throws Exception {
-        mockMvc.perform(get("/articles")
+        mockMvc.perform(get("/api/v1/articles")
             .contentType(CONTENT_TYPE)
         )
             .andExpect(status().isOk())
@@ -406,7 +406,7 @@ class ArticleControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void readArticlesWithPageSizeLimit() throws Exception {
-        mockMvc.perform(get("/articles")
+        mockMvc.perform(get("/api/v1/articles")
             .param("size", "5")
             .contentType(CONTENT_TYPE)
         )
@@ -425,7 +425,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("Some tittle value");
 
-        mockMvc.perform(patch("/articles/2")
+        mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -438,7 +438,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("Some tittle value");
 
-        mockMvc.perform(patch("/articles/2")
+        mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -451,7 +451,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setSummary("Some summary value");
 
-        mockMvc.perform(patch("/articles/2")
+        mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -464,7 +464,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setText("Some text value");
 
-        mockMvc.perform(patch("/articles/2")
+        mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -478,7 +478,7 @@ class ArticleControllerTest {
         articleUpdateDto.setSummary("Some summary value");
         articleUpdateDto.setText("Some text value");
 
-        String message = mockMvc.perform(patch("/articles/2")
+        String message = mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -493,7 +493,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("q");
 
-        mockMvc.perform(patch("/articles/123")
+        mockMvc.perform(patch("/api/v1/articles/123")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto)))
             .andExpect(status().isNotFound());
@@ -505,7 +505,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("");
 
-        String message = mockMvc.perform(patch("/articles/2")
+        String message = mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -520,7 +520,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle(createStringWithLength(101));
 
-        String message = mockMvc.perform(patch("/articles/2")
+        String message = mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -535,7 +535,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setSummary(createStringWithLength(260));
 
-        String message = mockMvc.perform(patch("/articles/2")
+        String message = mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
@@ -550,7 +550,7 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setText("");
 
-        String message = mockMvc.perform(patch("/articles/2")
+        String message = mockMvc.perform(patch("/api/v1/articles/2")
             .contentType(CONTENT_TYPE)
             .content(json(articleUpdateDto))
         )
