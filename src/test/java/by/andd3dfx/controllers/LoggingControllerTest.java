@@ -49,7 +49,7 @@ class LoggingControllerTest {
         criteria.setTimestamp(timestamp);
         given(loggingService.getLoggedRecords(criteria)).willReturn(items);
 
-        mockMvc.perform(get("/api/v2/logs?timestamp=" + timestamp))
+        mockMvc.perform(get("/api/v1/logs?timestamp=" + timestamp))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().json(TestUtil.asJsonString(items)));
@@ -68,7 +68,7 @@ class LoggingControllerTest {
         loggedRecord.setResult("Result string");
         loggedRecord.setIsSucceed(true);
 
-        mockMvc.perform(post("/api/v2/logs")
+        mockMvc.perform(post("/api/v1/logs")
             .content(TestUtil.asJsonString(loggedRecord))
             .contentType(MediaType.APPLICATION_JSON)
             .characterEncoding("UTF-8"))

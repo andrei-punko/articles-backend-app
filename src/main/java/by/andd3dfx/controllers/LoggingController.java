@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 @AllArgsConstructor
 public class LoggingController {
 
