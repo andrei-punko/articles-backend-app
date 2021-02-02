@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class AuthorService implements IAuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
+    @Transactional(readOnly = true)
     @Override
     public AuthorDto get(Long id) {
         return authorRepository.findById(id)
@@ -27,6 +27,7 @@ public class AuthorService implements IAuthorService {
             .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<AuthorDto> getAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false)

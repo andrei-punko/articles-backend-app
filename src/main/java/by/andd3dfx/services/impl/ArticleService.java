@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ArticleService implements IArticleService {
 
     private final ArticleRepository articleRepository;
@@ -29,6 +28,7 @@ public class ArticleService implements IArticleService {
     private final Clock clock;
 
     @CustomLog
+    @Transactional
     @Override
     public ArticleDto create(ArticleDto articleDto) {
         Article entity = articleMapper.toArticle(articleDto);
@@ -37,6 +37,7 @@ public class ArticleService implements IArticleService {
         // TODO: returned author with id only after creation. Need to consider, do we need to return author with all fields populated
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ArticleDto get(Long id) {
         return articleRepository.findById(id)
@@ -45,6 +46,7 @@ public class ArticleService implements IArticleService {
     }
 
     @CustomLog
+    @Transactional
     @Override
     public void update(Long id, ArticleUpdateDto articleUpdateDto) {
         articleRepository.findById(id)
@@ -56,6 +58,7 @@ public class ArticleService implements IArticleService {
     }
 
     @CustomLog
+    @Transactional
     @Override
     public void delete(Long id) {
         try {
@@ -65,6 +68,7 @@ public class ArticleService implements IArticleService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
@@ -72,6 +76,7 @@ public class ArticleService implements IArticleService {
         return articleMapper.toArticleDtoList(pagedResult.getContent());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<ArticleDto> getAll(Pageable pageable) {
         final Page<Article> pagedResult = articleRepository.findAll(pageable);
