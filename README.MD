@@ -1,4 +1,5 @@
 # Implement a Spring Boot Backend application (no UI)
+![Java CI](https://github.com/andrei-punko/articles-backend-app/workflows/Java%20CI/badge.svg)
 
 This should be purely a REST endpoints backend application without UI, but feel free to attach Swagger UI for convenience.
 
