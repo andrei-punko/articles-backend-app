@@ -79,9 +79,9 @@ ADMIN and USER, and USER has only read permissions
 #### Build Docker image with application inside:
     docker build ./ -t articles-backend-app
 
-## Usage description
+## How to start application
 
-#### Start application using Maven (vs in-memory H2 DB):
+#### Start application using Maven (vs in-memory DB H2):
     mvn spring-boot:run -Dspring-boot.run.arguments="\
     --spring.datasource.url=jdbc:h2:mem:testdb \
     --spring.datasource.username=sa \
@@ -92,7 +92,7 @@ Or next way, using `dev` spring profile:
 
     mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
 
-#### Start application by running executable jar (vs in-memory H2 DB):
+#### Start application by running executable jar (vs in-memory DB H2):
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.datasource.url=jdbc:h2:mem:testdb \
      --spring.datasource.username=sa \
@@ -106,6 +106,15 @@ Or next way, using `dev` spring profile:
 
 #### Start two Docker containers - one with Postgres DB and another with application:
     docker-compose up
+
+## Logs location
+
+#### Check logs when start without Docker:
+    less ./logs/spring-boot-logger.log
+
+#### Check logs inside Docker container:
+    docker exec -it articles-backend-app sh
+    less /logs/spring-boot-logger.log
 
 #### Swagger documentation situated here:
     http://localhost:8099/swagger-ui.html
