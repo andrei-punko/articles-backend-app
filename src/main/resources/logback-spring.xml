@@ -2,17 +2,18 @@
 <configuration>
 
     <property name="LOGS" value="./logs"/>
+    <property name="PATTERN" value="[%yellow(%5p)] %cyan(%d{yyyy-MM-dd} %d{HH:mm:ss.SSS}) %thread | %green(%logger{25}) | %m%n%throwable"/>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable</Pattern>
+            <Pattern>${PATTERN}</Pattern>
         </layout>
     </appender>
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/spring-boot-logger.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+            <Pattern>${PATTERN}</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -30,7 +31,7 @@
         <appender-ref ref="Console"/>
     </root>
 
-    <!-- LOG "by.andd3dfx" at TRACE level -->
+    <!-- LOG "by.andd3dfx" at INFO level -->
     <logger name="by.andd3dfx" level="info" additivity="false">
         <appender-ref ref="RollingFile"/>
         <appender-ref ref="Console"/>
