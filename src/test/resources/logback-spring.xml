@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS" value="./logs"/>
+    <property name="LOGS" value="./target/logs"/>
     <property name="PATTERN" value="%p %d{yyyy-MM-dd} %d{HH:mm:ss.SSS} %thread | %logger{25} | %m%n%throwable"/>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">

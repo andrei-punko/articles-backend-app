@@ -1,0 +1,11 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - '/usr/share/filebeat/logs/*.log'
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  username: "elastic"
+  password: "yourstrongpasswordhere"
+  indices:
+    - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
