@@ -11,16 +11,16 @@
     mvn clean install
     run.bat
 
-### Open Kibana dashboard:
+### Check saved logs via Kibana dashboard:
 
     http://localhost:5601
 
-Using next login/password: 
+Using next login/password: `elastic/yourstrongpasswordhere`
 
-    elastic/yourstrongpasswordhere
-
-Add log index pattern:
-
-    filebeat-*
+Choose `Discover` -> `Create index pattern`, and enter `filebeat-*`
 
 Take a look on logs
+
+### How to destroy containers and volumes (with stored data):
+
+    docker-compose down --volumes

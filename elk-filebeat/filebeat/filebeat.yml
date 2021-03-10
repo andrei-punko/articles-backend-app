@@ -3,9 +3,5 @@ filebeat.inputs:
   paths:
     - '/usr/share/filebeat/logs/*.log'
 
-output.elasticsearch:
-  hosts: ["elasticsearch:9200"]
-  username: "elastic"
-  password: "yourstrongpasswordhere"
-  indices:
-    - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
+output.logstash:
+  hosts: ["logstash:5000"]
