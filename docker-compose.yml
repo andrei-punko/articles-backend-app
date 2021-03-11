@@ -3,7 +3,6 @@ services:
   postgres:
     image: postgres:9.6.15-alpine
     network_mode: bridge
-    container_name: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
     expose:
@@ -17,12 +16,10 @@ services:
 
   articles-backend-app:
     build: ./
-    image: articles-backend-app:latest
+    image: articles-backend-app
     network_mode: bridge
-    container_name: articles-backend-app
-    labels:
-      kompose.image-pull-policy: Never
-      kompose.service.type: LoadBalancer
+    volumes:
+      - ./logs:/logs
     expose:
       - 8099
     ports:
@@ -38,3 +35,4 @@ services:
 
 volumes:
   postgres-data:
+  logs:
