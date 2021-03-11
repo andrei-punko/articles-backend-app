@@ -1,15 +1,15 @@
 
 # ELK stack for service logs monitoring. Communication performing by Filebeat
 
-### Start containers with ELK and Filebeat:
+### Start containers with ELK stack and Filebeat:
 
     docker compose up
 
-### Build and start service
-    
-    cd ..
+### Build and start article-backend-service
+From project root:
+
     mvn clean install
-    run.bat
+    docker compose up
 
 ### Check saved logs via Kibana dashboard:
 
@@ -19,8 +19,9 @@ Using next login/password: `elastic/yourstrongpasswordhere`
 
 Choose `Discover` -> `Create index pattern`, and enter `filebeat-*`
 
-Take a look on logs
+Take a look on saved records
 
-### How to destroy containers and volumes (with stored data):
+### How to destroy ELK containers and volumes (with stored data):
+From `elk-filebeat` folder:
 
     docker-compose down --volumes

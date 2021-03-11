@@ -170,3 +170,7 @@ Based on https://gatling.io/docs/3.0/extensions/maven_plugin
 
 Just enter in `http://localhost:8099` and click `Connect`.  
 Check heartbeat logs in browser developer console.
+
+## To taste ELK stack with logs providing by Filebeat:
+
+Check [ELK README](elk-filebeat/README.MD)
