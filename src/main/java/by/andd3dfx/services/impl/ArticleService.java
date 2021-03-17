@@ -3,13 +3,11 @@ package by.andd3dfx.services.impl;
 import by.andd3dfx.annotations.CustomLog;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
+import by.andd3dfx.exceptions.ArticleNotFoundException;
 import by.andd3dfx.mappers.ArticleMapper;
 import by.andd3dfx.persistence.dao.ArticleRepository;
 import by.andd3dfx.persistence.entities.Article;
 import by.andd3dfx.services.IArticleService;
-import by.andd3dfx.exceptions.ArticleNotFoundException;
-import java.time.Clock;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -19,13 +17,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService implements IArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
-    private final Clock clock;
 
     @CustomLog
     @Transactional
