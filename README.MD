@@ -1,5 +1,5 @@
 # Implement a Spring Boot Backend application (no UI)
-![Java CI](https://github.com/andrei-punko/articles-backend-app/workflows/Java%20CI/badge.svg)
+[![Java CI](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml/badge.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
 [![Coverage](.github/badges/jacoco.svg)](jacoco.svg)
 
 This should be purely a REST endpoints backend application without UI, but feel free to attach Swagger UI for convenience.
