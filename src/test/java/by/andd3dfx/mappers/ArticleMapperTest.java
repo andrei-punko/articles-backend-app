@@ -24,6 +24,7 @@ class ArticleMapperTest {
         Article article = buildArticle();
 
         ArticleDto articleDto = mapper.toArticleDto(article);
+
         checkCompareAssertions(articleDto, article);
     }
 
@@ -33,11 +34,22 @@ class ArticleMapperTest {
     }
 
     @Test
+    void toArticleDtoForAbsentAuthor() {
+        Article article = buildArticle();
+        article.setAuthor(null);
+
+        ArticleDto articleDto = mapper.toArticleDto(article);
+
+        checkCompareAssertionsWithoutAuthor(articleDto, article);
+    }
+
+    @Test
     void toArticleDtoList() {
         Article article = buildArticle();
         List<Article> articles = Arrays.asList(article);
 
         List<ArticleDto> articleDtoItems = mapper.toArticleDtoList(articles);
+
         assertThat("Wrong result list size", articleDtoItems.size(), is(1));
         checkCompareAssertions(articleDtoItems.get(0), article);
     }
@@ -52,12 +64,23 @@ class ArticleMapperTest {
         ArticleDto articleDto = buildArticleDto();
 
         Article article = mapper.toArticle(articleDto);
+
         checkCompareAssertions(articleDto, article);
     }
 
     @Test
     void toArticleForNull() {
         assertThat(mapper.toArticle(null), nullValue());
+    }
+
+    @Test
+    void toArticleForAbsentAuthor() {
+        ArticleDto articleDto = buildArticleDto();
+        articleDto.setAuthor(null);
+
+        Article article = mapper.toArticle(articleDto);
+
+        checkCompareAssertionsWithoutAuthor(articleDto, article);
     }
 
     @Test
@@ -121,11 +144,23 @@ class ArticleMapperTest {
         assertThat("Wrong title", article.getTitle(), is(articleDto.getTitle()));
         assertThat("Wrong summary", article.getSummary(), is(articleDto.getSummary()));
         assertThat("Wrong text", article.getText(), is(articleDto.getText()));
+
         assertThat("Wrong author id", article.getAuthor().getId(), is(articleDto.getAuthor().getId()));
         assertThat("Wrong author first name", article.getAuthor().getFirstName(),
             is(articleDto.getAuthor().getFirstName()));
         assertThat("Wrong author last name", article.getAuthor().getLastName(),
             is(articleDto.getAuthor().getLastName()));
+
+        assertThat("Wrong date created", article.getDateCreated(), is(articleDto.getDateCreated()));
+        assertThat("Wrong date updated", article.getDateUpdated(), is(articleDto.getDateUpdated()));
+    }
+
+    private void checkCompareAssertionsWithoutAuthor(ArticleDto articleDto, Article article) {
+        assertThat("Wrong id", article.getId(), is(articleDto.getId()));
+        assertThat("Wrong title", article.getTitle(), is(articleDto.getTitle()));
+        assertThat("Wrong summary", article.getSummary(), is(articleDto.getSummary()));
+        assertThat("Wrong text", article.getText(), is(articleDto.getText()));
+
         assertThat("Wrong date created", article.getDateCreated(), is(articleDto.getDateCreated()));
         assertThat("Wrong date updated", article.getDateUpdated(), is(articleDto.getDateUpdated()));
     }
