@@ -20,6 +20,7 @@ class AuthorMapperTest {
         Author author = buildAuthor();
 
         AuthorDto authorDto = mapper.toAuthorDto(author);
+
         checkCompareAssertions(authorDto, author);
     }
 
@@ -34,6 +35,7 @@ class AuthorMapperTest {
         List<Author> authors = Arrays.asList(author);
 
         List<AuthorDto> authorDtoItems = mapper.toAuthorDtoList(authors);
+
         assertThat("Wrong result list size", authorDtoItems.size(), is(1));
         checkCompareAssertions(authorDtoItems.get(0), author);
     }
@@ -48,6 +50,7 @@ class AuthorMapperTest {
         AuthorDto authorDto = buildAuthorDto();
 
         Author author = mapper.toAuthor(authorDto);
+
         checkCompareAssertions(authorDto, author);
     }
 

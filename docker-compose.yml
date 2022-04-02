@@ -8,7 +8,7 @@ services:
     expose:
       - 5432
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_DB=articlesdb
       - POSTGRES_USER=articles-user
@@ -23,7 +23,7 @@ services:
     expose:
       - 8099
     ports:
-      - 8099:8099
+      - "8099:8099"
     environment:
       - DB_URL=jdbc:postgresql://postgres:5432/articlesdb
       - DB_USER=articles-user

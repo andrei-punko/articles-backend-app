@@ -113,10 +113,12 @@ class ArticleMapperTest {
         article.setTitle("Some tittle value");
         article.setSummary("Some summary value");
         article.setText("Some text");
+
         Author author = new Author();
         author.setId(321L);
         author.setFirstName("John");
         author.setLastName("Deer");
+
         article.setAuthor(author);
         article.setDateCreated(LocalDateTime.of(1980, 9, 21, 0, 0));
         article.setDateUpdated(LocalDateTime.of(2011, 3, 5, 0, 0));
@@ -129,10 +131,12 @@ class ArticleMapperTest {
         articleDto.setTitle("Some tittle value");
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
+
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(321L);
         authorDto.setFirstName("John");
         authorDto.setLastName("Deer");
+
         articleDto.setAuthor(authorDto);
         articleDto.setDateCreated(LocalDateTime.of(1980, 9, 21, 0, 0));
         articleDto.setDateUpdated(LocalDateTime.of(2011, 3, 5, 0, 0));
