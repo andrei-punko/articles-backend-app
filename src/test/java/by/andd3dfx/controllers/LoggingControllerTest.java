@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import by.andd3dfx.configs.SecurityConfig;
 import by.andd3dfx.dto.LoggingSearchCriteria;
 import by.andd3dfx.dto.MethodCallRecord;
 import by.andd3dfx.services.ILoggingService;

@@ -5,8 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -19,16 +19,13 @@ import by.andd3dfx.ArticlesBackendAppApplication;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import by.andd3dfx.dto.AuthorDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,20 +35,13 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 class ArticleControllerTest {
 
-    private final MediaType CONTENT_TYPE = new MediaType(
-        MediaType.APPLICATION_JSON.getType(),
-        MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;
-    private HttpMessageConverter httpMessageConverter;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    void setConverter(MappingJackson2HttpMessageConverter converter) {
-        httpMessageConverter = converter;
-        assertNotNull("the JSON message converter must not be null", httpMessageConverter);
-    }
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setup() {
@@ -72,7 +62,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isCreated())
@@ -97,7 +87,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isForbidden());
@@ -116,7 +106,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -135,7 +125,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -155,7 +145,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -175,7 +165,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -195,7 +185,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -214,7 +204,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -234,7 +224,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -251,7 +241,7 @@ class ArticleControllerTest {
         articleDto.setText("Some text");
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -271,7 +261,7 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -292,7 +282,7 @@ class ArticleControllerTest {
         articleDto.setDateCreated(LocalDateTime.now());
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -313,7 +303,7 @@ class ArticleControllerTest {
         articleDto.setDateUpdated(LocalDateTime.now());
 
         String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleDto))
         )
             .andExpect(status().isBadRequest())
@@ -325,7 +315,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void deleteArticle() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/1")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isNoContent());
     }
@@ -334,7 +324,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "USER")
     public void deleteArticleUnauthorized() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/1")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isForbidden());
     }
@@ -343,7 +333,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void deleteAbsentArticle() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/9999")
-            .contentType(CONTENT_TYPE))
+            .contentType(APPLICATION_JSON))
             .andExpect(status().isNotFound());
     }
 
@@ -351,7 +341,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void readArticleForAdmin() throws Exception {
         mockMvc.perform(get("/api/v1/articles/1")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(1)));
@@ -361,7 +351,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "USER")
     public void readArticleForUser() throws Exception {
         mockMvc.perform(get("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(2)));
@@ -371,7 +361,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void readAbsentArticle() throws Exception {
         mockMvc.perform(get("/api/v1/articles/345")
-            .contentType(CONTENT_TYPE))
+            .contentType(APPLICATION_JSON))
             .andExpect(status().isNotFound());
     }
 
@@ -379,7 +369,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void readArticlesForAdmin() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(10)))
@@ -393,7 +383,7 @@ class ArticleControllerTest {
     @WithMockUser(roles = "USER")
     public void readArticlesForUser() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(10)))
@@ -408,7 +398,7 @@ class ArticleControllerTest {
     public void readArticlesWithPageSizeLimit() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
             .param("size", "5")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
         )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(5)))
@@ -426,7 +416,7 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("Some tittle value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
@@ -439,7 +429,7 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("Some tittle value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isForbidden());
@@ -452,7 +442,7 @@ class ArticleControllerTest {
         articleUpdateDto.setSummary("Some summary value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
@@ -465,7 +455,7 @@ class ArticleControllerTest {
         articleUpdateDto.setText("Some text value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isOk());
@@ -479,7 +469,7 @@ class ArticleControllerTest {
         articleUpdateDto.setText("Some text value");
 
         String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
@@ -494,7 +484,7 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("q");
 
         mockMvc.perform(patch("/api/v1/articles/123")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto)))
             .andExpect(status().isNotFound());
     }
@@ -506,7 +496,7 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("");
 
         String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
@@ -521,7 +511,7 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle(createStringWithLength(101));
 
         String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
@@ -536,7 +526,7 @@ class ArticleControllerTest {
         articleUpdateDto.setSummary(createStringWithLength(260));
 
         String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
@@ -551,7 +541,7 @@ class ArticleControllerTest {
         articleUpdateDto.setText("");
 
         String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(CONTENT_TYPE)
+            .contentType(APPLICATION_JSON)
             .content(json(articleUpdateDto))
         )
             .andExpect(status().isBadRequest())
@@ -560,9 +550,7 @@ class ArticleControllerTest {
     }
 
     private String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        httpMessageConverter.write(o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
+        return objectMapper.writeValueAsString(o);
     }
 
     private String createStringWithLength(int length) {
