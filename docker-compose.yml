@@ -2,36 +2,35 @@ version: "3"
 services:
   postgres:
     image: postgres:9.6.15-alpine
-    network_mode: bridge
+    restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    expose:
-      - 5432
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=articlesdb
-      - POSTGRES_USER=articles-user
-      - POSTGRES_PASSWORD=articles-password
+      POSTGRES_DB: articlesdb
+      POSTGRES_USER: articles-user
+      POSTGRES_PASSWORD: articles-password
 
   articles-backend-app:
     build: ./
     image: articles-backend-app
-    network_mode: bridge
+    restart: always
     volumes:
       - ./logs:/logs
-    expose:
-      - 8099
     ports:
       - "8099:8099"
-    environment:
-      - DB_URL=jdbc:postgresql://postgres:5432/articlesdb
-      - DB_USER=articles-user
-      - DB_PASSWORD=articles-password
     depends_on:
       - postgres
-    links:
-      - postgres
+    environment:
+      DB_URL: 'jdbc:postgresql://postgres:5432/articlesdb'
+      DB_USER: articles-user
+      DB_PASSWORD: articles-password
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8099/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
 
 volumes:
   postgres-data:
