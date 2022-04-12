@@ -1,4 +1,4 @@
-# Implement a Spring Boot Backend application (no UI)
+# Spring Boot backend app (Test task)
 [![Java CI](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml/badge.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
 [![Coverage](.github/badges/jacoco.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
 [![Branches](.github/badges/branches.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
