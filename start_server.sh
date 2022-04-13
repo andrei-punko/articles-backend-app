@@ -2,7 +2,7 @@
 
 cd /home/ubuntu/server
 
-sudo /usr/bin/java -jar \
+java -jar \
     -Dspring.datasource.url=jdbc:h2:mem:testdb \
     -Dspring.datasource.username=sa \
     -Dspring.datasource.password=password \
