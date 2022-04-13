@@ -1,3 +1,3 @@
 #!/usr/bin/bash
 
-kill -9 $(ps -ef | grep articles-backend-app | awk '{print $2}')\n
+pkill -9 -ec articles-backend-app-*
