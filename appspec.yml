@@ -4,15 +4,15 @@ files:
 - source: /
   destination: /home/ubuntu
 hooks:
-  AfterInstall:
-  - location: fix_previleges.sh
-    timeout: 300
-    runas: root
+#  AfterInstall:
+#  - location: fix_previleges.sh
+#    timeout: 300
+#    runas: root
   ApplicationStart:
-  - location: start_server.sh
+  - location: sh start_server.sh
     timeout: 300
     runas: root
   ApplicationStop:
-  - location: stop_server.sh
+  - location: sh stop_server.sh
     timeout: 300
     runas: root

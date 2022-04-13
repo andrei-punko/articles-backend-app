@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 java -jar /home/ubuntu/articles-backend-app-0.0.1-SNAPSHOT.jar \
  --spring.datasource.url=jdbc:h2:mem:testdb \
  --spring.datasource.username=sa \

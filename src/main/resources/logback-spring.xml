@@ -33,7 +33,7 @@
 
     <!-- LOG "by.andd3dfx" at INFO level -->
     <logger name="by.andd3dfx" level="info" additivity="false">
-        <appender-ref ref="RollingFile"/>
+<!--        <appender-ref ref="RollingFile"/>-->
         <appender-ref ref="Console"/>
     </logger>
 
