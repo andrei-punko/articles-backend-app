@@ -1,17 +1,14 @@
 version: 0.0
-
 os: linux
-
 files:
 - source: /
   destination: /home/ubuntu
-
 hooks:
   ApplicationStart:
   - location: sh start_server.sh
     timeout: 300
     runas: root
-#  ApplicationStop:
-#  - location: sh stop_server.sh
-#    timeout: 300
-#    runas: root
+  ApplicationStop:
+  - location: sh stop_server.sh
+    timeout: 300
+    runas: root
