@@ -1,3 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-kill -9 $(ps -ef | grep articles-backend-app | awk '{print $2}')\n
+sudo killall java
+exit 0

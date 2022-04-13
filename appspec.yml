@@ -1,14 +1,22 @@
 version: 0.0
 os: linux
+
 files:
 - source: /
-  destination: /home/ubuntu
+  destination: /home/ubuntu/server
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
 hooks:
-  ApplicationStart:
-  - location: sh start_server.sh
-    timeout: 300
-    runas: root
   ApplicationStop:
-  - location: sh stop_server.sh
-    timeout: 300
-    runas: root
+    - location: stop_server.sh
+      timeout: 20
+      runas: ubuntu
+  ApplicationStart:
+    - location: start_server.sh
+      timeout: 20
+      runas: ubuntu
