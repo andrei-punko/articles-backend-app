@@ -33,7 +33,6 @@ public class ArticleService implements IArticleService {
         Article entity = articleMapper.toArticle(articleDto);
         Article savedEntity = articleRepository.save(entity);
         return articleMapper.toArticleDto(savedEntity);
-        // TODO: returned author with id only after creation. Need to consider, do we need to return author with all fields populated
     }
 
     @Transactional(readOnly = true)
