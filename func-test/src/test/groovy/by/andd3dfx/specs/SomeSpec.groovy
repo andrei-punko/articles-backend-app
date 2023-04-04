@@ -16,7 +16,7 @@ class SomeSpec extends Specification {
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'got 11 records'
-        assert getResponse.responseData.content.size == 11
+        assert getResponse.responseData.content.size() == 11
     }
 
     def 'Read particular author'() {
@@ -39,7 +39,7 @@ class SomeSpec extends Specification {
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'got 10 records'
-        assert getResponse.responseData.content.size == 10
+        assert getResponse.responseData.content.size() == 10
     }
 
     def 'Read all articles using pagination'() {
@@ -53,7 +53,7 @@ class SomeSpec extends Specification {
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'got 2 records'
-        assert getResponse.responseData.content.size == 2
+        assert getResponse.responseData.content.size() == 2
     }
 
     def 'Read particular article'() {

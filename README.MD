@@ -152,7 +152,7 @@ Or next way, using `dev` spring profile:
 ## To run functional tests:
 
     cd func-test
-    ./gradlew build
+    ./gradlew clean build
 
 Check Spock report at `func-test/build/spock-reports/index.html`
 
