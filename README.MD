@@ -73,6 +73,10 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 - Apply role-based security restrictions using basic authorization (encrypted credentials stored in DB): two roles - 
 ADMIN and USER, and USER has only read permissions
 
+## Prerequisites
+- Maven 3
+- JDK 17
+
 ## Build instructions
 
 #### Build application:
@@ -148,7 +152,7 @@ Or next way, using `dev` spring profile:
 ## To run functional tests:
 
     cd func-test
-    ./gradlew build
+    ./gradlew clean build
 
 Check Spock report at `func-test/build/spock-reports/index.html`
 
@@ -157,7 +161,7 @@ Check Spock report at `func-test/build/spock-reports/index.html`
 Gradle-based:
 
     cd load-test
-    ./gradlew build
+    ./gradlew clean build
     java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
 
 Or Maven-based:
