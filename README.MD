@@ -161,7 +161,7 @@ Check Spock report at `func-test/build/spock-reports/index.html`
 Gradle-based:
 
     cd load-test
-    ./gradlew build
+    ./gradlew clean build
     java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
 
 Or Maven-based:

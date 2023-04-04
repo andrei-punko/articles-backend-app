@@ -8,6 +8,7 @@ buildscript {
 apply plugin: 'scala'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -50,6 +51,8 @@ def logbackGatlingConfig() {
 }
 
 jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+
     // Set name of result jar-file
     archiveBaseName = archiveBaseName.get().concat('-fat')
 
