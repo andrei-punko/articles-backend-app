@@ -73,6 +73,10 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 - Apply role-based security restrictions using basic authorization (encrypted credentials stored in DB): two roles - 
 ADMIN and USER, and USER has only read permissions
 
+## Prerequisites
+- Maven 3
+- JDK 17
+
 ## Build instructions
 
 #### Build application:
