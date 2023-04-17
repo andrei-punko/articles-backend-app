@@ -10,7 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
@@ -24,19 +25,19 @@ public class SecurityConfig {
     DataSource dataSource;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select USERNAME, PASSWORD, ENABLED from SECURED_USERS where USERNAME=?")
-                .authoritiesByUsernameQuery("select USERNAME, ROLE from SECURED_USERS where username=?")
-                .passwordEncoder(bCryptPasswordEncoder)
+                .authoritiesByUsernameQuery("select USERNAME, ROLE from SECURED_USERS where USERNAME=?")
+                .passwordEncoder(passwordEncoder)
                 .and()
                 .build();
     }
