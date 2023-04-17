@@ -4,8 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.ArticleUpdateDto;
-import by.andd3dfx.validators.OnlyOneFieldModifiedValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +18,7 @@ class OnlyOneFieldModifiedValidatorTest {
     private ConstraintValidatorContext contextMock;
 
     @InjectMocks
-    private OnlyOneFieldModifiedValidator onlyOneFieldModifiedValidator; // constructor injection
+    private OnlyOneFieldModifiedValidator onlyOneFieldModifiedValidator;
 
     @Test
     void isValidWhenNoFieldsChanged() {

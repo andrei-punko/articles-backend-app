@@ -5,8 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.dao.AuthorRepository;
-import by.andd3dfx.validators.ExistingAuthorValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +23,7 @@ class ExistingAuthorValidatorTest {
     private ConstraintValidatorContext contextMock;
 
     @InjectMocks
-    private ExistingAuthorValidator existingAuthorValidator; // constructor injection
+    private ExistingAuthorValidator existingAuthorValidator;
 
     @Test
     void isValidForNullAuthor() {

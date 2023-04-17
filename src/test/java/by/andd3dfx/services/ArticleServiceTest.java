@@ -147,6 +147,7 @@ class ArticleServiceTest {
     @Test
     void delete() {
         final Long ARTICLE_ID = 123L;
+        Mockito.when(articleRepositoryMock.existsById(ARTICLE_ID)).thenReturn(true);
 
         articleService.delete(ARTICLE_ID);
 
@@ -156,14 +157,13 @@ class ArticleServiceTest {
     @Test
     void deleteAbsentArticle() {
         final Long ARTICLE_ID = 123L;
-        Mockito.doThrow(new EmptyResultDataAccessException(1)).when(articleRepositoryMock).deleteById(ARTICLE_ID);
+        Mockito.when(articleRepositoryMock.existsById(ARTICLE_ID)).thenReturn(false);
 
         try {
             articleService.delete(ARTICLE_ID);
 
             fail("Exception should be thrown");
         } catch (ArticleNotFoundException ex) {
-            Mockito.verify(articleRepositoryMock).deleteById(ARTICLE_ID);
             assertThat("Wrong message", ex.getMessage(), is("Could not find an article by id=" + ARTICLE_ID));
         }
     }

@@ -59,11 +59,10 @@ public class ArticleService implements IArticleService {
     @Transactional
     @Override
     public void delete(Long id) {
-        try {
-            articleRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException ex) {
+        if (!articleRepository.existsById(id)) {
             throw new ArticleNotFoundException(id);
         }
+        articleRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)

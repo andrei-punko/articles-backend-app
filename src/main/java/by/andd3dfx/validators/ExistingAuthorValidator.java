@@ -2,8 +2,8 @@ package by.andd3dfx.validators;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.persistence.dao.AuthorRepository;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)

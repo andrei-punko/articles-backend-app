@@ -2,8 +2,8 @@ package by.andd3dfx.validators;
 
 import by.andd3dfx.dto.ArticleUpdateDto;
 import java.lang.reflect.Field;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class OnlyOneFieldModifiedValidator implements ConstraintValidator<OnlyOneFieldModified, ArticleUpdateDto> {
 
