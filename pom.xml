@@ -12,7 +12,7 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<swagger.version>3.0.0</swagger.version>
-		<swagger-annotations.version>1.6.10</swagger-annotations.version>
+		<swagger-annotations.version>1.6.11</swagger-annotations.version>
 		<lombok.version>1.18.26</lombok.version>
 		<spring.version>3.0.6</spring.version>
 	</properties>
