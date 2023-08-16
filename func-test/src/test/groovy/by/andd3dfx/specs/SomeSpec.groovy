@@ -8,12 +8,8 @@ import static by.andd3dfx.configs.Configuration.restClient
 
 class SomeSpec extends Specification {
 
-    private static final String vasily_headers = "Basic ${"Vasily:{bcrypt}\$2y\$12\$xuRL6ncg2RVb4imAFKLOz.a3OAbxmIAYV5YfZrv2vVhm/26eS7V2C".bytes.encodeBase64()}"
-    private static final String ivan_headers = "Basic ${"Ivan:{bcrypt}\$2y\$12\$hkcB6greXd/nlLPzBVL8cu0kZA0vJFiPpp4szK/G2Bx3zHh5PR0di".bytes.encodeBase64()}"
-
     def 'Read all authors'() {
-        when: 'login with valid credentials and get all authors'
-        restClient.headers['Authorization'] = vasily_headers
+        when: 'get all authors'
         def getResponse = restClient.get(path: '/api/v1/authors')
 
         then: 'server returns 200 code (ok)'
@@ -23,8 +19,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read particular author'() {
-        when: 'login with valid credentials and get particular author'
-        restClient.headers['Authorization'] = vasily_headers
+        when: 'get particular author'
         def getResponse = restClient.get(path: '/api/v1/authors/4')
 
         then: 'server returns 200 code (ok)'
@@ -35,8 +30,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read all articles'() {
-        when: 'login with valid credentials and get all articles'
-        restClient.headers['Authorization'] = vasily_headers
+        when: 'get all articles'
         def getResponse = restClient.get(path: '/api/v1/articles')
 
         then: 'server returns 200 code (ok)'
@@ -46,8 +40,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read all articles using pagination'() {
-        when: 'login with valid credentials and get all articles'
-        restClient.headers['Authorization'] = vasily_headers
+        when: 'get all articles'
         def getResponse = restClient.get(
                 path: '/api/v1/articles',
                 query: [size: '2', page: '4', sort: 'author.firstName,DESC']
@@ -60,8 +53,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read particular article'() {
-        when: 'login with valid credentials and get particular article'
-        restClient.headers['Authorization'] = vasily_headers
+        when: 'get particular article'
         def getResponse = restClient.get(path: '/api/v1/articles/1')
 
         then: 'server returns 200 code (ok)'
@@ -73,19 +65,8 @@ class SomeSpec extends Specification {
         assert getResponse.responseData.author.lastName == 'Достоевский'
     }
 
-    def 'Delete an article when no permissions for that'() {
-        when: 'login with valid credentials and delete particular article when no permissions'
-        restClient.headers['Authorization'] = vasily_headers
-        restClient.delete(path: '/api/v1/articles/5')
-
-        then: 'got an 403 error'
-        def error = thrown(HttpResponseException)
-        assert error.statusCode == 403
-    }
-
     def 'Create an article'() {
-        when: 'login with valid credentials and create an article'
-        restClient.headers['Authorization'] = ivan_headers
+        when: 'create an article'
         def createResponse = restClient.post(
                 path: '/api/v1/articles',
                 body: [title: 'Some new title', summary: 'Bla-bla summary', text: 'BomBiBom', author: "{ id: '3' }"],
@@ -105,7 +86,6 @@ class SomeSpec extends Specification {
 
     def 'Delete an article'() {
         setup: 'create an article'
-        restClient.headers['Authorization'] = ivan_headers
         def createResponse = restClient.post(
                 path: '/api/v1/articles',
                 body: [
@@ -120,8 +100,7 @@ class SomeSpec extends Specification {
         assert createResponse.status == 201
         def id = createResponse.responseData.id
 
-        when: 'login with valid credentials and delete particular article'
-        restClient.headers['Authorization'] = ivan_headers
+        when: 'delete particular article'
         def deleteResponse = restClient.delete(path: '/api/v1/articles/' + id)
 
         then: 'server returns 204 code'
@@ -130,7 +109,7 @@ class SomeSpec extends Specification {
         and: 'try to get deleted article by id'
         try {
             restClient.get(path: '/api/v1/articles/' + id)
-            throw new RuntimeException("Should not found an article")
+            throw new RuntimeException("Should not found deleted article")
         } catch (HttpResponseException hre) {
             and: 'got an 404 error'
             assert hre.statusCode == 404
@@ -139,7 +118,6 @@ class SomeSpec extends Specification {
 
     def 'Update an article'() {
         when:
-        restClient.headers['Authorization'] = ivan_headers
         def newTitle = generateRandomString(10)
         def updateResponse = restClient.patch(
                 path: '/api/v1/articles/2',

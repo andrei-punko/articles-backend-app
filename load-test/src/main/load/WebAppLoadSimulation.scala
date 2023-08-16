@@ -40,7 +40,6 @@ class WebAppLoadSimulation extends Simulation {
         .post(articlesURI)
         .headers(sentHeaders)
         .body(StringBody("""{ "title": "${newTitle}", "text": "${newText}", "author": { "id": "${authorId}" } }""")).asJson
-        .basicAuth("Ivan", "ivan_pass")
         .check(status.is(201))
         .check(jsonPath("$.id").saveAs("newArticleId"))
     )
@@ -50,14 +49,12 @@ class WebAppLoadSimulation extends Simulation {
         .patch(articlesURI + "/${newArticleId}")
         .headers(sentHeaders)
         .body(StringBody("""{ "summary": "${newSummary}" }""")).asJson
-        .basicAuth("Ivan", "ivan_pass")
         .check(status.is(200))
     )
 
     val delete = exec(
       http("Delete article")
         .delete(articlesURI + "/${newArticleId}")
-        .basicAuth("Ivan", "ivan_pass")
         .check(status.is(204))
     )
 
@@ -65,14 +62,12 @@ class WebAppLoadSimulation extends Simulation {
     var read = feed(articlesFeeder).exec(
       http("Get article")
         .get(articlesURI + "/${articleId}")
-        .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
     var readAll = exec(
       http("Get all articles")
         .get(articlesURI)
-        .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
@@ -83,7 +78,6 @@ class WebAppLoadSimulation extends Simulation {
         .queryParam("size", _ => (10*(Random.nextInt(5) + 1)))
         .queryParam("page", _ => Random.nextInt(4))
         .queryParam("sort", "${sort}")
-        .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
   }
@@ -93,14 +87,12 @@ class WebAppLoadSimulation extends Simulation {
     var read = feed(authorsFeeder).exec(
       http("Get author")
         .get(authorsURI + "/${authorId}")
-        .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
 
     var readAll = exec(
       http("Get all authors")
         .get(authorsURI)
-        .basicAuth("Vasily", "vasily_pass")
         .check(status.is(200))
     )
   }
