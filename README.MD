@@ -9,7 +9,7 @@ _Build tool_: Maven
 
 _DB_: Postgres
 
-_Source Control:_ Git Hub (public)
+_Source Control:_ GitHub (public)
 
 _Application name:_ articles-backend-app
 
@@ -70,8 +70,6 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 - Operation for getting existing Article
 - Add pagination support for 'Retrieve all articles' operation
 - Operations for getting authors
-- Apply role-based security restrictions using basic authorization (encrypted credentials stored in DB): two roles - 
-ADMIN and USER, and USER has only read permissions
 
 ## Prerequisites
 - Maven 3
@@ -110,7 +108,7 @@ Or next way, using `dev` spring profile:
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.profiles.active=dev
 
-#### Start two Docker containers - one with Postgres DB and another with application:
+#### Start two Docker containers: one with Postgres DB and another with application:
     docker-compose up
 
 ## Logs location
@@ -126,28 +124,28 @@ Or next way, using `dev` spring profile:
     http://localhost:8099/swagger-ui.html
 
 #### New article addition:
-    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/api/v1/articles
+    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Some tittle", "text": "Some text", "author": { "id": 1 } }' -X POST http://localhost:8099/api/v1/articles
 
 #### Get existing article:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/articles/1
+    curl -i http://localhost:8099/api/v1/articles/1
 
 #### Update existing article:
-    curl -i -u Ivan:ivan_pass -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/api/v1/articles/2
+    curl -i -H "Accept: application/json" -H "Content-Type: application/json" -d '{ "title": "Another tittle" }' -X PATCH http://localhost:8099/api/v1/articles/2
 
 #### Get list of all articles:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/articles
+    curl -i http://localhost:8099/api/v1/articles
 
 #### Get list of articles with pagination support:
-    curl -i -u Vasily:vasily_pass 'http://localhost:8099/api/v1/articles?size=2&page=4&sort=author.firstName,DESC'
+    curl -i 'http://localhost:8099/api/v1/articles?size=2&page=4&sort=author.firstName,DESC'
 
 #### Deletion of article:
-    curl -i -u Ivan:ivan_pass -X DELETE http://localhost:8099/api/v1/articles/1
+    curl -i -X DELETE http://localhost:8099/api/v1/articles/1
 
 #### Get existing author:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/authors/4
+    curl -i http://localhost:8099/api/v1/authors/4
 
 #### Get list of all authors:
-    curl -i -u Vasily:vasily_pass http://localhost:8099/api/v1/authors
+    curl -i http://localhost:8099/api/v1/authors
 
 ## To run functional tests:
 

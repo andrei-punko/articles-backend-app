@@ -6,7 +6,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -26,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -46,12 +44,10 @@ class ArticleControllerTest {
     @BeforeEach
     public void setup() {
         mockMvc = webAppContextSetup(webApplicationContext)
-            .apply(springSecurity())
             .build();
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
@@ -76,25 +72,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void createArticleUnauthorized() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle("Some tittle value");
-        articleDto.setSummary("Some summary value");
-        articleDto.setText("Some text");
-        AuthorDto authorDto = new AuthorDto();
-        authorDto.setId(1L);
-        articleDto.setAuthor(authorDto);
-
-        mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithIdPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setId(123L);
@@ -115,7 +92,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithoutTitle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setSummary("Some summary value");
@@ -134,7 +110,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithEmptyTitle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("");
@@ -154,7 +129,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithTooLongTitle() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle(createStringWithLength(101));
@@ -174,7 +148,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithTooLongSummary() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
@@ -194,7 +167,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithoutText() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
@@ -213,7 +185,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithEmptyText() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
@@ -233,7 +204,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithoutAuthor() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
@@ -250,7 +220,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithWrongAuthor() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
@@ -270,7 +239,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithDateCreatedPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
@@ -291,7 +259,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void createArticleWithDateUpdatedPopulated() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
@@ -312,7 +279,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void deleteArticle() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/1")
             .contentType(APPLICATION_JSON)
@@ -321,16 +287,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void deleteArticleUnauthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/articles/1")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
     public void deleteAbsentArticle() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/9999")
             .contentType(APPLICATION_JSON))
@@ -338,8 +294,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
-    public void readArticleForAdmin() throws Exception {
+    public void readArticle() throws Exception {
         mockMvc.perform(get("/api/v1/articles/1")
             .contentType(APPLICATION_JSON)
         )
@@ -348,17 +303,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void readArticleForUser() throws Exception {
-        mockMvc.perform(get("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(2)));
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
     public void readAbsentArticle() throws Exception {
         mockMvc.perform(get("/api/v1/articles/345")
             .contentType(APPLICATION_JSON))
@@ -366,8 +310,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
-    public void readArticlesForAdmin() throws Exception {
+    public void readArticles() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
             .contentType(APPLICATION_JSON)
         )
@@ -380,21 +323,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void readArticlesForUser() throws Exception {
-        mockMvc.perform(get("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content", hasSize(10)))
-            .andExpect(jsonPath("$.number", is(0)))
-            .andExpect(jsonPath("$.size", is(50)))
-            .andExpect(jsonPath("$.totalPages", is(1)))
-            .andExpect(jsonPath("$.totalElements", is(10)));
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
     public void readArticlesWithPageSizeLimit() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
             .param("size", "5")
@@ -405,12 +333,10 @@ class ArticleControllerTest {
             .andExpect(jsonPath("$.number", is(0)))
             .andExpect(jsonPath("$.size", is(5)))
             .andExpect(jsonPath("$.totalPages", is(2)))
-            .andExpect(jsonPath("$.totalElements", is(9)))
-        ;
+            .andExpect(jsonPath("$.totalElements", is(9)));
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleTitle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("Some tittle value");
@@ -423,20 +349,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void updateArticleTitleUnauthorized() throws Exception {
-        ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
-        articleUpdateDto.setTitle("Some tittle value");
-
-        mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleSummary() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setSummary("Some summary value");
@@ -449,7 +361,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleText() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setText("Some text value");
@@ -462,7 +373,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleMultipleFields() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setSummary("Some summary value");
@@ -478,7 +388,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateAbsentArticle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("q");
@@ -490,7 +399,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleWithEmptyTitle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("");
@@ -505,7 +413,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleWithTooLongTitle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle(createStringWithLength(101));
@@ -520,7 +427,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleWithTooLongSummary() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setSummary(createStringWithLength(260));
@@ -535,7 +441,6 @@ class ArticleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void updateArticleWithEmptyText() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setText("");

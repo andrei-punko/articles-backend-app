@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,7 +22,6 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,12 +44,10 @@ class LoggingControllerTest {
     @BeforeEach
     public void setup() {
         mockMvc = webAppContextSetup(webApplicationContext)
-                .apply(springSecurity())
                 .build();
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void getLoggedRecords() throws Exception {
         final List<MethodCallRecord> items = Arrays.asList(new MethodCallRecord());
 
@@ -69,7 +65,6 @@ class LoggingControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
     public void addLoggingRecord() throws Exception {
         final MethodCallRecord loggedRecord = new MethodCallRecord();
         loggedRecord.setName("methodName");
