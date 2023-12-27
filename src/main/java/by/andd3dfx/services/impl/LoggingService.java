@@ -45,7 +45,9 @@ public class LoggingService implements ILoggingService {
     }
 
     private MethodCallRecord buildMethodCallRecord(Method method, Object[] args, Object result, boolean isSucceed) {
-        List<String> paramNames = Arrays.stream(method.getParameters()).map(Parameter::getName).collect(Collectors.toList());
+        List<String> paramNames = Arrays.stream(method.getParameters())
+                .map(Parameter::getName)
+                .toList();
         if (paramNames.size() != args.length) {
             throw new IllegalArgumentException("Parameter names amount differ from args amount!");
         }

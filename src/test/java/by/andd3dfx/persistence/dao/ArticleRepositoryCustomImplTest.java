@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
@@ -153,7 +154,7 @@ class ArticleRepositoryCustomImplTest {
         assertTrue(repository.findByCriteria(new ArticleSearchCriteria()).isEmpty());
     }
 
-    private Article buildArticle(String title, String summary, LocalDateTime timestamp) {
+    public static Article buildArticle(String title, String summary, LocalDateTime timestamp) {
         Article article = new Article();
         article.setTitle(title);
         article.setSummary(summary);

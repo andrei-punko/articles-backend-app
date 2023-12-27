@@ -32,6 +32,6 @@ public class AuthorService implements IAuthorService {
     public List<AuthorDto> getAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
             .map(authorMapper::toAuthorDto)
-            .collect(Collectors.toList());
+            .toList();
     }
 }

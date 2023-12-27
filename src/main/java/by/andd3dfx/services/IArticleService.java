@@ -3,8 +3,8 @@ package by.andd3dfx.services;
 import by.andd3dfx.dto.ArticleDto;
 import by.andd3dfx.dto.ArticleUpdateDto;
 import java.util.List;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 public interface IArticleService {
 
@@ -18,5 +18,5 @@ public interface IArticleService {
 
     List<ArticleDto> getAll(Integer pageNo, Integer pageSize, String sortBy);
 
-    Page<ArticleDto> getAll(Pageable pageable);
+    Slice<ArticleDto> getAll(Pageable pageable);
 }
