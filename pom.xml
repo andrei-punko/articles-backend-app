@@ -9,16 +9,21 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 		<java.version>17</java.version>
+
+		<spring.version>3.1.7</spring.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
-		<swagger.version>3.0.0</swagger.version>
-		<swagger-annotations.version>1.6.11</swagger-annotations.version>
-		<lombok.version>1.18.28</lombok.version>
-		<spring.version>3.1.1</spring.version>
+		<lombok.version>1.18.30</lombok.version>
+
+		<springfox.version>3.0.0</springfox.version>
+		<swagger.version>1.6.12</swagger.version>
+		<springdoc.version>2.3.0</springdoc.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Import dependency management for JUnit -->
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
@@ -28,7 +33,7 @@
 			</dependency>
 
 			<dependency>
-				<!-- Import dependency management from Spring Boot -->
+				<!-- Import dependency management for Spring Boot -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring.version}</version>
@@ -81,22 +86,22 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.1.0</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${swagger.version}</version>
+			<version>${springfox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger-annotations.version}</version>
+			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-models</artifactId>
-			<version>${swagger-annotations.version}</version>
+			<version>${swagger.version}</version>
 		</dependency>
 
 		<dependency>
@@ -154,7 +159,6 @@
 			<version>3.6.4</version>
 		</dependency>
 
-		<!-- Apache commons -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -177,9 +181,8 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
+				<version>3.12.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -199,15 +202,14 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.2.3</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
+				<version>0.8.11</version>
 				<executions>
 					<execution>
 						<goals>
