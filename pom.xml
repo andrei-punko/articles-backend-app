@@ -12,7 +12,7 @@
 
 		<java.version>17</java.version>
 
-		<spring.version>3.1.7</spring.version>
+		<spring-boot.version>3.1.7</spring-boot.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok.version>1.18.30</lombok.version>
 
@@ -36,7 +36,7 @@
 				<!-- Import dependency management for Spring Boot -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring.version}</version>
+				<version>${spring-boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -125,7 +125,7 @@
 			</exclusions>
 		</dependency>
 
-    <!-- Web-Sockets -->
+		<!-- Web-Sockets -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -170,7 +170,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring.version}</version>
+				<version>${spring-boot.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -217,8 +217,8 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>generate-code-coverage-report</id>
-						<phase>test</phase>
+						<id>report</id>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
@@ -226,9 +226,9 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/configs/*</exclude>
-						<exclude>**/dto/*</exclude>
-						<exclude>**/entities/*</exclude>
+						<exclude>**/configs/**</exclude>
+						<exclude>**/dto/**</exclude>
+						<exclude>**/entities/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
