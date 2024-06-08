@@ -30,7 +30,7 @@ public class AuthorController {
     @GetMapping("/{id}")
     public AuthorDto readAuthor(
         @ApiParam("Author's id")
-        @NotNull @PathVariable Long id) {
+        @NotNull @PathVariable("id") Long id) {
         return authorService.get(id);
     }
 
