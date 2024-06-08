@@ -73,7 +73,7 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 
 ## Prerequisites
 - Maven 3
-- JDK 17
+- JDK 21
 
 ## Build instructions
 
