@@ -10,16 +10,13 @@ public class OnlyOneFieldModifiedValidator implements ConstraintValidator<OnlyOn
     @Override
     public boolean isValid(ArticleUpdateDto articleUpdateDto, ConstraintValidatorContext context) {
         int count = 0;
-        ArticleUpdateDto.class.getDeclaredFields();
         for (Field field : ArticleUpdateDto.class.getDeclaredFields()) {
             try {
-                final boolean isAccessible = field.canAccess(articleUpdateDto);
                 field.setAccessible(true);
                 final Object o = field.get(articleUpdateDto);
                 if (o != null) {
                     count++;
                 }
-                field.setAccessible(isAccessible);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

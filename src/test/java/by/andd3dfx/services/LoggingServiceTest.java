@@ -31,8 +31,6 @@ class LoggingServiceTest {
     @Mock
     LoggingRepository loggingRepository;
     @Mock
-    SimpMessagingTemplate messagingTemplate;
-    @Mock
     JsonHelper jsonHelper;
     @Captor
     ArgumentCaptor<LoggedRecord> captor;

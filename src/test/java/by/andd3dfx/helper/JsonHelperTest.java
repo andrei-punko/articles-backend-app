@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import by.andd3dfx.dto.MethodCallRecord;
+import by.andd3dfx.util.TestUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ class JsonHelperTest {
 
     @BeforeEach
     void setup() {
-        jsonHelper = new JsonHelper(new ObjectMapper());
+        jsonHelper = new JsonHelper(TestUtil.getMapper());
     }
 
     @Test
