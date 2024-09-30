@@ -1,24 +1,22 @@
 package by.andd3dfx.annotations;
 
 import by.andd3dfx.services.ILoggingService;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.internal.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cglib.proxy.Proxy;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomLogAnnotationBeanPostProcessor implements BeanPostProcessor {
 
-    private final static Logger logger = LoggerFactory.getLogger(CustomLogAnnotationBeanPostProcessor.class);
     private final ILoggingService loggingService;
 
     @Override

@@ -36,24 +36,24 @@ class AuthorControllerTest {
     @Test
     public void readAuthor() throws Exception {
         mockMvc.perform(get("/api/v1/authors/1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(1)))
-            .andExpect(jsonPath("$.firstName", is("Тихон")))
-            .andExpect(jsonPath("$.lastName", is("Задонский")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstName", is("Тихон")))
+                .andExpect(jsonPath("$.lastName", is("Задонский")));
     }
 
     @Test
     public void readAbsentAuthor() throws Exception {
-        String message = mockMvc.perform(get("/api/v1/authors/345"))
-            .andExpect(status().isNotFound())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(get("/api/v1/authors/345"))
+                .andExpect(status().isNotFound())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Could not find an author by id=345"));
     }
 
     @Test
     public void readAuthors() throws Exception {
         mockMvc.perform(get("/api/v1/authors"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(11)));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(11)));
     }
 }

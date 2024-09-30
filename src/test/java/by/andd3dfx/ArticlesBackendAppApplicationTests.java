@@ -8,5 +8,6 @@ class ArticlesBackendAppApplicationTests {
 
     @Test
     void contextLoads() {
+        // do nothing
     }
 }

@@ -41,7 +41,7 @@ public class LoggingRepositoryCustomImpl implements LoggingRepositoryCustom {
             predicates.add(builder.lessThan(from.get("id"), criteria.getIdCap()));
         }
 
-        final List<Order> orderList = Arrays.asList(builder.desc(from.get("timestamp")));
+        var orderList = List.of(builder.desc(from.get("timestamp")));
         cq.where(predicates.toArray(new Predicate[0]));
         cq.orderBy(orderList);
 

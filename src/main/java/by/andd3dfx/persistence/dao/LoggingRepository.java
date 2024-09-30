@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LoggingRepository extends
-        CrudRepository<LoggedRecord, Long>, LoggingRepositoryCustom {
+public interface LoggingRepository extends CrudRepository<LoggedRecord, Long>, LoggingRepositoryCustom {
 
 }

@@ -20,7 +20,7 @@ public class JsonHelper {
 
     @SneakyThrows
     public Map<String, Object> jsonStringToMap(String jsonString) {
-        return objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {
+        return objectMapper.readValue(jsonString, new TypeReference<>() {
         });
     }
 

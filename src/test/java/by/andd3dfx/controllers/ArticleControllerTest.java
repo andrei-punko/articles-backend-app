@@ -1,5 +1,6 @@
 package by.andd3dfx.controllers;
 
+import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -21,6 +22,8 @@ import by.andd3dfx.dto.AuthorDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +52,7 @@ class ArticleControllerTest {
 
     @Test
     public void createArticle() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
+        var articleDto = new ArticleDto();
         articleDto.setTitle("Some tittle value");
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
@@ -58,17 +61,16 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
 
         mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.id", notNullValue()))
-            .andExpect(jsonPath("$.title", is(articleDto.getTitle())))
-            .andExpect(jsonPath("$.summary", is(articleDto.getSummary())))
-            .andExpect(jsonPath("$.text", is(articleDto.getText())))
-            .andExpect(jsonPath("$.author.id", is(1)))
-            .andExpect(jsonPath("$.dateCreated", notNullValue()))
-            .andExpect(jsonPath("$.dateUpdated", notNullValue()));
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", notNullValue()))
+                .andExpect(jsonPath("$.title", is(articleDto.getTitle())))
+                .andExpect(jsonPath("$.summary", is(articleDto.getSummary())))
+                .andExpect(jsonPath("$.text", is(articleDto.getText())))
+                .andExpect(jsonPath("$.author.id", is(1)))
+                .andExpect(jsonPath("$.dateCreated", notNullValue()))
+                .andExpect(jsonPath("$.dateUpdated", notNullValue()));
     }
 
     @Test
@@ -82,12 +84,11 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Article id shouldn't be present"));
     }
 
@@ -100,12 +101,11 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Title should be populated"));
     }
 
@@ -119,31 +119,29 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        final String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Title length must be between 1 and 100"));
     }
 
     @Test
     public void createArticleWithTooLongTitle() throws Exception {
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setTitle(createStringWithLength(101));
+        var articleDto = new ArticleDto();
+        articleDto.setTitle(random(101));
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Title length must be between 1 and 100"));
     }
 
@@ -151,18 +149,17 @@ class ArticleControllerTest {
     public void createArticleWithTooLongSummary() throws Exception {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setTitle("Some title");
-        articleDto.setSummary(createStringWithLength(260));
+        articleDto.setSummary(random(260));
         articleDto.setText("Some text");
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Summary length shouldn't be greater than 255"));
     }
 
@@ -175,12 +172,11 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Text should be populated"));
     }
 
@@ -194,12 +190,11 @@ class ArticleControllerTest {
         authorDto.setId(1L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Text length should be 1 at least"));
     }
 
@@ -210,12 +205,11 @@ class ArticleControllerTest {
         articleDto.setSummary("Some summary value");
         articleDto.setText("Some text");
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Author should be populated"));
     }
 
@@ -229,12 +223,11 @@ class ArticleControllerTest {
         authorDto.setId(100L);
         articleDto.setAuthor(authorDto);
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Unknown author"));
     }
 
@@ -249,12 +242,11 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
         articleDto.setDateCreated(LocalDateTime.now());
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("DateCreated shouldn't be populated"));
     }
 
@@ -269,21 +261,19 @@ class ArticleControllerTest {
         articleDto.setAuthor(authorDto);
         articleDto.setDateUpdated(LocalDateTime.now());
 
-        String message = mockMvc.perform(post("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(post("/api/v1/articles")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("DateUpdated shouldn't be populated"));
     }
 
     @Test
     public void deleteArticle() throws Exception {
         mockMvc.perform(delete("/api/v1/articles/1")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isNoContent());
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -296,10 +286,9 @@ class ArticleControllerTest {
     @Test
     public void readArticle() throws Exception {
         mockMvc.perform(get("/api/v1/articles/1")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id", is(1)));
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)));
     }
 
     @Test
@@ -312,28 +301,26 @@ class ArticleControllerTest {
     @Test
     public void readArticles() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content", hasSize(10)))
-            .andExpect(jsonPath("$.number", is(0)))
-            .andExpect(jsonPath("$.size", is(50)))
-            .andExpect(jsonPath("$.totalPages", is(1)))
-            .andExpect(jsonPath("$.totalElements", is(10)));
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(10)))
+                .andExpect(jsonPath("$.number", is(0)))
+                .andExpect(jsonPath("$.size", is(50)))
+                .andExpect(jsonPath("$.totalPages", is(1)))
+                .andExpect(jsonPath("$.totalElements", is(10)));
     }
 
     @Test
     public void readArticlesWithPageSizeLimit() throws Exception {
         mockMvc.perform(get("/api/v1/articles")
-            .param("size", "5")
-            .contentType(APPLICATION_JSON)
-        )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content", hasSize(5)))
-            .andExpect(jsonPath("$.number", is(0)))
-            .andExpect(jsonPath("$.size", is(5)))
-            .andExpect(jsonPath("$.totalPages", is(2)))
-            .andExpect(jsonPath("$.totalElements", is(9)));
+                        .param("size", "5")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(5)))
+                .andExpect(jsonPath("$.number", is(0)))
+                .andExpect(jsonPath("$.size", is(5)))
+                .andExpect(jsonPath("$.totalPages", is(2)))
+                .andExpect(jsonPath("$.totalElements", is(9)));
     }
 
     @Test
@@ -342,10 +329,9 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("Some tittle value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isOk());
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -354,10 +340,9 @@ class ArticleControllerTest {
         articleUpdateDto.setSummary("Some summary value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isOk());
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -366,10 +351,9 @@ class ArticleControllerTest {
         articleUpdateDto.setText("Some text value");
 
         mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isOk());
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -378,12 +362,11 @@ class ArticleControllerTest {
         articleUpdateDto.setSummary("Some summary value");
         articleUpdateDto.setText("Some text value");
 
-        String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(patch("/api/v1/articles/2")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Only one field should be modified at once"));
     }
 
@@ -393,9 +376,9 @@ class ArticleControllerTest {
         articleUpdateDto.setTitle("q");
 
         mockMvc.perform(patch("/api/v1/articles/123")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto)))
-            .andExpect(status().isNotFound());
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -403,40 +386,37 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setTitle("");
 
-        String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(patch("/api/v1/articles/2")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Title length must be between 1 and 100"));
     }
 
     @Test
     public void updateArticleWithTooLongTitle() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
-        articleUpdateDto.setTitle(createStringWithLength(101));
+        articleUpdateDto.setTitle(random(101));
 
-        String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(patch("/api/v1/articles/2")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Title length must be between 1 and 100"));
     }
 
     @Test
     public void updateArticleWithTooLongSummary() throws Exception {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
-        articleUpdateDto.setSummary(createStringWithLength(260));
+        articleUpdateDto.setSummary(random(260));
 
-        String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(patch("/api/v1/articles/2")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Summary length shouldn't be greater than 255"));
     }
 
@@ -445,24 +425,15 @@ class ArticleControllerTest {
         ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
         articleUpdateDto.setText("");
 
-        String message = mockMvc.perform(patch("/api/v1/articles/2")
-            .contentType(APPLICATION_JSON)
-            .content(json(articleUpdateDto))
-        )
-            .andExpect(status().isBadRequest())
-            .andReturn().getResolvedException().getMessage();
+        var message = mockMvc.perform(patch("/api/v1/articles/2")
+                        .contentType(APPLICATION_JSON)
+                        .content(json(articleUpdateDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResolvedException().getMessage();
         assertThat(message, containsString("Text length should be 1 at least"));
     }
 
     private String json(Object o) throws IOException {
         return objectMapper.writeValueAsString(o);
-    }
-
-    private String createStringWithLength(int length) {
-        StringBuilder builder = new StringBuilder();
-        for (int index = 0; index < length; index++) {
-            builder.append("a");
-        }
-        return builder.toString();
     }
 }

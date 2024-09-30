@@ -10,6 +10,7 @@ import java.util.List;
  * Class for testing purposes to catch logs.
  */
 public class MemoryAppender extends ListAppender<ILoggingEvent> {
+
     public void reset() {
         list.clear();
     }

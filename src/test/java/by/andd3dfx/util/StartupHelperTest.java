@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.StandardEnvironment;
 
 class StartupHelperTest {
+
     private MemoryAppender memoryAppender;
 
     @BeforeEach
