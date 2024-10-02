@@ -3,7 +3,6 @@
 [![Coverage](.github/badges/jacoco.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
 [![Branches](.github/badges/branches.svg)](https://github.com/andrei-punko/articles-backend-app/actions/workflows/maven.yml)
 
----
 ## Requirements
 This should be purely a REST endpoints backend application without UI, but feel free to attach Swagger UI for convenience.
 
@@ -64,12 +63,10 @@ The **authors** table should not be updatable via endpoints. Feel free to popula
 - Add pagination support for `Retrieve all articles` operation
 - Operations for getting authors
 
----
 ## Prerequisites
 - Maven 3
 - JDK 21
 
----
 ## Build an application:
 ```bash
 mvn clean install
@@ -83,7 +80,6 @@ docker build ./ -t articles-backend-app
 
 Result Docker image has name `articles-backend-app` as mentioned in command
 
----
 ## Start application using Maven (vs in-memory DB H2):
     mvn spring-boot:run -Dspring-boot.run.arguments="\
     --spring.datasource.url=jdbc:h2:mem:testdb \
@@ -110,21 +106,18 @@ Or next way, using `dev` spring profile:
 ### Start two Docker containers - with Postgres DB and application:
     docker-compose up
 
----
 ## Link for quick check:
 http://localhost:8099/api/v1/articles
 
 ## Swagger documentation:
 http://localhost:8099/swagger-ui.html
 
----
 ## Check logs when start without Docker:
     less ./logs/spring-boot-logger.log
 
 ## Check logs when start using Docker:
     docker exec -it articles-backend-app sh
     less /logs/spring-boot-logger.log
----
 
 ## Useful CURL commands
 
@@ -168,7 +161,6 @@ curl -i http://localhost:8099/api/v1/authors/4
 curl -i http://localhost:8099/api/v1/authors
 ```
 
----
 ## Run functional tests:
 
     cd func-test
@@ -176,7 +168,6 @@ curl -i http://localhost:8099/api/v1/authors
 
 Check Spock report at `func-test/build/spock-reports/index.html`
 
----
 ## Run performance tests:
 Gradle-based:
 
@@ -192,11 +183,9 @@ Or Maven-based:
 
 Based on https://gatling.io/docs/3.0/extensions/maven_plugin
 
----
 ## Check Web-Sockets functionality:
 Just open page http://localhost:8099 and click `Connect`.  
 Check heartbeat logs in browser developer console.
 
----
 ## Taste ELK stack with logs providing by Filebeat:
 Check [ELK README](elk-filebeat/README.MD) with details
