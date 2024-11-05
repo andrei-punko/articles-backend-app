@@ -20,13 +20,26 @@ class SomeSpec extends Specification {
 
     def 'Read particular author'() {
         when: 'get particular author'
-        def getResponse = restClient.get(path: '/api/v1/authors/4')
+        def getResponse = restClient.get(path: '/api/v1/authors/' + authorId)
 
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'response contains expected author'
-        assert getResponse.responseData.firstName == 'Николай'
-        assert getResponse.responseData.lastName == 'Пестов'
+        assert getResponse.responseData.firstName == firstName
+        assert getResponse.responseData.lastName == lastName
+
+        where:
+        authorId | firstName | lastName
+        1        | 'Тихон'   | 'Задонский'
+        2        | 'Федор'   | 'Достоевский'
+        3        | 'Николай' | 'Гоголь'
+        4        | 'Николай' | 'Пестов'
+        5        | 'Сергей'  | 'Нилус'
+        6        | 'Игнатий' | 'Брянчанинов'
+        7        | 'Георгий' | 'Максимов'
+        8        | 'Даниил'  | 'Сысоев'
+        9        | 'Иоанн'   | 'Сергиев'
+        10       | 'Исаак'   | 'Сирин'
     }
 
     def 'Read all articles'() {
@@ -54,15 +67,22 @@ class SomeSpec extends Specification {
 
     def 'Read particular article'() {
         when: 'get particular article'
-        def getResponse = restClient.get(path: '/api/v1/articles/1')
+        def getResponse = restClient.get(path: '/api/v1/articles/' + id)
 
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'got expected article'
-        assert getResponse.responseData.title == 'Игрок'
-        assert getResponse.responseData.summary == 'Рассказ о страсти игромании'
-        assert getResponse.responseData.author.firstName == 'Федор'
-        assert getResponse.responseData.author.lastName == 'Достоевский'
+        assert getResponse.responseData.title == title
+        assert getResponse.responseData.summary == summary
+        assert getResponse.responseData.author.firstName == authorFirstName
+        assert getResponse.responseData.author.lastName == authorLastName
+
+        where:
+        id | title                              | summary                          | authorFirstName | authorLastName
+        1  | 'Игрок'                            | 'Рассказ о страсти игромании'    | 'Федор'         | 'Достоевский'
+        8  | 'Сила Божия и немощь человеческая' | 'Жизнеописание игумена Феодосия' | 'Сергей'        | 'Нилус'
+        9  | 'Отечник'                          | 'Цитаты Святых Отцов'            | 'Игнатий'       | 'Брянчанинов'
+        10 | 'Душеполезные поучения'            | 'Азбука духовной жизни'          | 'Авва'          | 'Дорофей'
     }
 
     def 'Create an article'() {
@@ -100,24 +120,23 @@ class SomeSpec extends Specification {
         assert createResponse.status == 201
         def id = createResponse.responseData.id
 
-        when: 'delete particular article'
+        when: 'delete just created article'
         def deleteResponse = restClient.delete(path: '/api/v1/articles/' + id)
 
         then: 'server returns 204 code'
         assert deleteResponse.status == 204
 
-        and: 'try to get deleted article by id'
+        and: 'couldn\'t get deleted article by id, got 404 error instead'
         try {
             restClient.get(path: '/api/v1/articles/' + id)
             throw new RuntimeException("Should not found deleted article")
         } catch (HttpResponseException hre) {
-            and: 'got an 404 error'
             assert hre.statusCode == 404
         }
     }
 
     def 'Update an article'() {
-        when:
+        when: 'update title of an article with id=2'
         def newTitle = generateRandomString(10)
         def updateResponse = restClient.patch(
                 path: '/api/v1/articles/2',
@@ -132,6 +151,7 @@ class SomeSpec extends Specification {
         def getResponse = restClient.get(path: '/api/v1/articles/2')
         and: 'got 200 status'
         assert getResponse.status == 200
+        and: 'got article title equals to new value'
         assert getResponse.responseData.title == newTitle
     }
 

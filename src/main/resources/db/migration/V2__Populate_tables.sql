@@ -7,7 +7,7 @@ insert into authors (id, first_name, last_name) values (nextval('author_id_seq')
 insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Георгий', 'Максимов');
 insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Даниил', 'Сысоев');
 insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Иоанн', 'Сергиев');
-insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Исаак', 'Сирский');
+insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Исаак', 'Сирин');
 insert into authors (id, first_name, last_name) values (nextval('author_id_seq'), 'Авва', 'Дорофей');
 
 insert into articles (id, title, summary, text, author_id, date_created, date_updated)
@@ -32,10 +32,10 @@ insert into articles (id, title, summary, text, author_id, date_created, date_up
 values (nextval('ARTICLE_ID_SEQ'), 'Современная практика православного благочестия', 'Руководство к духовной жизни', '', 4, current_timestamp, current_timestamp);
 
 insert into articles (id, title, summary, text, author_id, date_created, date_updated)
-values (nextval('ARTICLE_ID_SEQ'), 'Великое в малом', '', '', 5, current_timestamp, current_timestamp);
+values (nextval('ARTICLE_ID_SEQ'), 'Сила Божия и немощь человеческая', 'Жизнеописание игумена Феодосия', '', 5, current_timestamp, current_timestamp);
 
 insert into articles (id, title, summary, text, author_id, date_created, date_updated)
-values (nextval('ARTICLE_ID_SEQ'), 'Отечник', 'Выписки из святых отцов', '', 6, current_timestamp, current_timestamp);
+values (nextval('ARTICLE_ID_SEQ'), 'Отечник', 'Цитаты Святых Отцов', '', 6, current_timestamp, current_timestamp);
 
 insert into articles (id, title, summary, text, author_id, date_created, date_updated)
 values (nextval('ARTICLE_ID_SEQ'), 'Душеполезные поучения', 'Азбука духовной жизни', '', 11, current_timestamp, current_timestamp);
