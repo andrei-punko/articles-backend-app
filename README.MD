@@ -173,7 +173,7 @@ Gradle-based:
 
     cd load-test
     ./gradlew clean build
-    java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
+    java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/articles-backend-app-load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
 
 Or Maven-based:
 
