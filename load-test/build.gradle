@@ -1,7 +1,7 @@
 buildscript {
     ext {
         gatling_version = '3.3.1'
-        scala_lib_version = '2.12.10'
+        scala_lib_version = '2.12.19'
     } 
 }
 
