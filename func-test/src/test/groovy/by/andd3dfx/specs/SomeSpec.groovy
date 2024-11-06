@@ -56,7 +56,11 @@ class SomeSpec extends Specification {
         when: 'get all articles for page=4, pageSize=2, sort by author.firstName,DESC'
         def getResponse = restClient.get(
                 path: '/api/v1/articles',
-                query: [size: '2', page: '4', sort: 'author.firstName,DESC']
+                query: [
+                        size: '2',
+                        page: '4',
+                        sort: 'author.firstName,DESC'
+                ]
         )
 
         then: 'server returns 200 code (ok)'
@@ -89,7 +93,12 @@ class SomeSpec extends Specification {
         when: 'create an article'
         def createResponse = restClient.post(
                 path: '/api/v1/articles',
-                body: [title: 'Some new title', summary: 'Bla-bla summary', text: 'BomBiBom', author: "{ id: '3' }"],
+                body: [
+                        title  : 'Some new title',
+                        summary: 'Bla-bla summary',
+                        text   : 'BomBiBom',
+                        author : "{ id: '3' }"
+                ],
                 requestContentType: 'application/json'
         )
 
@@ -155,7 +164,7 @@ class SomeSpec extends Specification {
         assert getResponse.responseData.title == newTitle
     }
 
-    String generateRandomString(int count) {
-        RandomStringUtils.random(count, true, true)
+    private static String generateRandomString(int count) {
+        return RandomStringUtils.random(count, true, true)
     }
 }
