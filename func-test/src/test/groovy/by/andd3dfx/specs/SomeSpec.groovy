@@ -19,7 +19,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read particular author'() {
-        when: 'get particular author'
+        when: 'get particular author by id'
         def getResponse = restClient.get(path: '/api/v1/authors/' + authorId)
 
         then: 'server returns 200 code (ok)'
@@ -53,7 +53,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read all articles using pagination'() {
-        when: 'get all articles'
+        when: 'get all articles for page=4, pageSize=2, sort by author.firstName,DESC'
         def getResponse = restClient.get(
                 path: '/api/v1/articles',
                 query: [size: '2', page: '4', sort: 'author.firstName,DESC']
@@ -66,7 +66,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Read particular article'() {
-        when: 'get particular article'
+        when: 'get particular article by id'
         def getResponse = restClient.get(path: '/api/v1/articles/' + id)
 
         then: 'server returns 200 code (ok)'
@@ -100,7 +100,7 @@ class SomeSpec extends Specification {
         assert createResponse.responseData.summary == 'Bla-bla summary'
         assert createResponse.responseData.text == 'BomBiBom'
 
-        cleanup:
+        cleanup: 'delete created article'
         restClient.delete(path: '/api/v1/articles/' + createResponse.responseData.id)
     }
 
@@ -136,7 +136,7 @@ class SomeSpec extends Specification {
     }
 
     def 'Update an article'() {
-        when: 'update title of an article with id=2'
+        when: 'update article.title for article with id=2'
         def newTitle = generateRandomString(10)
         def updateResponse = restClient.patch(
                 path: '/api/v1/articles/2',

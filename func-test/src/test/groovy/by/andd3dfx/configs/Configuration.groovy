@@ -1,6 +1,5 @@
 package by.andd3dfx.configs
 
-
 import groovyx.net.http.RESTClient
 
 class Configuration {
