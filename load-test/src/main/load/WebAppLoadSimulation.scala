@@ -31,9 +31,9 @@ class WebAppLoadSimulation extends Simulation {
     val authorsFeeder = csv("authors.csv").random
     val sentHeaders = Map("Content-Type" -> "application/json", "Accept" -> "application/json")
     var randomStringFeeder = Iterator.continually(Map(
-      "newTitle" -> (Random.alphanumeric.take(15).mkString),
-      "newText" -> (Random.alphanumeric.take(15).mkString),
-      "newSummary" -> (Random.alphanumeric.take(5).mkString),
+      "newTitle" -> Random.alphanumeric.take(15).mkString,
+      "newText" -> Random.alphanumeric.take(15).mkString,
+      "newSummary" -> Random.alphanumeric.take(5).mkString,
     ))
     val create = feed(authorsFeeder).feed(randomStringFeeder).exec(
       http("Create article")
@@ -75,7 +75,7 @@ class WebAppLoadSimulation extends Simulation {
     val readWithPagination = feed(pageFeeder).exec(
       http("Get articles with pagination")
         .get(articlesURI)
-        .queryParam("size", _ => (10*(Random.nextInt(5) + 1)))
+        .queryParam("size", _ => 10*(Random.nextInt(5) + 1))
         .queryParam("page", _ => Random.nextInt(4))
         .queryParam("sort", "${sort}")
         .check(status.is(200))
