@@ -14,7 +14,7 @@ services:
       POSTGRES_PASSWORD: articles-password
 
   articles-backend-app:
-    build: ./
+    build: .
     image: articles-backend-app
     restart: always
     volumes:
