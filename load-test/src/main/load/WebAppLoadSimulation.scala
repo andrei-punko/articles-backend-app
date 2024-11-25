@@ -4,21 +4,22 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.Random
 
 class WebAppLoadSimulation extends Simulation {
 
-  val rampUpTimeSecs = 15
-  val testTimeSecs = Integer.getInteger("testTimeSecs", 50)
-  val noOfUsers = Integer.getInteger("noOfUsers", 50)
+  private val rampUpTimeSecs = 15
+  private val testTimeSecs = Integer.getInteger("testTimeSecs", 60)
+  private val noOfUsers = Integer.getInteger("noOfUsers", 100)
 
-  val minWaitMs = 5 milliseconds
-  val maxWaitMs = 50 milliseconds
-  val baseURL = System.getProperty("baseUrl", "http://localhost:8099")
-  val articlesURI = "/api/v1/articles"
-  val authorsURI = "/api/v1/authors"
+  private val minWaitMs = 5 milliseconds
+  private val maxWaitMs = 50 milliseconds
+  private val baseURL = System.getProperty("baseUrl", "http://localhost:8099")
+  private val articlesURI = "/api/v1/articles"
+  private val authorsURI = "/api/v1/authors"
 
-  val httpConf = http
+  private val httpConf = http
     .baseUrl(baseURL)
     .acceptHeader("application/json")
     .contentTypeHeader("application/json")
@@ -27,10 +28,10 @@ class WebAppLoadSimulation extends Simulation {
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0")
 
-  object Articles {
-    val authorsFeeder = csv("authors.csv").random
-    val sentHeaders = Map("Content-Type" -> "application/json", "Accept" -> "application/json")
-    var randomStringFeeder = Iterator.continually(Map(
+  private object Articles {
+    private val authorsFeeder = csv("authors.csv").random
+    private val sentHeaders = Map("Content-Type" -> "application/json", "Accept" -> "application/json")
+    private val randomStringFeeder = Iterator.continually(Map(
       "newTitle" -> Random.alphanumeric.take(15).mkString,
       "newText" -> Random.alphanumeric.take(15).mkString,
       "newSummary" -> Random.alphanumeric.take(5).mkString,
@@ -39,7 +40,10 @@ class WebAppLoadSimulation extends Simulation {
       http("Create article")
         .post(articlesURI)
         .headers(sentHeaders)
-        .body(StringBody("""{ "title": "${newTitle}", "text": "${newText}", "author": { "id": "${authorId}" } }""")).asJson
+        .body(StringBody("""{
+            |"title": "${newTitle}",
+            |"text": "${newText}",
+            |"author": { "id": "${authorId}" } }""".stripMargin)).asJson
         .check(status.is(201))
         .check(jsonPath("$.id").saveAs("newArticleId"))
     )
@@ -58,73 +62,63 @@ class WebAppLoadSimulation extends Simulation {
         .check(status.is(204))
     )
 
-    val articlesFeeder = csv("articles.csv").random
-    var read = feed(articlesFeeder).exec(
+    private val articlesFeeder = csv("articles.csv").random
+    val read = feed(articlesFeeder).exec(
       http("Get article")
         .get(articlesURI + "/${articleId}")
         .check(status.is(200))
     )
 
-    var readAll = exec(
-      http("Get all articles")
-        .get(articlesURI)
-        .check(status.is(200))
-    )
-
-    val pageFeeder = csv("articles-sort.csv").random
-    val readWithPagination = feed(pageFeeder).exec(
-      http("Get articles with pagination")
+    private val pageFeeder = csv("articles-sort.csv").random
+    val readPaged = feed(pageFeeder).exec(
+      http("Get articles paged")
         .get(articlesURI)
         .queryParam("size", _ => 10*(Random.nextInt(5) + 1))
-        .queryParam("page", _ => Random.nextInt(4))
+        .queryParam("page", _ => Random.nextInt(10))
         .queryParam("sort", "${sort}")
         .check(status.is(200))
     )
   }
 
-  object Authors {
-    val authorsFeeder = csv("authors.csv").random
-    var read = feed(authorsFeeder).exec(
+  private object Authors {
+    private val authorsFeeder = csv("authors.csv").random
+    val read = feed(authorsFeeder).exec(
       http("Get author")
         .get(authorsURI + "/${authorId}")
         .check(status.is(200))
     )
 
-    var readAll = exec(
+    val readAll = exec(
       http("Get all authors")
         .get(authorsURI)
         .check(status.is(200))
     )
   }
 
-  val scn = scenario("ArticlesAppLoad-scenario")
+  private val scn = scenario("ArticlesAppLoad-scenario")
     .during(testTimeSecs) {
-      repeat(2) {
-        exec(Authors.read)
-          .pause(minWaitMs, maxWaitMs)
-      }
-        .pause(minWaitMs, maxWaitMs)
+        repeat(2) {
+          exec(Authors.read)
+            .pause(minWaitMs, maxWaitMs)
+        }
         .exec(Authors.readAll)
-        .repeat(2) {
+        .pause(minWaitMs, maxWaitMs)
+        .exec(Articles.create)
+        .pause(minWaitMs, maxWaitMs)
+        .randomSwitch(
+            33.0 -> exec(Articles.update)
+              .pause(minWaitMs, maxWaitMs),
+            25.0 -> exec(Articles.delete)
+              .pause(minWaitMs, maxWaitMs)
+        )
+        .repeat(5) {
           exec(Articles.read)
             .pause(minWaitMs, maxWaitMs)
         }
         .repeat(2) {
-          exec(Articles.readWithPagination)
+          exec(Articles.readPaged)
             .pause(minWaitMs, maxWaitMs)
         }
-        .pause(minWaitMs, maxWaitMs)
-        .exec(Articles.create)
-        .pause(minWaitMs, maxWaitMs)
-        .doIf(Random.nextFloat() < 0.25) {
-          exec(Articles.update)
-            .pause(minWaitMs, maxWaitMs)
-        }
-        .doIf(Random.nextFloat() < 0.25) {
-          exec(Articles.delete)
-            .pause(minWaitMs, maxWaitMs)
-        }
-        .exec(Articles.readAll)
     }
 
   setUp(
