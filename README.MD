@@ -169,23 +169,28 @@ curl -i http://localhost:8099/api/v1/authors
 Check Spock report at `func-test/build/spock-reports/index.html`
 
 ## Run performance tests:
-Gradle-based:
+Based on https://gatling.io/docs/3.0/extensions/maven_plugin
+
+### Gradle-based:
 
     cd load-test
     ./gradlew clean build
     java -Dlogback.configurationFile=logback-gatling.xml -jar ./build/libs/articles-backend-app-load-test-fat.jar -s=load.WebAppLoadSimulation -rf=./build/reports/gatling
 
-Or Maven-based:
+Check report at `./load-test/build/reports/gatling/`
+
+### Or Maven-based:
 
     cd load-test
-    mvn clean install
     mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
 
-Based on https://gatling.io/docs/3.0/extensions/maven_plugin
+Check report at `./load-test/target/gatling/`
 
 ## Check Web-Sockets functionality:
+
 Just open page http://localhost:8099 and click `Connect`.  
 Check heartbeat logs in browser developer console.
 
 ## Taste ELK stack with logs providing by Filebeat:
+
 Check [ELK README](elk-filebeat/README.MD) with details
