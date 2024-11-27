@@ -200,7 +200,7 @@ Check Spock report at `func-test/build/spock-reports/index.html`
 
 ## Run performance tests:
 
-Based on https://gatling.io/docs/3.0/extensions/maven_plugin
+Based on https://docs.gatling.io/
 
 ### Gradle-based:
 
@@ -216,6 +216,8 @@ Check report at `./load-test/build/reports/gatling/`
     mvn gatling:test -Dlogback.configurationFile=logback-gatling.xml
 
 Check report at `./load-test/target/gatling/`
+
+Useful article on Habr: https://habr.com/ru/companies/tbank/articles/344818/
 
 ## Check Web-Sockets functionality:
 
