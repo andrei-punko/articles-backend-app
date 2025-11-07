@@ -120,9 +120,13 @@ Or next way, using `dev` spring profile:
     java -jar target/articles-backend-app-0.0.1-SNAPSHOT.jar \
      --spring.profiles.active=dev
 
-### Start two Docker containers - with Postgres DB and application:
+## Start Docker containers (application & Postgres DB) using existing images:
 
     docker-compose up
+
+## Build images, force recreate and start Docker containers (application & Postgres DB):
+
+    docker-compose up --build --force-recreate
 
 ## Link for quick check:
 
