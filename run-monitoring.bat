@@ -1,2 +1,2 @@
-cd grafana
+cd monitoring
 docker-compose up

@@ -230,7 +230,7 @@ Check heartbeat logs in browser developer console.
 
 ## Start monitoring stack (Prometheus & Grafana):
 
-Check [Monitoring README](grafana/README.MD) with details
+Check [Monitoring README](monitoring/README.MD) with details
 
 ## Start ELK stack with logs providing by Filebeat:
 

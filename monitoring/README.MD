@@ -12,7 +12,7 @@ From project [root](..) folder:
 
 ### Or manually:
 
-From [grafana](.) folder:
+From [monitoring](.) folder:
 
     docker-compose up
 
@@ -40,6 +40,6 @@ After starting, the following services will be available:
 
 ## Destroy monitoring containers and volumes (with stored data):
 
-From [grafana](.) folder:
+From [monitoring](.) folder:
 
     docker-compose down --volumes

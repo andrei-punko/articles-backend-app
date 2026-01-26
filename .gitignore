@@ -35,5 +35,5 @@ build/
 logs/
 
 # Monitoring data
-grafana/grafana/
-grafana/prometheus/
+monitoring/grafana/
+monitoring/prometheus/
