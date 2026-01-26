@@ -33,3 +33,7 @@ build/
 
 # Logs
 logs/
+
+# Monitoring data
+grafana/grafana/
+grafana/prometheus/
