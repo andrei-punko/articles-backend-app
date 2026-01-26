@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-ubi10-minimal
 VOLUME /tmp
 EXPOSE 8099
 RUN mkdir -p /app/
