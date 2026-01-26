@@ -4,7 +4,7 @@ services:
   grafana:
     build: './config/grafana'
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - ./grafana:/var/lib/grafana
     environment:
@@ -14,10 +14,11 @@ services:
       monitoring:
         aliases:
           - grafana
+
   prometheus:
     image: prom/prometheus
     ports:
-      - 9090:9090
+      - "9090:9090"
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
@@ -27,5 +28,6 @@ services:
       monitoring:
         aliases:
           - prometheus
+
 networks:
   monitoring:
