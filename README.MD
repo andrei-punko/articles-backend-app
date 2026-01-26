@@ -228,6 +228,10 @@ Useful article on Habr: https://habr.com/ru/companies/tbank/articles/344818/
 Just open page http://localhost:8099 and click `Connect`.  
 Check heartbeat logs in browser developer console.
 
-## Taste ELK stack with logs providing by Filebeat:
+## Start monitoring stack (Prometheus & Grafana):
+
+Check [Monitoring README](grafana/README.MD) with details
+
+## Start ELK stack with logs providing by Filebeat:
 
 Check [ELK README](elk-filebeat/README.MD) with details
