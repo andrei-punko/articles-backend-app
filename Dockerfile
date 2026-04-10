@@ -1,4 +1,6 @@
 FROM eclipse-temurin:21-jre-ubi10-minimal
+USER root
+RUN microdnf install -y curl-minimal && microdnf clean all
 VOLUME /tmp
 EXPOSE 8099
 RUN mkdir -p /app/
