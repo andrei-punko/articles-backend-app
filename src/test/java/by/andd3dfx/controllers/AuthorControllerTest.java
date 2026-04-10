@@ -2,7 +2,6 @@ package by.andd3dfx.controllers;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,10 +43,11 @@ class AuthorControllerTest {
 
     @Test
     public void readAbsentAuthor() throws Exception {
-        var message = mockMvc.perform(get("/api/v1/authors/345"))
+        mockMvc.perform(get("/api/v1/authors/345"))
                 .andExpect(status().isNotFound())
-                .andReturn().getResolvedException().getMessage();
-        assertThat(message, containsString("Could not find an author by id=345"));
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.error", is("Not Found")))
+                .andExpect(jsonPath("$.message", containsString("Could not find an author by id=345")));
     }
 
     @Test

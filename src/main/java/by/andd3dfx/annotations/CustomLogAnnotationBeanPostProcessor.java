@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cglib.proxy.Proxy;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
@@ -33,6 +34,16 @@ public class CustomLogAnnotationBeanPostProcessor implements BeanPostProcessor {
                     Object returnedValue = method.invoke(bean, args);
                     logCall(methodsSet, method, args, returnedValue, true);
                     return returnedValue;
+                } catch (InvocationTargetException ex) {
+                    Throwable target = ex.getTargetException() != null ? ex.getTargetException() : ex;
+                    logCall(methodsSet, method, args, extractThrowableTypeName(target), false);
+                    if (target instanceof RuntimeException re) {
+                        throw re;
+                    }
+                    if (target instanceof Error err) {
+                        throw err;
+                    }
+                    throw new RuntimeException(target);
                 } catch (Exception ex) {
                     logCall(methodsSet, method, args, extractCause(ex), false);
                     throw ex;
@@ -55,5 +66,9 @@ public class CustomLogAnnotationBeanPostProcessor implements BeanPostProcessor {
             cause = cause.getCause();
         }
         return StringUtils.left(cause.getClass().getName(), 250);
+    }
+
+    private static String extractThrowableTypeName(Throwable t) {
+        return StringUtils.left(t.getClass().getName(), 250);
     }
 }
