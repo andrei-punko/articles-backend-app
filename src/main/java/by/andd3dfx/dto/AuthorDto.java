@@ -2,19 +2,20 @@ package by.andd3dfx.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 @JsonInclude(Include.NON_NULL)
+@Schema(description = "Author")
 public class AuthorDto {
 
-    @ApiModelProperty(notes = "The database generated author ID")
+    @Schema(description = "The database generated author ID")
     private Long id;
 
-    @ApiModelProperty(notes = "Author's first name")
+    @Schema(description = "Author's first name")
     private String firstName;
 
-    @ApiModelProperty(notes = "Author's last name")
+    @Schema(description = "Author's last name")
     private String lastName;
 }

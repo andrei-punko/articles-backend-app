@@ -2,10 +2,12 @@ package by.andd3dfx.controllers;
 
 import by.andd3dfx.dto.AuthorDto;
 import by.andd3dfx.services.IAuthorService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,23 +23,25 @@ public class AuthorController {
 
     private final IAuthorService authorService;
 
-    @ApiOperation(value = "Get author by id", response = AuthorDto.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Author successfully retrieved"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 404, message = "Author not found"),
+    @Operation(summary = "Get author by id")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Author successfully retrieved",
+            content = @Content(schema = @Schema(implementation = AuthorDto.class))),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+        @ApiResponse(responseCode = "404", description = "Author not found"),
     })
     @GetMapping("/{id}")
     public AuthorDto readAuthor(
-        @ApiParam("Author's id")
+        @Parameter(description = "Author's id")
         @NotNull @PathVariable("id") Long id) {
         return authorService.get(id);
     }
 
-    @ApiOperation(value = "Get all authors", response = List.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Authors successfully retrieved"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource")
+    @Operation(summary = "Get all authors")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Authors successfully retrieved",
+            content = @Content(schema = @Schema(implementation = AuthorDto.class))),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource")
     })
     @GetMapping
     public List<AuthorDto> readAuthors() {

@@ -3,9 +3,13 @@ package by.andd3dfx.controllers;
 import by.andd3dfx.dto.LoggingSearchCriteria;
 import by.andd3dfx.dto.MethodCallRecord;
 import by.andd3dfx.services.ILoggingService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,22 +30,24 @@ public class LoggingController {
 
     protected final ILoggingService loggingService;
 
-    /**
-     * Get logged records
-     */
-    @ApiOperation("Get logged records")
+    @Operation(summary = "Get logged records")
     @GetMapping("/logs")
-    public List<MethodCallRecord> getLoggedRecords(@ApiParam(value = "Logging search criteria") LoggingSearchCriteria criteria) {
+    public List<MethodCallRecord> getLoggedRecords(
+        @ParameterObject LoggingSearchCriteria criteria) {
         return loggingService.getLoggedRecords(criteria);
     }
 
-    /**
-     * Push new logging record
-     */
-    @ApiOperation("Push new logging record")
+    @Operation(summary = "Push new logging record")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Record created")
+    })
     @PostMapping("/logs")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addLoggingRecord(@RequestBody @Validated MethodCallRecord loggedRecord) {
+    public void addLoggingRecord(
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Logged method call record",
+            required = true,
+            content = @Content(schema = @Schema(implementation = MethodCallRecord.class)))
+        @RequestBody @Validated MethodCallRecord loggedRecord) {
         loggingService.addLoggingRecord(loggedRecord);
     }
 }
