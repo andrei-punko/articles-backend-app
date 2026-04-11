@@ -15,7 +15,7 @@ class SomeSpec extends Specification {
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
         and: 'got 11 records'
-        assert getResponse.responseData.content.size() == 11
+        assert getResponse.responseData.size() == 11
     }
 
     def 'Read particular author'() {
@@ -40,15 +40,19 @@ class SomeSpec extends Specification {
         8        | 'Даниил'  | 'Сысоев'
         9        | 'Иоанн'   | 'Сергиев'
         10       | 'Исаак'   | 'Сирин'
+        11       | 'Авва'    | 'Дорофей'
     }
 
     def 'Read all articles'() {
-        when: 'get all articles'
-        def getResponse = restClient.get(path: '/api/v1/articles')
+        when: 'get first page of articles (size=10; default API page size is 50)'
+        def getResponse = restClient.get(
+                path: '/api/v1/articles',
+                query: [size: '10']
+        )
 
         then: 'server returns 200 code (ok)'
         assert getResponse.status == 200
-        and: 'got 10 records'
+        and: 'page contains 10 records when DB has at least 10 articles'
         assert getResponse.responseData.content.size() == 10
     }
 
@@ -97,7 +101,7 @@ class SomeSpec extends Specification {
                         title  : 'Some new title',
                         summary: 'Bla-bla summary',
                         text   : 'BomBiBom',
-                        author : "{ id: '3' }"
+                        author : [id: 3]
                 ],
                 requestContentType: 'application/json'
         )
@@ -121,7 +125,7 @@ class SomeSpec extends Specification {
                         title  : generateRandomString(10),
                         summary: generateRandomString(10),
                         text   : 'Weird text',
-                        author : "{ id: '5' }"
+                        author : [id: 5]
                 ],
                 requestContentType: 'application/json'
         )
