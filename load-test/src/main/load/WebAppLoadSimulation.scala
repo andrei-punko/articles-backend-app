@@ -15,6 +15,9 @@ class WebAppLoadSimulation extends Simulation {
 
   private val minWaitMs = 5 milliseconds
   private val maxWaitMs = 50 milliseconds
+  /** randomSwitch expects weights summing to 100%; same 33:25 ratio as before. */
+  private val afterCreateUpdateWeight = 100.0 * 33 / 58
+  private val afterCreateDeleteWeight = 100.0 * 25 / 58
   private val baseURL = System.getProperty("baseUrl", "http://localhost:8099")
   private val articlesURI = "/api/v1/articles"
   private val authorsURI = "/api/v1/authors"
@@ -106,9 +109,9 @@ class WebAppLoadSimulation extends Simulation {
         .exec(Articles.create)
         .pause(minWaitMs, maxWaitMs)
         .randomSwitch(
-            33.0 -> exec(Articles.update)
+            afterCreateUpdateWeight -> exec(Articles.update)
               .pause(minWaitMs, maxWaitMs),
-            25.0 -> exec(Articles.delete)
+            afterCreateDeleteWeight -> exec(Articles.delete)
               .pause(minWaitMs, maxWaitMs)
         )
         .repeat(5) {
